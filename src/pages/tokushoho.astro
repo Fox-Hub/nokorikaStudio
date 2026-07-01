@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Bi from '../components/Bi.astro';
+
+const items = [
+  { ja: '販売事業者', en: 'Seller', ja_v: 'Nokorika Studio', en_v: 'Nokorika Studio' },
+  { ja: '運営統括責任者', en: 'Manager', ja_v: '和田　健太郎', en_v: 'Kentaro Wada' },
+  {
+    ja: '所在地', en: 'Address',
+    ja_v: '請求があった場合は遅滞なく開示します',
+    en_v: '【Postal code / address】(Disclosed without delay upon request, or shown here if already public)',
+  },
+  {
+    ja: '電話番号', en: 'Phone number',
+    ja_v: '請求があった場合は遅滞なく開示します',
+    en_v: '【Phone number】(Disclosed without delay upon request, or shown here if already public)',
+  },
+  { ja: 'メールアドレス', en: 'Email', ja_v: 'contact@nokorikastudio.com', en_v: 'contact@nokorikastudio.com' },
+  {
+    ja: '販売価格', en: 'Price',
+    ja_v: '各アプリ内の商品ページに表示する価格（消費税込み）によります。',
+    en_v: 'As shown on the product page within the app (tax included).',
+  },
+  {
+    ja: '商品代金以外の必要料金', en: 'Additional costs',
+    ja_v: 'インターネット接続に必要な通信料はお客様のご負担となります。',
+    en_v: 'Internet connection fees are the responsibility of the customer.',
+  },
+  {
+    ja: 'お支払い方法', en: 'Payment methods',
+    ja_v: '各アプリストア（App Store / Google Play）が提供する決済方法によります。',
+    en_v: 'Payment methods provided by the App Store / Google Play.',
+  },
+  {
+    ja: 'お支払い時期', en: 'Payment timing',
+    ja_v: 'アプリ内での購入操作完了時に決済されます。',
+    en_v: 'Payment is processed when the in-app purchase is completed.',
+  },
+  {
+    ja: '商品の引渡し時期', en: 'Delivery timing',
+    ja_v: '決済完了後、直ちにアプリ内で利用可能になります。',
+    en_v: 'Available in the app immediately after payment is completed.',
+  },
+  {
+    ja: '返品・キャンセルについて', en: 'Returns / cancellations',
+    ja_v: 'デジタルコンテンツの性質上、購入後の返品・返金には対応しておりません。決済に関するお問い合わせは各アプリストアの規定に従います。',
+    en_v: 'Due to the nature of digital content, we do not accept returns or refunds after purchase. Payment inquiries are handled according to the respective app store\u2019s policies.',
+  },
+  {
+    ja: '動作環境', en: 'System requirements',
+    ja_v: '【対応OS・バージョンを記載（例：iOS 16以降 / Android 10以降）】',
+    en_v: '【List supported OS versions (e.g. iOS 16+ / Android 10+)】',
+  },
+];
+---
+<Layout
+  title="特定商取引法に基づく表記｜Nokorika Studio"
+  titleEn="Legal Notice｜Nokorika Studio"
+  description="特定商取引法に基づく表記です。"
+  descriptionEn="Legal notice based on the Act on Specified Commercial Transactions."
+>
+  <Header slot="header" />
+
+  <section class="legal">
+    <div class="wrap">
+      <p class="eyebrow">LEGAL</p>
+      <h1><Bi ja="特定商取引法に基づく表記" en="Legal Notice" /></h1>
+      <p class="lead">
+        <Bi
+          ja="特定商取引法第11条に基づき、以下のとおり表記します。"
+          en="The following is disclosed in accordance with Article 11 of the Act on Specified Commercial Transactions of Japan."
+        />
+      </p>
+
+      <dl class="legal-table">
+        {items.map((item) => (
+          <div class="legal-row">
+            <dt class="mono"><Bi ja={item.ja} en={item.en} /></dt>
+            <dd><Bi ja={item.ja_v} en={item.en_v} /></dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+
+  <style>
+    .legal {
+      padding-top: clamp(56px, 9vw, 88px);
+    }
+    h1 {
+      font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+      margin: 10px 0 14px;
+    }
+    .lead {
+      color: var(--ink-soft);
+      margin-bottom: 36px;
+    }
+    .legal-table {
+      margin: 0;
+      border-top: 1px solid var(--line);
+    }
+    .legal-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 24px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .legal-row dt {
+      color: var(--ink-soft);
+      font-size: 0.85rem;
+    }
+    .legal-row dd {
+      margin: 0;
+      line-height: 1.8;
+    }
+    .caution {
+      margin-top: 28px;
+      padding: 16px 18px;
+      background: var(--status-bg);
+      color: var(--status);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+    @media (max-width: 640px) {
+      .legal-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+    }
+  </style>
+</Layout>

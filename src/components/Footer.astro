@@ -1,0 +1,53 @@
+---
+import Bi from './Bi.astro';
+
+const year = new Date().getFullYear();
+
+const links = [
+  { href: '/support', ja: 'サポート / FAQ', en: 'Support / FAQ' },
+  { href: '/contact', ja: 'お問い合わせ', en: 'Contact' },
+  { href: '/privacy', ja: 'プライバシーポリシー', en: 'Privacy Policy' },
+  { href: '/tokushoho', ja: '特定商取引法に基づく表記', en: 'Legal Notice' },
+];
+---
+<footer class="site-footer">
+  <div class="wrap row">
+    <p class="mono small">© {year} Nokorika Studio</p>
+    <div class="links">
+      {links.map((item) => (
+        <a href={item.href}><Bi ja={item.ja} en={item.en} /></a>
+      ))}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    padding: 28px 0;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .small {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    font-size: 0.85rem;
+  }
+  .links a {
+    text-decoration: none;
+    color: var(--ink-soft);
+  }
+  .links a:hover {
+    color: var(--ink);
+  }
+</style>

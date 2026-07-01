@@ -1,0 +1,211 @@
+/* ===========================================================
+   Design tokens
+   コンセプト: 「カレンダー」というプロダクトの世界観をそのまま
+   サイトの構造に転写する。罫線はカレンダーのグリッド線、
+   差し色は「今日」を示すマーカーの青。
+   =========================================================== */
+:root {
+  /* Color (light) */
+  --paper:        #F7F6F1;  /* 背景: 紙のような淡いオフホワイト */
+  --paper-raised: #FFFFFF;  /* カード等の明るい面 */
+  --ink:          #1C1F26;  /* 本文・見出し: 温かみのある黒に近い紺 */
+  --ink-soft:     #5B5F6B;  /* 補助テキスト */
+  --line:         #DDD9CC;  /* グリッド罫線（カレンダーのマス目） */
+  --accent:       #2F5BFF;  /* 「今日」マーカーの青。使用は最小限に */
+  --accent-ink:   #FFFFFF;  /* accent上の文字色 */
+  --status:       #C9842C;  /* 開発状況タグ用の琥珀色 */
+  --status-bg:    #F4E3CC;
+
+  /* Type */
+  --font-display: 'Space Grotesk', 'Hiragino Sans', sans-serif;
+  --font-body: 'Manrope', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+  /* Layout */
+  --max-width: 1080px;
+  --gutter: clamp(20px, 5vw, 64px);
+}
+
+/* ダークテーマ: 「カレンダーのページをめくる」ように、明→暗でトークンの
+   役割を反転させる（--paperだった淡色が--inkの文字色側に回る）。 */
+:root[data-theme='dark'] {
+  --paper:        #14161B;
+  --paper-raised: #1C1F26;
+  --ink:          #F1EFE8;
+  --ink-soft:     #9CA0AC;
+  --line:         #2B2F38;
+  --accent:       #6C8CFF;
+  --accent-ink:   #0B0D11;
+  --status:       #E3A55C;
+  --status-bg:    #3A2C16;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ダーク/ライト切り替え時に色つきの要素も追従してなめらかに変化させる */
+a, button, .card, .site-header, .site-footer, .tag,
+.cal-cell, .cal-head, .cal-weekdays, .hero-calendar,
+.feature-grid li, .row, .fact-row, .legal-row, .faq-list li,
+.mark, .brand-mark {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+p { margin: 0; }
+
+a {
+  color: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--status-bg);
+  color: var(--status);
+}
+
+.tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status);
+}
+
+section {
+  padding: clamp(48px, 8vw, 96px) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+section:last-of-type {
+  border-bottom: none;
+}
+
+/* ===========================================================
+   i18n: 日本語/英語をDOM上に両方描画し、data-lang属性で表示切替。
+   JS未実行時（または未対応環境）はデフォルトで日本語のみ表示。
+   =========================================================== */
+.i18n[data-lang='en'] {
+  display: none;
+}
+html[data-lang='en'] .i18n[data-lang='ja'] {
+  display: none;
+}
+html[data-lang='en'] .i18n[data-lang='en'] {
+  display: inline;
+}
+
+/* ===========================================================
+   Theme / Language toggle buttons
+   =========================================================== */
+.toggle-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  min-width: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper-raised);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.toggle-btn:hover {
+  color: var(--ink);
+  border-color: var(--ink-soft);
+}
+
+.toggle-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-sun,
+.icon-moon {
+  display: none;
+}
+html[data-theme='light'] .icon-moon { display: block; }
+html[data-theme='dark']  .icon-sun  { display: block; }
+
+.lang-btn {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+.lang-target-ja,
+.lang-target-en {
+  display: none;
+}
+html[data-lang='ja'] .lang-target-en { display: inline; }
+html[data-lang='en'] .lang-target-ja { display: inline; }

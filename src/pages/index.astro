@@ -1,0 +1,354 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Bi from '../components/Bi.astro';
+
+// ヒーローのカレンダーグリッド用データ（曜日と日付のダミー配列）
+const weekdaysJa = ['日', '月', '火', '水', '木', '金', '土'];
+const weekdaysEn = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+// 比較演算子（< や <=）をテンプレート式の中に直接書くと、Astroのコンパイラが
+// JSXのタグ開始と誤解釈することがあるため、表示可否はここで先に計算しておく。
+const days = Array.from({ length: 35 }, (_, i) => {
+  const dayNumber = i - 2; // 前月末〜翌月初を含む簡易グリッド
+  const isVisible = dayNumber >= 1 && dayNumber <= 31;
+  return { dayNumber, isVisible };
+});
+
+const facts = [
+  { ja: '事業者名', en: 'Business name', ja_v: 'Nokorika Studio', en_v: 'Nokorika Studio' },
+  { ja: '代表者', en: 'Representative', ja_v: '和田　健太郎', en_v: 'Kentaro Wada' },
+  { ja: '所在地', en: 'Location', ja_v: '東京都渋谷区神宮前5丁目51番8号ラ・ポルト青山 2F-7', en_v: 'Tokyo Shibuya-ku 5-51-8 Jingumae La Porte Aoyama 2F-7' },
+  {
+    ja: '事業内容', en: 'Business',
+    ja_v: 'スマートフォン向けアプリケーションの企画・開発',
+    en_v: 'Planning and development of smartphone applications',
+  },
+];
+
+const features = [
+  {
+    num: '01',
+    title: { ja: '月・週の切り替え表示', en: 'Month / week views' },
+    body: {
+      ja: '見たい粒度に合わせて、月表示と週表示をすぐに切り替えられます。',
+      en: 'Switch instantly between month and week views to match how much detail you need.',
+    },
+  },
+  {
+    num: '02',
+    title: { ja: 'シンプルな予定登録', en: 'Quick event entry' },
+    body: {
+      ja: 'タイトルと日時を入力するだけで、すぐに予定を登録できます。',
+      en: 'Just add a title and a date to create an event in seconds.',
+    },
+  },
+  {
+    num: '03',
+    title: { ja: 'リマインダー通知', en: 'Reminders' },
+    body: {
+      ja: '予定の前に通知を受け取り、確認漏れを防ぎます。',
+      en: 'Get notified before an event so nothing slips through.',
+    },
+  },
+  {
+    num: '04',
+    title: { ja: '軽快な動作', en: 'Fast and light' },
+    body: {
+      ja: '毎日開くものだからこそ、起動と操作の軽さにこだわっています。',
+      en: "Since it's something you open every day, we care a lot about speed.",
+    },
+  },
+];
+---
+<Layout title="Nokorika Studio | カレンダーアプリ開発" titleEn="Nokorika Studio | Calendar App Development">
+  <Header slot="header" />
+
+  <!-- ===================== Hero ===================== -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">
+          <Bi ja="CALENDAR APP ／ 開発中" en="CALENDAR APP / IN DEVELOPMENT" />
+        </p>
+        <h1>
+          <span class="i18n" data-lang="ja">予定を、めくるように<br />管理するアプリを作っています。</span>
+          <span class="i18n" data-lang="en">A calendar app that lets you<br />manage your days, page by page.</span>
+        </h1>
+        <p class="lead">
+          <span class="i18n" data-lang="ja">
+            Nokorika Studioは、スマートフォン向けカレンダーアプリ
+            <strong>Nokorika</strong>
+            を開発している事業者です。日々の予定をシンプルに、迷わず扱えることを目指しています。
+          </span>
+          <span class="i18n" data-lang="en">
+            Nokorika Studio is developing
+            <strong>Nokorika</strong>,
+            a calendar app for smartphones. We aim to make everyday planning simple and effortless.
+          </span>
+        </p>
+        <div class="hero-cta">
+          <span class="tag">
+            <Bi ja="開発中 ・ リリース時期未定" en="In development · Release date TBD" />
+          </span>
+        </div>
+      </div>
+
+      <div class="hero-calendar" aria-hidden="true">
+        <div class="cal-head mono">2026 / 07</div>
+        <div class="cal-weekdays">
+          {weekdaysJa.map((w, i) => (
+            <span>
+              <span class="i18n" data-lang="ja">{w}</span><span class="i18n" data-lang="en">{weekdaysEn[i]}</span>
+            </span>
+          ))}
+        </div>
+        <div class="cal-grid">
+          {days.map(({ dayNumber, isVisible }) => (
+            <span class="cal-cell mono" data-day={isVisible ? dayNumber : undefined}>
+              {isVisible ? dayNumber : ''}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== About ===================== -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div>
+        <p class="eyebrow"><Bi ja="事業概要" en="About Us" /></p>
+        <h2><Bi ja="カレンダーという、誰もが毎日開く場所を作る。" en="Building the place people open every single day." /></h2>
+        <p class="body-text">
+          <Bi
+            ja="私たちは「予定を確認する」という日常的な行為を、もっと軽く、もっと自然なものにしたいと考え、スマートフォン向けのカレンダーアプリを開発しています。現在は最初のバージョンの開発に取り組んでおり、公開に向けて準備を進めています。"
+            en="We're building a smartphone calendar app to make the everyday act of checking your schedule feel lighter and more natural. We're currently working on the first version and preparing for release."
+          />
+        </p>
+      </div>
+      <dl class="fact-list">
+        {facts.map((f) => (
+          <div class="fact-row">
+            <dt class="mono"><Bi ja={f.ja} en={f.en} /></dt>
+            <dd><Bi ja={f.ja_v} en={f.en_v} /></dd>
+          </div>
+        ))}
+        <div class="fact-row">
+          <dt class="mono"><Bi ja="連絡先" en="Contact" /></dt>
+          <dd>
+            <a href="/contact">
+              <Bi ja="お問い合わせページへ" en="Go to contact page" />
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== Product ===================== -->
+  <section id="product">
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="サービス・プロダクト紹介" en="Product" /></p>
+      <h2>
+        <span class="i18n" data-lang="ja">Nokorika(ノコリカ) — シンプルなカレンダーアプリ</span>
+        <span class="i18n" data-lang="en">Nokorika — A simple calendar app</span>
+      </h2>
+      <p class="body-text product-lead">
+        <Bi
+          ja="月表示・週表示を切り替えながら予定を確認できる、スマートフォン向けのカレンダーアプリです。現在開発中のため、機能の詳細は順次このページで更新していきます。"
+          en="A smartphone calendar app that lets you check your schedule in month or week view. It's currently in development, and details will be added to this page as they're finalized."
+        />
+      </p>
+
+      <ul class="feature-grid">
+        {features.map((f) => (
+          <li>
+            <span class="mono cell-num">{f.num}</span>
+            <h3><Bi ja={f.title.ja} en={f.title.en} /></h3>
+            <p><Bi ja={f.body.ja} en={f.body.en} /></p>
+          </li>
+        ))}
+      </ul>
+
+      <p class="product-note">
+        <Bi
+          ja="※ 掲載内容は開発状況に応じて変更される場合があります。価格・配信開始時期は決定次第お知らせします。"
+          en="※ Content on this page may change as development progresses. Pricing and release date will be announced once finalized."
+        />
+      </p>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+
+  <style>
+    /* ---------- Hero ---------- */
+    .hero {
+      padding-top: clamp(56px, 9vw, 96px);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(32px, 6vw, 72px);
+      align-items: center;
+    }
+    .hero-copy h1 {
+      font-size: clamp(1.9rem, 4vw, 2.7rem);
+      margin: 14px 0 20px;
+    }
+    .lead {
+      color: var(--ink-soft);
+      font-size: 1.02rem;
+      max-width: 46ch;
+    }
+    .lead strong {
+      color: var(--ink);
+    }
+    .hero-cta {
+      margin-top: 24px;
+    }
+
+    .hero-calendar {
+      background: var(--paper-raised);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .cal-head {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin-bottom: 14px;
+    }
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+    .cal-weekdays span {
+      text-align: center;
+      padding: 4px 0;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-auto-rows: 1fr;
+      gap: 4px;
+    }
+    .cal-cell {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      border-radius: 6px;
+    }
+    .cal-cell[data-day]:not(:empty) {
+      color: var(--ink);
+    }
+    .cal-cell.is-today {
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-weight: 600;
+    }
+
+    /* ---------- About ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: clamp(32px, 6vw, 64px);
+    }
+    .about-grid h2 {
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+      margin: 10px 0 16px;
+      max-width: 22ch;
+    }
+    .body-text {
+      color: var(--ink-soft);
+      max-width: 52ch;
+    }
+    .fact-list {
+      margin: 0;
+      border-top: 1px solid var(--line);
+    }
+    .fact-row {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .fact-row dt {
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+    }
+    .fact-row dd {
+      margin: 0;
+    }
+    .fact-row a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* ---------- Product ---------- */
+    #product h2 {
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+      margin: 10px 0 16px;
+    }
+    .product-lead {
+      margin-bottom: 36px;
+    }
+    .feature-grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .feature-grid li {
+      background: var(--paper);
+      padding: 28px;
+    }
+    .cell-num {
+      display: block;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+    }
+    .feature-grid h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+    .feature-grid p {
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+    .product-note {
+      margin-top: 24px;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+
+    @media (max-width: 760px) {
+      .hero-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script>
+    // 「今日」のセルにアクセントカラーを付与する（実際の日付に追従）
+    const today = new Date().getDate();
+    const cell = document.querySelector(`.cal-cell[data-day="${today}"]`);
+    cell?.classList.add('is-today');
+  </script>
+</Layout>

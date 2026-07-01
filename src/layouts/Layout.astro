@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  titleEn: string;
+  description?: string;
+  descriptionEn?: string;
+}
+
+const {
+  title,
+  titleEn,
+  description = '開発中のカレンダーアプリを手がける事業の紹介サイトです。',
+  descriptionEn = 'Introducing our business, currently developing a calendar app for smartphones.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="ja" data-theme="light" data-lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} data-ja={description} data-en={descriptionEn} />
+    <title data-ja={title} data-en={titleEn}>{title}</title>
+
+    <!-- テーマ/言語をCSS描画前に確定させ、切り替え時のちらつきを防ぐ -->
+    <script is:inline>
+      (function () {
+        try {
+          var theme = localStorage.getItem('theme');
+          if (!theme) {
+            theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.setAttribute('data-theme', theme);
+
+          var lang = localStorage.getItem('lang') || 'ja';
+          document.documentElement.setAttribute('data-lang', lang);
+          document.documentElement.setAttribute('lang', lang);
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot name="header" />
+    <main>
+      <slot />
+    </main>
+    <slot name="footer" />
+    <script is:inline src="/scripts/site.js"></script>
+  </body>
+</html>

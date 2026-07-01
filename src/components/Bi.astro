@@ -1,0 +1,10 @@
+---
+// 日本語/英語のテキストを両方DOMに描画し、CSS(html[data-lang])で表示を切り替える。
+// 使い方: <Bi ja="こんにちは" en="Hello" />
+interface Props {
+  ja: string;
+  en: string;
+}
+const { ja, en } = Astro.props;
+---
+<span class="i18n" data-lang="ja">{ja}</span><span class="i18n" data-lang="en">{en}</span>

@@ -1,0 +1,98 @@
+---
+import Bi from './Bi.astro';
+import ToggleBar from './ToggleBar.astro';
+
+const nav = [
+  { href: '/#about', ja: '事業概要', en: 'About' },
+  { href: '/#product', ja: 'プロダクト', en: 'Product' },
+  { href: '/contact', ja: 'お問い合わせ', en: 'Contact' },
+];
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/">
+      <span class="brand-mark mono">07</span>
+      <span class="brand-name">
+        <span class="brand-org">Nokorika Studio</span>
+        <span class="brand-sub eyebrow"><Bi ja="カレンダーアプリ" en="Calendar App" /></span>
+      </span>
+    </a>
+    <div class="right">
+      <nav class="nav">
+        {nav.map((item) => (
+          <a href={item.href}><Bi ja={item.ja} en={item.en} /></a>
+        ))}
+      </nav>
+      <ToggleBar />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .brand-name {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  .brand-org {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.98rem;
+  }
+  .brand-sub {
+    margin-top: 1px;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 3vw, 32px);
+  }
+  .nav {
+    display: flex;
+    gap: clamp(16px, 3vw, 32px);
+    font-size: 0.92rem;
+  }
+  .nav a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    transition: color 0.15s ease;
+  }
+  .nav a:hover {
+    color: var(--ink);
+  }
+  @media (max-width: 640px) {
+    .brand-sub { display: none; }
+    .nav { display: none; }
+  }
+</style>

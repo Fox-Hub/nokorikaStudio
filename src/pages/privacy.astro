@@ -1,0 +1,203 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Bi from '../components/Bi.astro';
+
+const sections = [
+  {
+    title: { ja: '1. 収集する情報', en: '1. Information We Collect' },
+    body: [
+      {
+        ja: '本アプリおよび本サイトのご利用にあたり、以下の情報を取得する場合があります。',
+        en: 'We may collect the following information in connection with your use of the app and this site.',
+      },
+    ],
+    list: [
+      {
+        ja: 'お問い合わせ時にご提供いただくメールアドレス等の情報',
+        en: 'Information such as your email address, provided when you contact us',
+      },
+      {
+        ja: 'アプリの利用状況に関する情報（クラッシュログ、操作ログなど）',
+        en: 'Usage information (crash logs, operation logs, etc.)',
+      },
+      {
+        ja: 'デバイスに関する情報（OSバージョン、端末の種類など）',
+        en: 'Device information (OS version, device type, etc.)',
+      },
+      {
+        ja: 'カレンダー内で作成された予定データ（端末内に保存されます。クラウド同期機能を提供する場合は別途保存先を明記します）',
+        en: 'Event data created within the calendar (stored on your device; if cloud sync is offered, the storage location will be described separately)',
+      },
+    ],
+  },
+  {
+    title: { ja: '2. 利用目的', en: '2. Purpose of Use' },
+    list: [
+      { ja: 'サービスの提供・維持・改善のため', en: 'To provide, maintain, and improve the service' },
+      { ja: '不具合の調査および対応のため', en: 'To investigate and address issues' },
+      { ja: 'お問い合わせへの対応のため', en: 'To respond to inquiries' },
+      { ja: '利用規約または法令に違反する行為への対応のため', en: 'To address violations of our terms or applicable law' },
+    ],
+  },
+  {
+    title: { ja: '3. 第三者提供について', en: '3. Third-Party Disclosure' },
+    body: [
+      {
+        ja: '法令に基づく場合を除き、ご本人の同意なく取得した情報を第三者に提供することはありません。',
+        en: 'Except where required by law, we will not share the information we collect with third parties without your consent.',
+      },
+    ],
+  },
+  {
+    title: { ja: '4. 外部サービスの利用', en: '4. Use of External Services' },
+    body: [
+      {
+        ja: '本アプリでは、サービス改善のためアクセス解析ツール等の外部サービスを利用する場合があります。利用する場合は、当該サービスの名称および収集される情報の範囲をこの項目に記載します。（現時点では未導入です／導入時にこの文言を差し替えてください）',
+        en: 'We may use external services such as analytics tools to improve the app. If used, the name of the service and the scope of data collected will be listed here. (Not currently in use — update this section if one is introduced.)',
+      },
+    ],
+  },
+  {
+    title: { ja: '5. 通知・端末権限について', en: '5. Notifications and Device Permissions' },
+    body: [
+      {
+        ja: 'リマインダー機能のご利用にあたり、端末の通知許可をリクエストする場合があります。許可の可否は端末の設定からいつでも変更いただけます。',
+        en: 'We may request notification permission on your device for the reminder feature. You can change this permission anytime in your device settings.',
+      },
+    ],
+  },
+  {
+    title: { ja: '6. データの保管・削除', en: '6. Data Storage and Deletion' },
+    body: [
+      {
+        ja: '端末内に保存された予定データは、アプリをアンインストールすることで削除されます。クラウド上にデータを保存する機能を提供する場合は、保管期間および削除方法について別途この項目に追記します。',
+        en: 'Event data stored on your device is deleted when the app is uninstalled. If a cloud storage feature is offered, retention periods and deletion methods will be added here.',
+      },
+      {
+        ja: '取得した情報の開示・訂正・削除等をご希望の場合は、下記のお問い合わせ窓口までご連絡ください。',
+        en: 'If you wish to request disclosure, correction, or deletion of your information, please contact us using the details below.',
+      },
+    ],
+  },
+  {
+    title: { ja: '7. お問い合わせ窓口', en: '7. Contact' },
+    body: [{ ja: 'Nokorika Studio', en: 'Nokorika Studio' }],
+    list: [
+      { ja: 'メールアドレス: contact@nokorikastudio.com', en: 'Email: contact@nokorikastudio.com' },
+    ],
+  },
+  {
+    title: { ja: '8. プライバシーポリシーの変更について', en: '8. Changes to This Policy' },
+    body: [
+      {
+        ja: '本ポリシーの内容は、法令の変更やサービス内容の変更に伴い、予告なく改定することがあります。改定後の内容は、本ページに掲載した時点から効力を生じるものとします。',
+        en: 'We may revise this policy without notice due to changes in law or the service. Revised versions take effect as soon as they are posted on this page.',
+      },
+    ],
+  },
+];
+---
+<Layout
+  title="プライバシーポリシー｜Nokorika Studio"
+  titleEn="Privacy Policy｜Nokorika Studio"
+  description="Nokorika Studioが提供するアプリのプライバシーポリシーです。"
+  descriptionEn="Privacy policy for the app developed by Nokorika Studio."
+>
+  <Header slot="header" />
+
+  <section class="legal">
+    <div class="wrap">
+      <p class="eyebrow">PRIVACY</p>
+      <h1><Bi ja="プライバシーポリシー" en="Privacy Policy" /></h1>
+      <p class="lead">
+        <Bi
+          ja="Nokorika Studio（以下「当方」といいます）は、本アプリおよび本サイトにおける利用者情報の取り扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」といいます）を定めます。"
+          en="Nokorika Studio (“we”) has established this Privacy Policy (this “Policy”) regarding the handling of user information on this app and website."
+        />
+      </p>
+
+      <div class="sections">
+        {sections.map((s) => (
+          <div class="section-block">
+            <h2><Bi ja={s.title.ja} en={s.title.en} /></h2>
+            {s.body?.map((p) => (
+              <p class="body-text"><Bi ja={p.ja} en={p.en} /></p>
+            ))}
+            {s.list && (
+              <ul>
+                {s.list.map((li) => (
+                  <li><Bi ja={li.ja} en={li.en} /></li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <p class="date mono">
+        <Bi ja="制定日: 2026年07月01日" en="Effective date: 2026-07-01" />
+      </p>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+
+  <style>
+    .legal {
+      padding-top: clamp(56px, 9vw, 88px);
+    }
+    h1 {
+      font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+      margin: 10px 0 14px;
+    }
+    .lead {
+      color: var(--ink-soft);
+      max-width: 62ch;
+      margin-bottom: 40px;
+    }
+    .sections {
+      border-top: 1px solid var(--line);
+    }
+    .section-block {
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-block h2 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .body-text {
+      color: var(--ink-soft);
+      line-height: 1.9;
+      max-width: 68ch;
+      margin-bottom: 8px;
+    }
+    .section-block ul {
+      margin: 8px 0 0;
+      padding-left: 1.2em;
+      color: var(--ink-soft);
+      line-height: 1.9;
+    }
+    .section-block li {
+      margin-bottom: 4px;
+    }
+    .date {
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+    }
+    .caution {
+      margin-top: 20px;
+      padding: 16px 18px;
+      background: var(--status-bg);
+      color: var(--status);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+  </style>
+</Layout>
