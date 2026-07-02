@@ -10,12 +10,12 @@ const items = [
   {
     ja: '所在地', en: 'Address',
     ja_v: '請求があった場合は遅滞なく開示します',
-    en_v: '【Postal code / address】(Disclosed without delay upon request, or shown here if already public)',
+    en_v: 'Disclosed without delay upon request',
   },
   {
     ja: '電話番号', en: 'Phone number',
     ja_v: '請求があった場合は遅滞なく開示します',
-    en_v: '【Phone number】(Disclosed without delay upon request, or shown here if already public)',
+    en_v: 'Disclosed without delay upon request',
   },
   { ja: 'メールアドレス', en: 'Email', ja_v: 'contact@nokorikastudio.com', en_v: 'contact@nokorikastudio.com' },
   {
@@ -50,8 +50,8 @@ const items = [
   },
   {
     ja: '動作環境', en: 'System requirements',
-    ja_v: '【対応OS・バージョンを記載（例：iOS 16以降 / Android 10以降）】',
-    en_v: '【List supported OS versions (e.g. iOS 16+ / Android 10+)】',
+    ja_v: 'Android 10.0 以降',
+    en_v: 'Android 10.0 or later',
   },
 ];
 ---
@@ -74,7 +74,7 @@ const items = [
         />
       </p>
 
-      <dl class="legal-table">
+      <dl class="legal-table" data-reveal>
         {items.map((item) => (
           <div class="legal-row">
             <dt class="mono"><Bi ja={item.ja} en={item.en} /></dt>

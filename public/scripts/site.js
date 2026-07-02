@@ -24,6 +24,64 @@
     try { localStorage.setItem('theme', theme); } catch (e) {}
   }
 
+  function setupReveal() {
+    var targets = document.querySelectorAll('[data-reveal]');
+    if (!targets.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    targets.forEach(function (el) { observer.observe(el); });
+  }
+
+  function setupScreenshotRail() {
+    var rail = document.querySelector('[data-screenshot-rail]');
+    if (!rail) return;
+    var dots = rail.parentElement.querySelectorAll('[data-rail-dot]');
+    if (!dots.length) return;
+
+    var cards = rail.querySelectorAll('[data-rail-card]');
+
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () {
+        var card = cards[i];
+        if (card) {
+          rail.scrollTo({ left: card.offsetLeft - 24, behavior: 'smooth' });
+        }
+      });
+    });
+
+    if (!('IntersectionObserver' in window)) return;
+    var railObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var idx = Array.prototype.indexOf.call(cards, entry.target);
+          if (idx === -1) return;
+          if (entry.isIntersecting) {
+            dots.forEach(function (d) { d.classList.remove('is-active'); });
+            dots[idx]?.classList.add('is-active');
+          }
+        });
+      },
+      { root: rail, threshold: 0.6 }
+    );
+    cards.forEach(function (c) { railObserver.observe(c); });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var lang = document.documentElement.getAttribute('data-lang') || 'ja';
     applyTitleDesc(lang);
@@ -44,5 +102,8 @@
         setLang(current === 'en' ? 'ja' : 'en');
       });
     }
+
+    setupReveal();
+    setupScreenshotRail();
   });
 })();

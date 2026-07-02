@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Bi from '../components/Bi.astro';
+import { releaseStatus } from '../data/status.js';
 
 // ヒーローのカレンダーグリッド用データ（曜日と日付のダミー配列）
 const weekdaysJa = ['日', '月', '火', '水', '木', '金', '土'];
@@ -60,6 +61,41 @@ const features = [
     },
   },
 ];
+
+const screenshots = [
+  {
+    src: '/images/screenshot-home.png',
+    title: { ja: 'ホーム', en: 'Home' },
+    caption: {
+      ja: '残りの営業日数と最終営業日をひと目で確認できます。',
+      en: 'See the number of remaining business days and the last one at a glance.',
+    },
+  },
+  {
+    src: '/images/screenshot-tag.png',
+    title: { ja: 'タグ別カウントダウン', en: 'Tag countdown' },
+    caption: {
+      ja: '「銀行」などタグごとに期限日までの残り日数を表示します。',
+      en: 'Shows days remaining until a deadline, grouped by tag (e.g. “Bank”).',
+    },
+  },
+  {
+    src: '/images/screenshot-week.png',
+    title: { ja: '週表示', en: 'Week view' },
+    caption: {
+      ja: '時間軸で予定を確認できる週表示。打ち合わせもひと目で把握。',
+      en: 'A time-based week view — see meetings and tasks at a glance.',
+    },
+  },
+  {
+    src: '/images/screenshot-settings.png',
+    title: { ja: '設定', en: 'Settings' },
+    caption: {
+      ja: 'テーマカラーやダークモード、データのバックアップまで設定できます。',
+      en: 'Customize theme colors, dark mode, and back up your data.',
+    },
+  },
+];
 ---
 <Layout title="Nokorika Studio | カレンダーアプリ開発" titleEn="Nokorika Studio | Calendar App Development">
   <Header slot="header" />
@@ -67,9 +103,9 @@ const features = [
   <!-- ===================== Hero ===================== -->
   <section class="hero">
     <div class="wrap hero-grid">
-      <div class="hero-copy">
+      <div class="hero-copy" data-reveal>
         <p class="eyebrow">
-          <Bi ja="CALENDAR APP ／ 開発中" en="CALENDAR APP / IN DEVELOPMENT" />
+          <Bi ja="CALENDAR APP" en="CALENDAR APP" />
         </p>
         <h1>
           <span class="i18n" data-lang="ja">予定を、めくるように<br />管理するアプリを作っています。</span>
@@ -89,12 +125,12 @@ const features = [
         </p>
         <div class="hero-cta">
           <span class="tag">
-            <Bi ja="開発中 ・ リリース時期未定" en="In development · Release date TBD" />
+            <Bi ja={releaseStatus.ja} en={releaseStatus.en} />
           </span>
         </div>
       </div>
 
-      <div class="hero-calendar" aria-hidden="true">
+      <div class="hero-calendar hover-lift" data-reveal aria-hidden="true">
         <div class="cal-head mono">2026 / 07</div>
         <div class="cal-weekdays">
           {weekdaysJa.map((w, i) => (
@@ -117,7 +153,7 @@ const features = [
   <!-- ===================== About ===================== -->
   <section id="about">
     <div class="wrap about-grid">
-      <div>
+      <div data-reveal>
         <p class="eyebrow"><Bi ja="事業概要" en="About Us" /></p>
         <h2><Bi ja="カレンダーという、誰もが毎日開く場所を作る。" en="Building the place people open every single day." /></h2>
         <p class="body-text">
@@ -127,7 +163,7 @@ const features = [
           />
         </p>
       </div>
-      <dl class="fact-list">
+      <dl class="fact-list" data-reveal>
         {facts.map((f) => (
           <div class="fact-row">
             <dt class="mono"><Bi ja={f.ja} en={f.en} /></dt>
@@ -150,20 +186,20 @@ const features = [
   <section id="product">
     <div class="wrap">
       <p class="eyebrow"><Bi ja="サービス・プロダクト紹介" en="Product" /></p>
-      <h2>
+      <h2 data-reveal>
         <span class="i18n" data-lang="ja">Nokorika(ノコリカ) — シンプルなカレンダーアプリ</span>
         <span class="i18n" data-lang="en">Nokorika — A simple calendar app</span>
       </h2>
-      <p class="body-text product-lead">
+      <p class="body-text product-lead" data-reveal>
         <Bi
           ja="月表示・週表示を切り替えながら予定を確認できる、スマートフォン向けのカレンダーアプリです。現在開発中のため、機能の詳細は順次このページで更新していきます。"
           en="A smartphone calendar app that lets you check your schedule in month or week view. It's currently in development, and details will be added to this page as they're finalized."
         />
       </p>
 
-      <ul class="feature-grid">
+      <ul class="feature-grid" data-reveal="stagger">
         {features.map((f) => (
-          <li>
+          <li class="hover-lift">
             <span class="mono cell-num">{f.num}</span>
             <h3><Bi ja={f.title.ja} en={f.title.en} /></h3>
             <p><Bi ja={f.body.ja} en={f.body.en} /></p>
@@ -177,6 +213,42 @@ const features = [
           en="※ Content on this page may change as development progresses. Pricing and release date will be announced once finalized."
         />
       </p>
+    </div>
+  </section>
+
+  <!-- ===================== Screenshots ===================== -->
+  <section id="screenshots">
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="アプリ画面" en="Screenshots" /></p>
+      <h2 data-reveal>
+        <Bi ja="実際の画面をのぞいてみる" en="A look inside the app" />
+      </h2>
+      <p class="body-text product-lead" data-reveal>
+        <Bi
+          ja="開発中のアプリの実機スクリーンショットです。横にスクロールしてご覧いただけます。"
+          en="Real screenshots from the app, currently in development. Swipe or scroll sideways to browse."
+        />
+      </p>
+
+      <div class="rail" data-screenshot-rail data-reveal="stagger">
+        {screenshots.map((s) => (
+          <figure class="rail-card" data-rail-card>
+            <div class="rail-frame">
+              <img src={s.src} alt={s.title.ja} loading="lazy" />
+            </div>
+            <figcaption class="rail-caption">
+              <strong><Bi ja={s.title.ja} en={s.title.en} /></strong>
+              <Bi ja={s.caption.ja} en={s.caption.en} />
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <div class="rail-dots">
+        {screenshots.map((_, i) => (
+          <button type="button" data-rail-dot class={i === 0 ? 'is-active' : ''} aria-label={`screenshot ${i + 1}`}></button>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -332,6 +404,15 @@ const features = [
       margin-top: 24px;
       font-size: 0.82rem;
       color: var(--ink-soft);
+    }
+
+    /* ---------- Screenshots ---------- */
+    #screenshots h2 {
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+      margin: 10px 0 16px;
+    }
+    #screenshots .rail-dots {
+      justify-content: center;
     }
 
     @media (max-width: 760px) {

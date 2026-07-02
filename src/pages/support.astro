@@ -27,10 +27,10 @@ const faqs = [
     },
   },
   {
-    q: { ja: 'アプリのご利用中に動かなくなったり、表示が崩れたりする不具合を発見された場合は、大変お手数ですが、以下のサポート窓口（メールアドレス）までご連絡ください。', en: 'I found a bug — where do I report it?' },
+    q: { ja: '不具合を見つけました。どこに報告すればいいですか？', en: 'I found a bug — where do I report it?' },
     a: {
-      ja: '下記のメールアドレスまでご連絡ください。発生状況（端末の種類・OSバージョン・操作手順）を添えていただけるとスムーズです。',
-      en: "If you encounter any bugs, crashes, or display issues while using the app, we apologize for the inconvenience and kindly ask you to contact our support desk at the following email.",
+      ja: 'アプリのご利用中に動かなくなったり、表示が崩れたりする不具合を発見された場合は、大変お手数ですが、以下のサポート窓口（メールアドレス）までご連絡ください。発生状況（端末の種類・OSバージョン・操作手順）を添えていただけるとスムーズです。',
+      en: "If you encounter any bugs, crashes, or display issues while using the app, we apologize for the inconvenience and kindly ask you to contact our support desk at the following email. It helps if you include details like your device type, OS version, and the steps that led to the issue.",
     },
   },
   {
@@ -59,7 +59,7 @@ const faqs = [
 
   <section class="support-intro">
     <div class="wrap intro-grid">
-      <div>
+      <div data-reveal>
         <p class="eyebrow">SUPPORT</p>
         <h1><Bi ja="サポート / FAQ" en="Support / FAQ" /></h1>
         <p class="body-text">
@@ -69,7 +69,7 @@ const faqs = [
           />
         </p>
       </div>
-      <div class="card">
+      <div class="card hover-lift" data-reveal>
         <dl>
           <div class="row">
             <dt class="mono">Email</dt>
@@ -87,9 +87,9 @@ const faqs = [
   <section class="faq">
     <div class="wrap">
       <p class="eyebrow">FAQ</p>
-      <h2><Bi ja="よくあるご質問" en="Frequently Asked Questions" /></h2>
+      <h2 data-reveal><Bi ja="よくあるご質問" en="Frequently Asked Questions" /></h2>
 
-      <ul class="faq-list">
+      <ul class="faq-list" data-reveal="stagger">
         {faqs.map((item) => (
           <li>
             <p class="q"><span class="mono mark">Q</span><Bi ja={item.q.ja} en={item.q.en} /></p>
