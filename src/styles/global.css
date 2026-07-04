@@ -20,6 +20,7 @@
   --font-display: 'Space Grotesk', 'Hiragino Sans', sans-serif;
   --font-body: 'Manrope', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  --font-accent: 'Instrument Serif', 'Hiragino Mincho ProN', serif; /* 手書き署名風のアクセント */
 
   /* Layout */
   --max-width: 1080px;
@@ -70,7 +71,7 @@ body {
 a, button, .card, .site-header, .site-footer, .tag,
 .cal-cell, .cal-head, .cal-weekdays, .hero-calendar,
 .feature-grid li, .row, .fact-row, .legal-row, .faq-list li,
-.mark, .brand-mark {
+.mark, .brand-mark, .date-stamp, .devlog-item, .rail-frame {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
@@ -137,11 +138,25 @@ button:focus-visible,
 
 section {
   padding: clamp(48px, 8vw, 96px) 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
+  position: relative;
 }
 
-section:last-of-type {
-  border-bottom: none;
+/* ミシン目のような区切り線（カレンダーの切り取り線をイメージ） */
+section:not(:last-of-type)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--line) 0,
+    var(--line) 7px,
+    transparent 7px,
+    transparent 14px
+  );
 }
 
 /* ===========================================================
@@ -278,6 +293,14 @@ html[data-lang='en'] .lang-target-ja { display: inline; }
   display: flex;
   flex-direction: column;
   gap: 14px;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+.rail-card:nth-child(odd) { transform: rotate(-1.1deg); }
+.rail-card:nth-child(even) { transform: rotate(0.9deg); }
+.rail-card:hover {
+  transform: rotate(0deg) translateY(-4px);
+  z-index: 2;
 }
 .rail-frame {
   border-radius: 22px;
@@ -321,4 +344,189 @@ html[data-lang='en'] .lang-target-ja { display: inline; }
 .rail-dots button.is-active {
   background: var(--accent);
   transform: scale(1.3);
+}
+
+/* ===========================================================
+   カレンダーのメタファーを徹底するためのパーツ
+   =========================================================== */
+
+/* 日付スタンプ: 紙のタブのようなラベル。少し傾けて手貼り感を出す */
+.date-stamp {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 5px 11px 7px;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  transform: rotate(-2deg);
+  box-shadow: 0 2px 0 var(--line);
+  position: relative;
+}
+
+/* 幽霊のような大きなセクション番号（エディトリアル風にレイアウトを崩す） */
+.section-number {
+  position: absolute;
+  top: -0.3em;
+  right: clamp(-4px, 1vw, 12px);
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 13vw, 10rem);
+  font-weight: 700;
+  color: var(--ink);
+  opacity: 0.05;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+/* 見出しの一部に使うセリフイタリックのアクセント */
+.accent-word {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+/* 開発者の署名風テキスト */
+.signature {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--ink);
+}
+
+/* ピン留め（画鋲）演出。position:relativeな親要素の上端中央に配置 */
+.pin {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.7), transparent 45%),
+    var(--accent);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+}
+
+/* ===========================================================
+   マイクロインタラクション
+   =========================================================== */
+
+/* スクロール進捗バー（ページ全体に対する現在地。カレンダーの日めくり感） */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--line);
+  z-index: 60;
+}
+.scroll-progress-fill {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-progress-fill {
+    transition: width 0.08s linear;
+  }
+}
+
+/* カーソルに反応して傾く要素 */
+[data-tilt] {
+  transition: transform 0.2s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ナビゲーションのアンダーライン演出 */
+.nav a {
+  position: relative;
+}
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+.nav a:hover::after {
+  width: 100%;
+}
+
+/* トグルボタンの押し込み感 */
+.toggle-btn:active {
+  transform: scale(0.9);
+}
+
+/* 開発開始からの日数カウンター */
+.days-counter {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+
+/* ===========================================================
+   開発ログ（個人開発らしさを出すセクション）
+   =========================================================== */
+.devlog-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.devlog-item {
+  position: relative;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 22px 24px;
+  max-width: 62ch;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+.devlog-item:nth-child(odd) { transform: rotate(-0.6deg); }
+.devlog-item:nth-child(even) { transform: rotate(0.5deg); }
+.devlog-item:hover {
+  transform: rotate(0deg) translateY(-2px);
+}
+.devlog-date {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.devlog-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+.devlog-body {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 640px) {
+  .date-stamp {
+    font-size: 0.66rem;
+  }
+  .section-number {
+    display: none;
+  }
 }

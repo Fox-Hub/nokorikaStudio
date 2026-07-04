@@ -14,4 +14,6 @@ export const releaseStatus = {
   ja: '最終調整中 ・ Google Play 近日公開',
   en: 'Final testing underway · Coming soon to Google Play',
   storeUrl: null,
+  // 「開発○日目」カウンター表示の起点日（実際の開発開始日に差し替えてください）
+  developmentStartDate: '2026-01-15',
 };

@@ -44,10 +44,24 @@ const links = [
     font-size: 0.85rem;
   }
   .links a {
+    position: relative;
     text-decoration: none;
     color: var(--ink-soft);
   }
+  .links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.2s ease;
+  }
   .links a:hover {
     color: var(--ink);
+  }
+  .links a:hover::after {
+    width: 100%;
   }
 </style>

@@ -96,6 +96,34 @@ const screenshots = [
     },
   },
 ];
+
+// 開発ログ（実際の更新内容に合わせて追記・編集してください）
+const devLog = [
+  {
+    date: '2026.06.28',
+    title: { ja: 'ダークモードに対応しました', en: 'Added dark mode' },
+    body: {
+      ja: '夜にカレンダーを開くことが多かったので、目に優しい配色を追加しました。設定からいつでも切り替えられます。',
+      en: 'Since I often check my calendar at night, I added an easier-on-the-eyes color scheme. Switch it anytime from settings.',
+    },
+  },
+  {
+    date: '2026.06.10',
+    title: { ja: 'タグ別のカウントダウン機能を追加', en: 'Added tag-based countdown' },
+    body: {
+      ja: '「銀行」「役所」のように用途別にタグを付けて、期限日までの残り日数を一目で確認できるようにしました。',
+      en: 'You can now tag events (like “Bank” or “City hall”) and see the days remaining until each deadline at a glance.',
+    },
+  },
+  {
+    date: '2026.05.22',
+    title: { ja: '週間バーティカルタイムラインを実装', en: 'Built the weekly vertical timeline' },
+    body: {
+      ja: '1日の予定を時間軸で見たいという自分自身の要望から、週表示に縦のタイムラインを追加しました。',
+      en: 'Added a vertical timeline to the week view — something I personally wanted for seeing a day\u2019s schedule by time.',
+    },
+  },
+];
 ---
 <Layout title="Nokorika Studio | カレンダーアプリ開発" titleEn="Nokorika Studio | Calendar App Development">
   <Header slot="header" />
@@ -104,12 +132,12 @@ const screenshots = [
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy" data-reveal>
-        <p class="eyebrow">
+        <span class="date-stamp mono">
           <Bi ja="CALENDAR APP" en="CALENDAR APP" />
-        </p>
+        </span>
         <h1>
-          <span class="i18n" data-lang="ja">予定を、めくるように<br />管理するアプリを作っています。</span>
-          <span class="i18n" data-lang="en">A calendar app that lets you<br />manage your days, page by page.</span>
+          <span class="i18n" data-lang="ja">予定を、<em class="accent-word">めくるように</em><br />管理するアプリを作っています。</span>
+          <span class="i18n" data-lang="en">A calendar app that lets you<br />manage your days, <em class="accent-word">page by page.</em></span>
         </h1>
         <p class="lead">
           <span class="i18n" data-lang="ja">
@@ -127,10 +155,11 @@ const screenshots = [
           <span class="tag">
             <Bi ja={releaseStatus.ja} en={releaseStatus.en} />
           </span>
+          <span id="days-counter" class="days-counter mono" data-start={releaseStatus.developmentStartDate}></span>
         </div>
       </div>
 
-      <div class="hero-calendar hover-lift" data-reveal aria-hidden="true">
+      <div class="hero-calendar hover-lift" data-tilt data-reveal aria-hidden="true">
         <div class="cal-head mono">2026 / 07</div>
         <div class="cal-weekdays">
           {weekdaysJa.map((w, i) => (
@@ -152,6 +181,7 @@ const screenshots = [
 
   <!-- ===================== About ===================== -->
   <section id="about">
+    <span class="section-number mono">01</span>
     <div class="wrap about-grid">
       <div data-reveal>
         <p class="eyebrow"><Bi ja="事業概要" en="About Us" /></p>
@@ -161,6 +191,9 @@ const screenshots = [
             ja="私たちは「予定を確認する」という日常的な行為を、もっと軽く、もっと自然なものにしたいと考え、スマートフォン向けのカレンダーアプリを開発しています。現在は最初のバージョンの開発に取り組んでおり、公開に向けて準備を進めています。"
             en="We're building a smartphone calendar app to make the everyday act of checking your schedule feel lighter and more natural. We're currently working on the first version and preparing for release."
           />
+        </p>
+        <p class="signature">
+          <Bi ja="— Nokorika Studio" en="— Kentaro Wada" />
         </p>
       </div>
       <dl class="fact-list" data-reveal>
@@ -184,11 +217,12 @@ const screenshots = [
 
   <!-- ===================== Product ===================== -->
   <section id="product">
+    <span class="section-number mono">02</span>
     <div class="wrap">
       <p class="eyebrow"><Bi ja="サービス・プロダクト紹介" en="Product" /></p>
       <h2 data-reveal>
-        <span class="i18n" data-lang="ja">Nokorika(ノコリカ) — シンプルなカレンダーアプリ</span>
-        <span class="i18n" data-lang="en">Nokorika — A simple calendar app</span>
+        <span class="i18n" data-lang="ja">Nokorika(ノコリカ) — <em class="accent-word">シンプルな</em>カレンダーアプリ</span>
+        <span class="i18n" data-lang="en">Nokorika — <em class="accent-word">a simple</em> calendar app</span>
       </h2>
       <p class="body-text product-lead" data-reveal>
         <Bi
@@ -218,6 +252,7 @@ const screenshots = [
 
   <!-- ===================== Screenshots ===================== -->
   <section id="screenshots">
+    <span class="section-number mono">03</span>
     <div class="wrap">
       <p class="eyebrow"><Bi ja="アプリ画面" en="Screenshots" /></p>
       <h2 data-reveal>
@@ -233,7 +268,8 @@ const screenshots = [
       <div class="rail" data-screenshot-rail data-reveal="stagger">
         {screenshots.map((s) => (
           <figure class="rail-card" data-rail-card>
-            <div class="rail-frame">
+            <span class="pin" aria-hidden="true"></span>
+            <div class="rail-frame" data-tilt>
               <img src={s.src} alt={s.title.ja} loading="lazy" />
             </div>
             <figcaption class="rail-caption">
@@ -252,6 +288,33 @@ const screenshots = [
     </div>
   </section>
 
+  <!-- ===================== Dev Log ===================== -->
+  <section id="devlog">
+    <span class="section-number mono">04</span>
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="開発ログ" en="Dev Log" /></p>
+      <h2 data-reveal>
+        <Bi ja="個人で、こつこつ作っています。" en="Built solo, one small update at a time." />
+      </h2>
+      <p class="body-text product-lead" data-reveal>
+        <Bi
+          ja="個人開発ならではのスピード感で、機能追加や改善を重ねています。最近のアップデートをいくつかご紹介します。"
+          en="As a solo developer, I can move quickly on new features and fixes. Here are a few recent updates."
+        />
+      </p>
+
+      <ul class="devlog-list" data-reveal="stagger">
+        {devLog.map((entry) => (
+          <li class="devlog-item">
+            <span class="devlog-date mono">{entry.date}</span>
+            <p class="devlog-title"><Bi ja={entry.title.ja} en={entry.title.en} /></p>
+            <p class="devlog-body"><Bi ja={entry.body.ja} en={entry.body.en} /></p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <Footer slot="footer" />
 
   <style>
@@ -267,7 +330,10 @@ const screenshots = [
     }
     .hero-copy h1 {
       font-size: clamp(1.9rem, 4vw, 2.7rem);
-      margin: 14px 0 20px;
+      margin: 18px 0 20px;
+    }
+    .hero-copy .accent-word {
+      font-size: 1.08em;
     }
     .lead {
       color: var(--ink-soft);
@@ -279,6 +345,10 @@ const screenshots = [
     }
     .hero-cta {
       margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
     }
 
     .hero-calendar {
@@ -331,6 +401,8 @@ const screenshots = [
       display: grid;
       grid-template-columns: 1.2fr 1fr;
       gap: clamp(32px, 6vw, 64px);
+      position: relative;
+      z-index: 1;
     }
     .about-grid h2 {
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
@@ -340,6 +412,9 @@ const screenshots = [
     .body-text {
       color: var(--ink-soft);
       max-width: 52ch;
+    }
+    .signature {
+      margin-top: 18px;
     }
     .fact-list {
       margin: 0;
@@ -365,6 +440,10 @@ const screenshots = [
     }
 
     /* ---------- Product ---------- */
+    #product > .wrap {
+      position: relative;
+      z-index: 1;
+    }
     #product h2 {
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
       margin: 10px 0 16px;
@@ -407,12 +486,26 @@ const screenshots = [
     }
 
     /* ---------- Screenshots ---------- */
+    #screenshots > .wrap {
+      position: relative;
+      z-index: 1;
+    }
     #screenshots h2 {
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
       margin: 10px 0 16px;
     }
     #screenshots .rail-dots {
       justify-content: center;
+    }
+
+    /* ---------- Dev Log ---------- */
+    #devlog > .wrap {
+      position: relative;
+      z-index: 1;
+    }
+    #devlog h2 {
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+      margin: 10px 0 16px;
     }
 
     @media (max-width: 760px) {

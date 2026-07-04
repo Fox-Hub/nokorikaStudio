@@ -107,6 +107,48 @@ wrangler pages deploy dist --project-name=calendar-app-site
 
 新しいテキストを追加する際は、直接文字列を書かずに `<Bi ja="..." en="..." />` を使うようにしてください。英語訳が未確定の場合は仮訳を入れておき、後で差し替える運用がおすすめです。
 
+### リリース状況の一元管理
+
+`src/data/status.js` にサイト全体のリリース状況をまとめています。現在はトップページのヒーローのバッジがここを参照しています。
+
+```js
+export const releaseStatus = {
+  stage: 'pre_release', // 'development' | 'pre_release' | 'released'
+  ja: '最終調整中 ・ Google Play 近日公開',
+  en: 'Final testing underway · Coming soon to Google Play',
+  storeUrl: null, // リリース後、Google PlayのURLを入れる
+};
+```
+
+ステータスが変わったら、このファイルの `ja` / `en` の文言だけ書き換えれば、参照している箇所すべてに反映されます。`support.astro`のFAQ回答文など、既に個別に書いてしまっている文言は自動更新されないので、大きな状況変化（正式リリースなど）の際は、あわせてFAQの文言も確認してください。
+
+### 動作確認・整合性チェックのポイント
+
+複数ページに同じ情報（対応OS、メールアドレス、リリース状況など）が分散しているため、内容を更新する際は次の箇所がズレていないか確認することをおすすめします。
+
+| 情報 | 記載箇所 |
+|---|---|
+| メールアドレス | `contact.astro` / `support.astro` / `privacy.astro` / `tokushoho.astro` |
+| 対応OS | `support.astro`（FAQ） / `tokushoho.astro`（動作環境） |
+| リリース状況 | `src/data/status.js`（ヒーロー） / `support.astro`（FAQ「いつリリースされますか？」） |
+
+### オリジナリティ強化パーツ
+
+テンプレート感を減らすために追加した、このサイト固有の意匠・演出です。`src/styles/global.css`にまとまっています。
+
+- **`.date-stamp`**: 紙のタブ風ラベル。少し傾けて配置し、手貼り感を出しています（ヒーローの「CALENDAR APP」表記に使用）
+- **`.section-number`**: セクション右上に薄く浮かぶ大きな番号（01, 02...）。エディトリアル誌のようなレイアウトの崩し方です
+- **`.accent-word`**: 見出しの一部に使うセリフイタリック体（Instrument Serif）。サンセリフの中に差し込むことで手書き風のアクセントになります
+- **`.signature`**: 開発者の署名風テキスト（About セクションの「— 和田 健太郎」）
+- **`.pin`**: スクリーンショットをコルクボードにピン留めしたような演出
+- **セクション区切り線**: 直線ではなく、ミシン目のような点線（`repeating-linear-gradient`）にして「カレンダーの切り取り線」を表現
+- **開発ログ（`#devlog`セクション）**: 個人開発ならではの更新履歴。少し傾いたカード（`.devlog-item`）を使い、手作り感を演出
+- **`#days-counter`**: `src/data/status.js` の `developmentStartDate` から実際の開発日数を自動計算して表示（JSで日々更新されます）
+- **`.scroll-progress`**: ページ上部の細いバー。スクロール量に応じて伸びる、シンプルな進捗表示
+- **`[data-tilt]`**: マウスの位置に応じてカードがわずかに傾く演出（ヒーローのカレンダーカード、スクリーンショット枠に付与）。タッチ端末や`prefers-reduced-motion`環境では自動的に無効化されます
+
+新しいセクションを追加する際にこれらを流用する場合は、`index.astro`の該当箇所をコピーして使ってください。
+
 ## 6. frontend-design プラグインについて
 
 Claude Code で `frontend-design` プラグイン（参考: https://github.com/anthropics/claude-code-frontend-design ）を使う場合、このリポジトリをそのまま開いて追加のセクション作成やデザイン調整を依頼できます。本サイトのデザイントークンは `src/styles/global.css` に集約しているので、プラグイン経由での調整もそこを起点にすると一貫性を保ちやすいです。

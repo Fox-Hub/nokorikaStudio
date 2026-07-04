@@ -17,6 +17,7 @@
     document.documentElement.setAttribute('lang', lang);
     try { localStorage.setItem('lang', lang); } catch (e) {}
     applyTitleDesc(lang);
+    updateDaysCounter(lang);
   }
 
   function setTheme(theme) {
@@ -82,9 +83,60 @@
     cards.forEach(function (c) { railObserver.observe(c); });
   }
 
+  function setupScrollProgress() {
+    var fill = document.querySelector('.scroll-progress-fill');
+    if (!fill) return;
+    function update() {
+      var doc = document.documentElement;
+      var scrollTop = doc.scrollTop || document.body.scrollTop;
+      var scrollHeight = (doc.scrollHeight || document.body.scrollHeight) - doc.clientHeight;
+      var pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      fill.style.width = pct + '%';
+    }
+    document.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  function setupTilt() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia && window.matchMedia('(hover: none)').matches) return; // タッチ端末では無効化
+
+    var targets = document.querySelectorAll('[data-tilt]');
+    targets.forEach(function (el) {
+      var maxTilt = 6;
+      el.addEventListener('mousemove', function (e) {
+        var rect = el.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        var rotateX = (-y * maxTilt).toFixed(2);
+        var rotateY = (x * maxTilt).toFixed(2);
+        el.style.transform = 'perspective(700px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.015)';
+      });
+      el.addEventListener('mouseleave', function () {
+        el.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)';
+      });
+    });
+  }
+
+  function updateDaysCounter(lang) {
+    var el = document.getElementById('days-counter');
+    if (!el) return;
+    var startAttr = el.getAttribute('data-start');
+    if (!startAttr) return;
+    var start = new Date(startAttr + 'T00:00:00');
+    var now = new Date();
+    var diffDays = Math.max(1, Math.floor((now - start) / 86400000) + 1);
+    var currentLang = lang || document.documentElement.getAttribute('data-lang') || 'ja';
+    el.textContent = currentLang === 'en'
+      ? 'Day ' + diffDays + ' of development'
+      : '開発 ' + diffDays + '日目';
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var lang = document.documentElement.getAttribute('data-lang') || 'ja';
     applyTitleDesc(lang);
+    updateDaysCounter(lang);
 
     var themeBtn = document.getElementById('theme-toggle');
     var langBtn = document.getElementById('lang-toggle');
@@ -105,5 +157,7 @@
 
     setupReveal();
     setupScreenshotRail();
+    setupScrollProgress();
+    setupTilt();
   });
 })();
