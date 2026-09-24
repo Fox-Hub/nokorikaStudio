@@ -53,34 +53,110 @@
     var rail = document.querySelector('[data-screenshot-rail]');
     if (!rail) return;
     var dots = rail.parentElement.querySelectorAll('[data-rail-dot]');
-    if (!dots.length) return;
 
     var cards = rail.querySelectorAll('[data-rail-card]');
 
-    dots.forEach(function (dot, i) {
-      dot.addEventListener('click', function () {
-        var card = cards[i];
-        if (card) {
-          rail.scrollTo({ left: card.offsetLeft - 24, behavior: 'smooth' });
-        }
-      });
-    });
-
-    if (!('IntersectionObserver' in window)) return;
-    var railObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          var idx = Array.prototype.indexOf.call(cards, entry.target);
-          if (idx === -1) return;
-          if (entry.isIntersecting) {
-            dots.forEach(function (d) { d.classList.remove('is-active'); });
-            dots[idx]?.classList.add('is-active');
+    if (dots.length) {
+      dots.forEach(function (dot, i) {
+        dot.addEventListener('click', function () {
+          var card = cards[i];
+          if (card) {
+            rail.scrollTo({ left: card.offsetLeft - 24, behavior: 'smooth' });
           }
         });
+      });
+
+      if ('IntersectionObserver' in window) {
+        var railObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              var idx = Array.prototype.indexOf.call(cards, entry.target);
+              if (idx === -1) return;
+              if (entry.isIntersecting) {
+                dots.forEach(function (d) { d.classList.remove('is-active'); });
+                dots[idx]?.classList.add('is-active');
+              }
+            });
+          },
+          { root: rail, threshold: 0.6 }
+        );
+        cards.forEach(function (c) { railObserver.observe(c); });
+      }
+    }
+
+    // 矢印ボタン（前へ／次へ）: カード1枚分ずつスクロール
+    var prevBtn = document.querySelector('[data-rail-prev]');
+    var nextBtn = document.querySelector('[data-rail-next]');
+    function step() {
+      var first = cards[0];
+      return first ? first.getBoundingClientRect().width + 20 : rail.clientWidth * 0.8;
+    }
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        rail.scrollBy({ left: -step(), behavior: 'smooth' });
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        rail.scrollBy({ left: step(), behavior: 'smooth' });
+      });
+    }
+
+    // マウスホイール（縦スクロール）を横スクロールに変換する。
+    // トラックパッドの横スワイプは元々ブラウザが処理するため、
+    // ここでは主に「普通のマウスホイールしか無い」環境を助ける。
+    rail.addEventListener(
+      'wheel',
+      function (e) {
+        if (rail.scrollWidth <= rail.clientWidth) return; // スクロールの余地が無ければ何もしない
+        if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; // 既に横方向の入力ならブラウザに任せる
+        e.preventDefault();
+        rail.scrollLeft += e.deltaY;
       },
-      { root: rail, threshold: 0.6 }
+      { passive: false }
     );
-    cards.forEach(function (c) { railObserver.observe(c); });
+
+    // クリック（タップ）＆ドラッグでのスクロールに対応
+    var isDown = false;
+    var startX = 0;
+    var startScroll = 0;
+    var moved = false;
+
+    function onPointerDown(e) {
+      isDown = true;
+      moved = false;
+      rail.classList.add('is-dragging');
+      startX = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
+      startScroll = rail.scrollLeft;
+    }
+    function onPointerMove(e) {
+      if (!isDown) return;
+      var x = e.pageX ?? e.touches?.[0]?.pageX ?? 0;
+      var delta = x - startX;
+      if (Math.abs(delta) > 4) moved = true;
+      rail.scrollLeft = startScroll - delta;
+      if (e.cancelable) e.preventDefault();
+    }
+    function onPointerUp() {
+      isDown = false;
+      rail.classList.remove('is-dragging');
+    }
+
+    rail.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+
+    // ドラッグ操作の直後だけ、内部リンクの誤クリックを防ぐ
+    rail.addEventListener(
+      'click',
+      function (e) {
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
   }
 
   function setupScrollProgress() {
