@@ -10,10 +10,10 @@
 // nullのままだとリンクは表示されません。
 
 export const releaseStatus = {
-  stage: 'pre_release',
-  ja: '最終調整中 ・ Google Play 近日公開',
-  en: 'Final testing underway · Coming soon to Google Play',
-  storeUrl: null,
+  stage: 'released',
+  ja: 'Google Play で公開中',
+  en: 'Available on Google Play',
+  storeUrl: 'https://play.google.com/store/apps/details?id=com.nokorikastudio.nokorika',
   // 「開発○日目」カウンター表示の起点日（実際の開発開始日に差し替えてください）
   developmentStartDate: '2026-08-15',
 };

@@ -124,6 +124,15 @@ const screenshots = [
 // 開発ログ（実際の更新内容に合わせて追記・編集してください）
 const devLog = [
   {
+    date: '2026.09.27',
+    title: { ja: 'Google Playで初回リリースを公開', en: 'First release is live on Google Play' },
+    body: {
+      ja: 'ノコリカの初回リリースを公開しました。営業日の確認から予定・タスクの管理まで、Google Playから無料でご利用いただけます。',
+      en: 'The first release of Nokorika is now live. Check your workdays and manage events and tasks — free on Google Play.',
+    },
+    storeLink: true,
+  },
+  {
     date: '2026.09.20',
     title: { ja: 'Google Playへ審査を申請', en: 'Submitted to Google Play for review.' },
     body: {
@@ -187,6 +196,11 @@ const devLog = [
           <span class="tag">
             <Bi ja={releaseStatus.ja} en={releaseStatus.en} />
           </span>
+          {releaseStatus.storeUrl && (
+            <a class="store-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
+              <Bi ja="Google Play で入手" en="Get it on Google Play" />
+            </a>
+          )}
           <span id="days-counter" class="days-counter mono" data-start={releaseStatus.developmentStartDate}></span>
         </div>
       </div>
@@ -220,8 +234,8 @@ const devLog = [
         <h2><Bi ja="カレンダーという、誰もが毎日開く場所を作る。" en="Building the place people open every single day." /></h2>
         <p class="body-text">
           <Bi
-            ja="私たちは「予定を確認する」という日常的な行為を、もっと軽く、もっと自然なものにしたいと考え、スマートフォン向けのカレンダーアプリを開発しています。現在は最初のバージョンの開発に取り組んでおり、公開に向けて準備を進めています。"
-            en="We're building a smartphone calendar app to make the everyday act of checking your schedule feel lighter and more natural. We're currently working on the first version and preparing for release."
+            ja="私たちは「予定を確認する」という日常的な行為を、もっと軽く、もっと自然なものにしたいと考え、スマートフォン向けのカレンダーアプリを開発しています。最初のバージョンは Google Play で公開しています。"
+            en="We're building a smartphone calendar app to make the everyday act of checking your schedule feel lighter and more natural. The first version is now available on Google Play."
           />
         </p>
         <p class="signature">
@@ -258,8 +272,8 @@ const devLog = [
       </h2>
       <p class="body-text product-lead" data-reveal>
         <Bi
-          ja="月表示・週表示を切り替えながら予定を確認できる、スマートフォン向けのカレンダーアプリです。現在開発中のため、機能の詳細は順次このページで更新していきます。"
-          en="A smartphone calendar app that lets you check your schedule in month or week view. It's currently in development, and details will be added to this page as they're finalized."
+          ja="月表示・週表示を切り替えながら予定を確認できる、スマートフォン向けのカレンダーアプリです。Google Play で無料公開しています。"
+          en="A smartphone calendar app that lets you check your schedule in month or week view. It's free on Google Play."
         />
       </p>
 
@@ -273,10 +287,18 @@ const devLog = [
         ))}
       </ul>
 
+      {releaseStatus.storeUrl && (
+        <p class="product-store" data-reveal>
+          <a class="store-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
+            <Bi ja="Google Play で入手" en="Get it on Google Play" />
+          </a>
+        </p>
+      )}
+
       <p class="product-note">
         <Bi
-          ja="※ 掲載内容は開発状況に応じて変更される場合があります。価格・配信開始時期は決定次第お知らせします。"
-          en="※ Content on this page may change as development progresses. Pricing and release date will be announced once finalized."
+          ja="※ 基本機能は無料です。掲載内容はアップデートに応じて更新される場合があります。"
+          en="※ Core features are free. Details on this page may be updated as the app evolves."
         />
       </p>
     </div>
@@ -292,8 +314,8 @@ const devLog = [
       </h2>
       <p class="body-text product-lead" data-reveal>
         <Bi
-          ja="開発中のアプリの実機スクリーンショットです。横にスクロールしてご覧いただけます。"
-          en="Real screenshots from the app, currently in development. Swipe or scroll sideways to browse."
+          ja="アプリの実機スクリーンショットです。横にスクロールしてご覧いただけます。"
+          en="Screenshots from the app. Swipe or scroll sideways to browse."
         />
       </p>
 
@@ -341,6 +363,11 @@ const devLog = [
             <span class="devlog-date mono">{entry.date}</span>
             <p class="devlog-title"><Bi ja={entry.title.ja} en={entry.title.en} /></p>
             <p class="devlog-body"><Bi ja={entry.body.ja} en={entry.body.en} /></p>
+            {entry.storeLink && releaseStatus.storeUrl && (
+              <a class="devlog-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
+                <Bi ja="Google Play のアプリページを見る" en="Open the Google Play listing" />
+              </a>
+            )}
           </li>
         ))}
       </ul>
@@ -381,6 +408,24 @@ const devLog = [
       align-items: center;
       gap: 14px;
       flex-wrap: wrap;
+    }
+    .store-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--accent-ink);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .store-link:hover {
+      filter: brightness(1.08);
+    }
+    .product-store {
+      margin-top: 28px;
     }
 
     .hero-calendar {
@@ -538,6 +583,12 @@ const devLog = [
     #devlog h2 {
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
       margin: 10px 0 16px;
+    }
+    .devlog-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--accent);
+      font-size: 0.88rem;
     }
 
     @media (max-width: 760px) {

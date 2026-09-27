@@ -3,14 +3,16 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Bi from '../components/Bi.astro';
+import { releaseStatus } from '../data/status.js';
 
 const faqs = [
   {
-    q: { ja: 'アプリはいつリリースされますか？', en: 'When will the app be released?' },
+    q: { ja: 'アプリはどこで入手できますか？', en: 'Where can I get the app?' },
     a: {
-      ja: '現在製品版のリリースに向けて最終調整を行っております。Google Playストアでの公開日が決定次第、このサイトのトップページやアップデート情報にてお知らせいたします。',
-      en: "We are currently in the final stages of adjustment for the official release. As soon as the launch date on the Google Play Store is confirmed, we will announce it on the top page of this website and in our update news.",
+      ja: 'Google Play で公開しています。以下のページからインストールできます。',
+      en: 'Nokorika is available on Google Play. You can install it from the page below.',
     },
+    href: releaseStatus.storeUrl,
   },
   {
     q: { ja: '対応しているOS・バージョンを教えてください。', en: 'Which OS versions are supported?' },
@@ -93,7 +95,20 @@ const faqs = [
         {faqs.map((item) => (
           <li>
             <p class="q"><span class="mono mark">Q</span><Bi ja={item.q.ja} en={item.q.en} /></p>
-            <p class="a"><span class="mono mark">A</span><Bi ja={item.a.ja} en={item.a.en} /></p>
+            <p class="a">
+              <span class="mono mark">A</span>
+              <span>
+                <Bi ja={item.a.ja} en={item.a.en} />
+                {item.href && (
+                  <>
+                    {' '}
+                    <a href={item.href} target="_blank" rel="noopener noreferrer">
+                      <Bi ja="Google Play で見る" en="View on Google Play" />
+                    </a>
+                  </>
+                )}
+              </span>
+            </p>
           </li>
         ))}
       </ul>
@@ -180,6 +195,9 @@ const faqs = [
     }
     .a {
       color: var(--ink-soft);
+    }
+    .a a {
+      color: var(--accent);
     }
     .mark {
       flex: 0 0 auto;
