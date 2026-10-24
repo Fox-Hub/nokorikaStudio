@@ -1,0 +1,249 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Bi from '../../components/Bi.astro';
+import { apps } from '../../data/apps.js';
+
+const app = apps.find((a) => a.id === 'koecare') ?? {
+  status: { ja: '開発中', en: 'In development' },
+};
+
+// 草案スクショ（public/images/koecare*.png）
+const draftShots = [
+  {
+    src: '/images/koecare2.png',
+    title: { ja: '測定中（草案）', en: 'Measuring (draft)' },
+    caption: {
+      ja: 'リアルタイムのdB表示としきい値アラート。開発中の画面です。',
+      en: 'Live dB readout and threshold alerts. UI may change.',
+    },
+  },
+  {
+    src: '/images/koecare3.png',
+    title: { ja: '履歴（草案）', en: 'History (draft)' },
+    caption: {
+      ja: '日・週・月で音量の推移とアラートを確認できます。',
+      en: 'Review volume trends and alerts by day, week, or month.',
+    },
+  },
+  {
+    src: '/images/koecare1.png',
+    title: { ja: '設定（草案）', en: 'Settings (draft)' },
+    caption: {
+      ja: 'しきい値や測定間隔などを調整する画面です。',
+      en: 'Adjust alert thresholds, measurement interval, and more.',
+    },
+  },
+];
+---
+<Layout
+  title="KoeCare | 騒音計測アプリ｜Nokorika Studio"
+  titleEn="KoeCare | Noise Meter｜Nokorika Studio"
+  description="騒音計測アプリ KoeCare の紹介ページです。現在開発中です。"
+  descriptionEn="KoeCare is a noise meter app by Nokorika Studio, currently in development."
+>
+  <Header slot="header" />
+
+  <section class="hero">
+    <div class="wrap hero-copy" data-reveal>
+      <span class="date-stamp mono">
+        <Bi ja="NOISE METER" en="NOISE METER" />
+      </span>
+      <h1>
+        <span class="i18n" data-lang="ja">身のまわりの音を、<em class="accent-word">わかりやすく</em>測る。</span>
+        <span class="i18n" data-lang="en">Measure everyday sound<br />in a way that’s <em class="accent-word">easy to grasp.</em></span>
+      </h1>
+      <p class="lead">
+        <span class="i18n" data-lang="ja">
+          <strong>KoeCare</strong>
+          は、生活のなかの騒音レベルを計測し、把握しやすくするためのスマートフォン向けアプリです。現在、開発を進めています。
+        </span>
+        <span class="i18n" data-lang="en">
+          <strong>KoeCare</strong>
+          is a smartphone app for measuring and understanding everyday noise levels. It’s currently in development.
+        </span>
+      </p>
+      <div class="hero-cta">
+        <span class="tag">
+          <Bi ja={app.status.ja} en={app.status.en} />
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section id="overview">
+    <span class="section-number mono">01</span>
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="概要" en="Overview" /></p>
+      <h2 data-reveal>
+        <Bi ja="騒音を、日常の感覚に近づける。" en="Bringing noise levels closer to everyday sense." />
+      </h2>
+      <p class="body-text" data-reveal>
+        <Bi
+          ja="周囲の音量を数値で確認できる騒音計測アプリとして開発しています。まずは計測と見やすさに集中し、公開に向けて機能を整えていきます。詳細な機能や公開時期は決まり次第、このページでお知らせします。"
+          en="We’re building a noise meter that shows ambient sound levels as clear numbers. We’re focusing first on measurement and readability, then preparing for release. Features and launch timing will be posted here as they firm up."
+        />
+      </p>
+    </div>
+  </section>
+
+  <section id="drafts">
+    <span class="section-number mono">02</span>
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="画面草案" en="Draft screens" /></p>
+      <h2 data-reveal>
+        <Bi ja="いま検討している画面イメージ" en="Early screen ideas" />
+      </h2>
+      <p class="body-text product-lead" data-reveal>
+        <Bi
+          ja="開発中の画面案です。実際のUIとは異なる可能性があります。"
+          en="Draft screens from development — the final UI may differ."
+        />
+      </p>
+
+      <div class="draft-grid" data-reveal="stagger">
+        {draftShots.map((s) => (
+          <figure class="draft-card">
+            <div class="draft-frame">
+              <img src={s.src} alt={s.title.ja} loading="lazy" data-draft-img />
+              <div class="draft-placeholder" data-draft-placeholder hidden>
+                <span class="mono">DRAFT</span>
+                <Bi ja="画像準備中" en="Image coming soon" />
+              </div>
+            </div>
+            <figcaption>
+              <strong><Bi ja={s.title.ja} en={s.title.en} /></strong>
+              <Bi ja={s.caption.ja} en={s.caption.en} />
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+
+  <style>
+    .hero {
+      padding-top: clamp(56px, 9vw, 96px);
+      padding-bottom: clamp(24px, 4vw, 40px);
+    }
+    .hero-copy h1 {
+      font-size: clamp(1.9rem, 4vw, 2.7rem);
+      margin: 18px 0 20px;
+    }
+    .hero-copy .accent-word {
+      font-size: 1.08em;
+    }
+    .lead {
+      color: var(--ink-soft);
+      font-size: 1.02rem;
+      max-width: 46ch;
+    }
+    .lead strong {
+      color: var(--ink);
+    }
+    .hero-cta {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .body-text {
+      color: var(--ink-soft);
+      max-width: 52ch;
+    }
+    #overview > .wrap,
+    #drafts > .wrap {
+      position: relative;
+      z-index: 1;
+    }
+    #overview h2,
+    #drafts h2 {
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+      margin: 10px 0 16px;
+    }
+    .product-lead {
+      margin-bottom: 36px;
+    }
+
+    .draft-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(20px, 4vw, 32px);
+    }
+    .draft-card {
+      margin: 0;
+    }
+    .draft-frame {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      max-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper-raised);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+    .draft-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .draft-placeholder {
+      display: grid;
+      place-items: center;
+      gap: 8px;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 24px;
+    }
+    .draft-placeholder .mono {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--status);
+    }
+    .draft-card figcaption {
+      margin-top: 14px;
+      display: grid;
+      gap: 4px;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+    .draft-card figcaption strong {
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 600;
+    }
+
+    @media (max-width: 760px) {
+      .draft-grid {
+        grid-template-columns: 1fr;
+      }
+      .draft-frame {
+        max-height: 360px;
+        max-width: 240px;
+        margin-inline: auto;
+      }
+    }
+  </style>
+
+  <script>
+    function showDraftPlaceholder(img) {
+      img.style.display = 'none';
+      const ph = img.parentElement?.querySelector('[data-draft-placeholder]');
+      if (ph) ph.hidden = false;
+    }
+
+    document.querySelectorAll('[data-draft-img]').forEach((img) => {
+      img.addEventListener('error', () => showDraftPlaceholder(img));
+      if (img.complete && img.naturalWidth === 0) showDraftPlaceholder(img);
+    });
+  </script>
+</Layout>

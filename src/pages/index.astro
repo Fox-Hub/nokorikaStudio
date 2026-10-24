@@ -3,18 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Bi from '../components/Bi.astro';
-import { releaseStatus } from '../data/status.js';
-
-// ヒーローのカレンダーグリッド用データ（曜日と日付のダミー配列）
-const weekdaysJa = ['日', '月', '火', '水', '木', '金', '土'];
-const weekdaysEn = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-// 比較演算子（< や <=）をテンプレート式の中に直接書くと、Astroのコンパイラが
-// JSXのタグ開始と誤解釈することがあるため、表示可否はここで先に計算しておく。
-const days = Array.from({ length: 35 }, (_, i) => {
-  const dayNumber = i - 2; // 前月末〜翌月初を含む簡易グリッド
-  const isVisible = dayNumber >= 1 && dayNumber <= 31;
-  return { dayNumber, isVisible };
-});
+import { apps } from '../data/apps.js';
 
 const facts = [
   { ja: '事業者名', en: 'Business name', ja_v: 'Nokorika Studio', en_v: 'Nokorika Studio' },
@@ -26,216 +15,91 @@ const facts = [
     en_v: 'Planning and development of smartphone applications',
   },
 ];
-
-const features = [
-  {
-    num: '01',
-    title: { ja: '月・週の切り替え表示', en: 'Month / week views' },
-    body: {
-      ja: '見たい粒度に合わせて、月表示と週表示をすぐに切り替えられます。',
-      en: 'Switch instantly between month and week views to match how much detail you need.',
-    },
-  },
-  {
-    num: '02',
-    title: { ja: 'シンプルな予定登録', en: 'Quick event entry' },
-    body: {
-      ja: 'タイトルと日時を入力するだけで、すぐに予定を登録できます。',
-      en: 'Just add a title and a date to create an event in seconds.',
-    },
-  },
-  {
-    num: '03',
-    title: { ja: 'リマインダー通知', en: 'Reminders' },
-    body: {
-      ja: '予定の前に通知を受け取り、確認漏れを防ぎます。',
-      en: 'Get notified before an event so nothing slips through.',
-    },
-  },
-  {
-    num: '04',
-    title: { ja: '軽快な動作', en: 'Fast and light' },
-    body: {
-      ja: '毎日開くものだからこそ、起動と操作の軽さにこだわっています。',
-      en: "Since it's something you open every day, we care a lot about speed.",
-    },
-  },
-];
-
-const screenshots = [
-  {
-    src: '/images/アプリ紹介1.jpg',
-    title: { ja: 'ホーム', en: 'Home' },
-    caption: {
-      ja: '残りの営業日数と最終営業日をひと目で確認できます。',
-      en: 'See the number of remaining business days and the last one at a glance.',
-    },
-  },
-  {
-    src: '/images/アプリ紹介3.jpg',
-    title: { ja: 'タグ別カウントダウン', en: 'Tag countdown' },
-    caption: {
-      ja: '「銀行」などタグごとに期限日までの残り日数を表示します。',
-      en: 'Shows days remaining until a deadline, grouped by tag (e.g. “Bank”).',
-    },
-  },
-  {
-    src: '/images/アプリ紹介4.jpg',
-    title: { ja: '週表示', en: 'Week view' },
-    caption: {
-      ja: '時間軸で予定を確認できる週表示。打ち合わせもひと目で把握。',
-      en: 'A time-based week view — see meetings and tasks at a glance.',
-    },
-  },
-  {
-    src: '/images/アプリ紹介2.jpg',
-    title: { ja: '設定', en: 'Settings' },
-    caption: {
-      ja: 'テーマカラーやダークモード、データのバックアップまで設定できます。',
-      en: 'Customize theme colors, dark mode, and back up your data.',
-    },
-  },
-  {
-    src: '/images/screenshot-home.png',
-    title: { ja: 'アプリスクリーンショット', en: 'Settings' },
-    caption: {
-      ja: 'アプリスクリーンショットです。※開発中の画面になります。実際には異なる可能性があります。',
-      en: 'Screenshot of the app (In development; actual UI may vary.)',
-    },
-  },
-  {
-    src: '/images/screenshot-settings.png',
-    title: { ja: 'アプリスクリーンショット', en: 'Settings' },
-    caption: {
-      ja: 'アプリスクリーンショットです。※開発中の画面になります。実際には異なる可能性があります。',
-      en: 'Screenshot of the app (In development; actual UI may vary.)',
-    },
-  },
-  {
-    src: '/images/screenshot-tag.png',
-    title: { ja: 'アプリスクリーンショット', en: 'Settings' },
-    caption: {
-      ja: 'アプリスクリーンショットです。※開発中の画面になります。実際には異なる可能性があります。',
-      en: 'Screenshot of the app (In development; actual UI may vary.)',
-    },
-  },
-];
-
-// 開発ログ（実際の更新内容に合わせて追記・編集してください）
-const devLog = [
-  {
-    date: '2026.09.27',
-    title: { ja: 'Google Playで初回リリースを公開', en: 'First release is live on Google Play' },
-    body: {
-      ja: 'ノコリカの初回リリースを公開しました。営業日の確認から予定・タスクの管理まで、Google Playから無料でご利用いただけます。',
-      en: 'The first release of Nokorika is now live. Check your workdays and manage events and tasks — free on Google Play.',
-    },
-    storeLink: true,
-  },
-  {
-    date: '2026.09.20',
-    title: { ja: 'Google Playへ審査を申請', en: 'Submitted to Google Play for review.' },
-    body: {
-      ja: 'クローズドテストが終了し、公開に向けてGoogle Playにアプリを提出。',
-      en: 'Closed testing is complete. Now submitting the app to Google Play for public release.',
-    },
-  },
-  {
-    date: '2026.06.28',
-    title: { ja: 'ダークモードに対応しました', en: 'Added dark mode' },
-    body: {
-      ja: '夜にカレンダーを開くことが多かったので、目に優しい配色を追加しました。設定からいつでも切り替えられます。',
-      en: 'Since I often check my calendar at night, I added an easier-on-the-eyes color scheme. Switch it anytime from settings.',
-    },
-  },
-  {
-    date: '2026.06.10',
-    title: { ja: 'タグ別のカウントダウン機能を追加', en: 'Added tag-based countdown' },
-    body: {
-      ja: '「銀行」「役所」のように用途別にタグを付けて、期限日までの残り日数を一目で確認できるようにしました。',
-      en: 'You can now tag events (like “Bank” or “City hall”) and see the days remaining until each deadline at a glance.',
-    },
-  },
-  {
-    date: '2026.05.22',
-    title: { ja: '週間バーティカルタイムラインを実装', en: 'Built the weekly vertical timeline' },
-    body: {
-      ja: '1日の予定を時間軸で見たいという自分自身の要望から、週表示に縦のタイムラインを追加しました。',
-      en: 'Added a vertical timeline to the week view — something I personally wanted for seeing a day\u2019s schedule by time.',
-    },
-  },
-];
 ---
-<Layout title="Nokorika Studio | カレンダーアプリ開発" titleEn="Nokorika Studio | Calendar App Development">
+<Layout
+  title="Nokorika Studio | スマートフォンアプリ開発"
+  titleEn="Nokorika Studio | Smartphone App Development"
+  description="Nokorika Studio はスマートフォン向けアプリの企画・開発を行う事業者です。カレンダーアプリ Nokorika、騒音計測アプリ KoeCare などを手がけています。"
+  descriptionEn="Nokorika Studio plans and develops smartphone apps, including the calendar app Nokorika and the noise meter KoeCare."
+>
   <Header slot="header" />
 
   <!-- ===================== Hero ===================== -->
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy" data-reveal>
-        <span class="date-stamp mono">
-          <Bi ja="CALENDAR APP" en="CALENDAR APP" />
+    <div class="wrap hero-copy" data-reveal>
+      <span class="date-stamp mono">NOKORIKA STUDIO</span>
+      <h1 class="brand-hero">Nokorika Studio</h1>
+      <p class="lead">
+        <span class="i18n" data-lang="ja">
+          スマートフォン向けアプリの企画・開発を行っています。日々の生活に寄り添う小さなツールを、こつこつ作っています。
         </span>
-        <h1>
-          <span class="i18n" data-lang="ja">予定を、<em class="accent-word">めくるように</em><br />管理するアプリを作っています。</span>
-          <span class="i18n" data-lang="en">A calendar app that lets you<br />manage your days, <em class="accent-word">page by page.</em></span>
-        </h1>
-        <p class="lead">
-          <span class="i18n" data-lang="ja">
-            Nokorika Studioは、スマートフォン向けカレンダーアプリ
-            <strong>Nokorika</strong>
-            を開発している事業者です。日々の予定をシンプルに、迷わず扱えることを目指しています。
-          </span>
-          <span class="i18n" data-lang="en">
-            Nokorika Studio is developing
-            <strong>Nokorika</strong>,
-            a calendar app for smartphones. We aim to make everyday planning simple and effortless.
-          </span>
-        </p>
-        <div class="hero-cta">
-          <span class="tag">
-            <Bi ja={releaseStatus.ja} en={releaseStatus.en} />
-          </span>
-          {releaseStatus.storeUrl && (
-            <a class="store-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
-              <Bi ja="Google Play で入手" en="Get it on Google Play" />
-            </a>
-          )}
-          <span id="days-counter" class="days-counter mono" data-start={releaseStatus.developmentStartDate}></span>
-        </div>
+        <span class="i18n" data-lang="en">
+          We plan and build smartphone apps — small, everyday tools made carefully, one update at a time.
+        </span>
+      </p>
+      <div class="hero-cta">
+        <a class="cta-link" href="#apps">
+          <Bi ja="アプリを見る" en="See our apps" />
+        </a>
       </div>
+    </div>
+  </section>
 
-      <div class="hero-calendar hover-lift" data-tilt data-reveal aria-hidden="true">
-        <div class="cal-head mono">2026 / 07</div>
-        <div class="cal-weekdays">
-          {weekdaysJa.map((w, i) => (
-            <span>
-              <span class="i18n" data-lang="ja">{w}</span><span class="i18n" data-lang="en">{weekdaysEn[i]}</span>
-            </span>
-          ))}
-        </div>
-        <div class="cal-grid">
-          {days.map(({ dayNumber, isVisible }) => (
-            <span class="cal-cell mono" data-day={isVisible ? dayNumber : undefined}>
-              {isVisible ? dayNumber : ''}
-            </span>
-          ))}
-        </div>
-      </div>
+  <!-- ===================== Apps ===================== -->
+  <section id="apps">
+    <span class="section-number mono">01</span>
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="アプリ" en="Apps" /></p>
+      <h2 data-reveal>
+        <Bi ja="つくっているアプリ" en="What we’re building" />
+      </h2>
+      <p class="body-text apps-lead" data-reveal>
+        <Bi
+          ja="公開中のプロダクトと、いま開発中のものを紹介します。"
+          en="Our live products and the ones still in development."
+        />
+      </p>
+
+      <ul class="app-list" data-reveal="stagger">
+        {apps.map((app) => (
+          <li>
+            <a class="app-row" href={app.href}>
+              <div class="app-meta">
+                <span class="app-category mono">
+                  <Bi ja={app.category.ja} en={app.category.en} />
+                </span>
+                <h3>
+                  {app.name}
+                  {app.nameJa !== app.name && (
+                    <span class="app-name-ja i18n" data-lang="ja">（{app.nameJa}）</span>
+                  )}
+                </h3>
+                <p><Bi ja={app.summary.ja} en={app.summary.en} /></p>
+              </div>
+              <div class="app-side">
+                <span class="tag">
+                  <Bi ja={app.status.ja} en={app.status.en} />
+                </span>
+                <span class="app-arrow mono" aria-hidden="true">→</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
   <!-- ===================== About ===================== -->
   <section id="about">
-    <span class="section-number mono">01</span>
+    <span class="section-number mono">02</span>
     <div class="wrap about-grid">
       <div data-reveal>
         <p class="eyebrow"><Bi ja="事業概要" en="About Us" /></p>
-        <h2><Bi ja="カレンダーという、誰もが毎日開く場所を作る。" en="Building the place people open every single day." /></h2>
+        <h2><Bi ja="毎日使うアプリを、一人で作る。" en="Building everyday apps, solo." /></h2>
         <p class="body-text">
           <Bi
-            ja="私たちは「予定を確認する」という日常的な行為を、もっと軽く、もっと自然なものにしたいと考え、スマートフォン向けのカレンダーアプリを開発しています。最初のバージョンは Google Play で公開しています。"
-            en="We're building a smartphone calendar app to make the everyday act of checking your schedule feel lighter and more natural. The first version is now available on Google Play."
+            ja="私たちは、スマートフォン向けアプリケーションの企画・開発を行う事業者です。カレンダーアプリ Nokorika を Google Play で公開し、新たに騒音計測アプリ KoeCare の開発も進めています。"
+            en="We’re a studio that plans and develops smartphone apps. Nokorika, our calendar app, is live on Google Play, and we’re also building KoeCare, a noise meter."
           />
         </p>
         <p class="signature">
@@ -261,219 +125,113 @@ const devLog = [
     </div>
   </section>
 
-  <!-- ===================== Product ===================== -->
-  <section id="product">
-    <span class="section-number mono">02</span>
-    <div class="wrap">
-      <p class="eyebrow"><Bi ja="サービス・プロダクト紹介" en="Product" /></p>
-      <h2 data-reveal>
-        <span class="i18n" data-lang="ja">Nokorika(ノコリカ) — <em class="accent-word">シンプルな</em>カレンダーアプリ</span>
-        <span class="i18n" data-lang="en">Nokorika — <em class="accent-word">a simple</em> calendar app</span>
-      </h2>
-      <p class="body-text product-lead" data-reveal>
-        <Bi
-          ja="月表示・週表示を切り替えながら予定を確認できる、スマートフォン向けのカレンダーアプリです。Google Play で無料公開しています。"
-          en="A smartphone calendar app that lets you check your schedule in month or week view. It's free on Google Play."
-        />
-      </p>
-
-      <ul class="feature-grid" data-reveal="stagger">
-        {features.map((f) => (
-          <li class="hover-lift">
-            <span class="mono cell-num">{f.num}</span>
-            <h3><Bi ja={f.title.ja} en={f.title.en} /></h3>
-            <p><Bi ja={f.body.ja} en={f.body.en} /></p>
-          </li>
-        ))}
-      </ul>
-
-      {releaseStatus.storeUrl && (
-        <p class="product-store" data-reveal>
-          <a class="store-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
-            <Bi ja="Google Play で入手" en="Get it on Google Play" />
-          </a>
-        </p>
-      )}
-
-      <p class="product-note">
-        <Bi
-          ja="※ 基本機能は無料です。掲載内容はアップデートに応じて更新される場合があります。"
-          en="※ Core features are free. Details on this page may be updated as the app evolves."
-        />
-      </p>
-    </div>
-  </section>
-
-  <!-- ===================== Screenshots ===================== -->
-  <section id="screenshots">
-    <span class="section-number mono">03</span>
-    <div class="wrap">
-      <p class="eyebrow"><Bi ja="アプリ画面" en="Screenshots" /></p>
-      <h2 data-reveal>
-        <Bi ja="実際の画面をのぞいてみる" en="A look inside the app" />
-      </h2>
-      <p class="body-text product-lead" data-reveal>
-        <Bi
-          ja="アプリの実機スクリーンショットです。横にスクロールしてご覧いただけます。"
-          en="Screenshots from the app. Swipe or scroll sideways to browse."
-        />
-      </p>
-
-      <div class="rail" data-screenshot-rail data-reveal="stagger">
-        {screenshots.map((s) => (
-          <figure class="rail-card" data-rail-card>
-            <span class="pin" aria-hidden="true"></span>
-            <div class="rail-frame" data-tilt>
-              <img src={s.src} alt={s.title.ja} loading="lazy" />
-            </div>
-            <figcaption class="rail-caption">
-              <strong><Bi ja={s.title.ja} en={s.title.en} /></strong>
-              <Bi ja={s.caption.ja} en={s.caption.en} />
-            </figcaption>
-          </figure>
-        ))}
-      </div>
-
-      <div class="rail-dots">
-        {screenshots.map((_, i) => (
-          <button type="button" data-rail-dot class={i === 0 ? 'is-active' : ''} aria-label={`screenshot ${i + 1}`}></button>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== Dev Log ===================== -->
-  <section id="devlog">
-    <span class="section-number mono">04</span>
-    <div class="wrap">
-      <p class="eyebrow"><Bi ja="開発ログ" en="Dev Log" /></p>
-      <h2 data-reveal>
-        <Bi ja="個人で、こつこつ作っています。" en="Built solo, one small update at a time." />
-      </h2>
-      <p class="body-text product-lead" data-reveal>
-        <Bi
-          ja="個人開発ならではのスピード感で、機能追加や改善を重ねています。最近のアップデートをいくつかご紹介します。"
-          en="As a solo developer, I can move quickly on new features and fixes. Here are a few recent updates."
-        />
-      </p>
-
-      <ul class="devlog-list" data-reveal="stagger">
-        {devLog.map((entry) => (
-          <li class="devlog-item">
-            <span class="devlog-date mono">{entry.date}</span>
-            <p class="devlog-title"><Bi ja={entry.title.ja} en={entry.title.en} /></p>
-            <p class="devlog-body"><Bi ja={entry.body.ja} en={entry.body.en} /></p>
-            {entry.storeLink && releaseStatus.storeUrl && (
-              <a class="devlog-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
-                <Bi ja="Google Play のアプリページを見る" en="Open the Google Play listing" />
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
   <Footer slot="footer" />
 
   <style>
-    /* ---------- Hero ---------- */
     .hero {
       padding-top: clamp(56px, 9vw, 96px);
+      padding-bottom: clamp(24px, 4vw, 48px);
     }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: clamp(32px, 6vw, 72px);
-      align-items: center;
-    }
-    .hero-copy h1 {
-      font-size: clamp(1.9rem, 4vw, 2.7rem);
+    .brand-hero {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
       margin: 18px 0 20px;
-    }
-    .hero-copy .accent-word {
-      font-size: 1.08em;
+      letter-spacing: -0.02em;
     }
     .lead {
       color: var(--ink-soft);
       font-size: 1.02rem;
-      max-width: 46ch;
-    }
-    .lead strong {
-      color: var(--ink);
+      max-width: 42ch;
     }
     .hero-cta {
-      margin-top: 24px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
+      margin-top: 28px;
     }
-    .store-link {
+    .cta-link {
       display: inline-flex;
       align-items: center;
-      padding: 8px 14px;
+      padding: 10px 18px;
       border-radius: 999px;
       background: var(--accent);
       color: var(--accent-ink);
       text-decoration: none;
       font-family: var(--font-display);
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: 0.92rem;
     }
-    .store-link:hover {
+    .cta-link:hover {
       filter: brightness(1.08);
     }
-    .product-store {
-      margin-top: 28px;
+
+    #apps > .wrap {
+      position: relative;
+      z-index: 1;
+    }
+    #apps h2 {
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+      margin: 10px 0 16px;
+    }
+    .apps-lead {
+      margin-bottom: 36px;
+    }
+    .body-text {
+      color: var(--ink-soft);
+      max-width: 52ch;
     }
 
-    .hero-calendar {
-      background: var(--paper-raised);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 20px;
+    .app-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
     }
-    .cal-head {
-      font-size: 0.82rem;
-      color: var(--ink-soft);
-      margin-bottom: 14px;
+    .app-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: inherit;
+      transition: background-color 0.15s ease;
     }
-    .cal-weekdays {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
+    .app-row:hover {
+      background: color-mix(in srgb, var(--paper-raised) 70%, transparent);
+    }
+    .app-category {
+      display: block;
       font-size: 0.72rem;
       color: var(--ink-soft);
-      margin-bottom: 6px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
-    .cal-weekdays span {
-      text-align: center;
-      padding: 4px 0;
+    .app-meta h3 {
+      font-size: 1.25rem;
+      margin: 0 0 10px;
     }
-    .cal-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      grid-auto-rows: 1fr;
-      gap: 4px;
-    }
-    .cal-cell {
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      font-size: 0.78rem;
+    .app-name-ja {
+      font-weight: 500;
+      font-size: 0.9em;
       color: var(--ink-soft);
-      border-radius: 6px;
     }
-    .cal-cell[data-day]:not(:empty) {
-      color: var(--ink);
+    .app-meta p {
+      margin: 0;
+      color: var(--ink-soft);
+      max-width: 48ch;
+      font-size: 0.95rem;
     }
-    .cal-cell.is-today {
-      background: var(--accent);
-      color: var(--accent-ink);
-      font-weight: 600;
+    .app-side {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+    .app-arrow {
+      color: var(--accent);
+      font-size: 1.1rem;
     }
 
-    /* ---------- About ---------- */
     .about-grid {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
@@ -485,10 +243,6 @@ const devLog = [
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
       margin: 10px 0 16px;
       max-width: 22ch;
-    }
-    .body-text {
-      color: var(--ink-soft);
-      max-width: 52ch;
     }
     .signature {
       margin-top: 18px;
@@ -516,96 +270,18 @@ const devLog = [
       text-decoration: underline;
     }
 
-    /* ---------- Product ---------- */
-    #product > .wrap {
-      position: relative;
-      z-index: 1;
-    }
-    #product h2 {
-      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
-      margin: 10px 0 16px;
-    }
-    .product-lead {
-      margin-bottom: 36px;
-    }
-    .feature-grid {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
-    }
-    .feature-grid li {
-      background: var(--paper);
-      padding: 28px;
-    }
-    .cell-num {
-      display: block;
-      color: var(--ink-soft);
-      font-size: 0.78rem;
-      margin-bottom: 10px;
-    }
-    .feature-grid h3 {
-      font-size: 1.05rem;
-      margin-bottom: 8px;
-    }
-    .feature-grid p {
-      color: var(--ink-soft);
-      font-size: 0.92rem;
-    }
-    .product-note {
-      margin-top: 24px;
-      font-size: 0.82rem;
-      color: var(--ink-soft);
-    }
-
-    /* ---------- Screenshots ---------- */
-    #screenshots > .wrap {
-      position: relative;
-      z-index: 1;
-    }
-    #screenshots h2 {
-      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
-      margin: 10px 0 16px;
-    }
-    #screenshots .rail-dots {
-      justify-content: center;
-    }
-
-    /* ---------- Dev Log ---------- */
-    #devlog > .wrap {
-      position: relative;
-      z-index: 1;
-    }
-    #devlog h2 {
-      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
-      margin: 10px 0 16px;
-    }
-    .devlog-link {
-      display: inline-block;
-      margin-top: 12px;
-      color: var(--accent);
-      font-size: 0.88rem;
-    }
-
     @media (max-width: 760px) {
-      .hero-grid,
       .about-grid {
         grid-template-columns: 1fr;
       }
-      .feature-grid {
-        grid-template-columns: 1fr;
+      .app-row {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .app-side {
+        width: 100%;
+        justify-content: space-between;
       }
     }
   </style>
-
-  <script>
-    // 「今日」のセルにアクセントカラーを付与する（実際の日付に追従）
-    const today = new Date().getDate();
-    const cell = document.querySelector(`.cal-cell[data-day="${today}"]`);
-    cell?.classList.add('is-today');
-  </script>
 </Layout>
