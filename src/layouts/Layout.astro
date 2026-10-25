@@ -15,10 +15,11 @@ const {
   descriptionEn = 'Nokorika Studio plans and develops smartphone applications.',
 } = Astro.props;
 
-// Search Console で選ばれている正規URLに合わせ、末尾スラッシュはトップ以外つけない
+// Cloudflare Pages の実配信（末尾スラッシュ付き）に合わせて canonical を揃える
 const siteOrigin = Astro.site?.origin ?? 'https://nokorikastudio.com';
-const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
-const canonicalURL = path === '/' ? `${siteOrigin}/` : `${siteOrigin}${path}`;
+const rawPath = Astro.url.pathname || '/';
+const withSlash = rawPath.endsWith('/') ? rawPath : `${rawPath}/`;
+const canonicalURL = `${siteOrigin}${withSlash === '//' ? '/' : withSlash}`;
 ---
 <!doctype html>
 <html lang="ja" data-theme="light" data-lang="ja">

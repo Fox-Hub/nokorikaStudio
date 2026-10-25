@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config';
 // SSR/Functions が不要な間は output: 'static'（デフォルト）のままでOK。
 export default defineConfig({
   site: 'https://nokorikastudio.com',
-  // Search Console で登録済みのURL（末尾スラッシュなし）に揃える
-  trailingSlash: 'never',
+  // Cloudflare Pages はディレクトリを末尾スラッシュ付きで配信するため揃える
+  trailingSlash: 'always',
   output: 'static',
 });
