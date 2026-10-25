@@ -40,8 +40,8 @@ const draftShots = [
 <Layout
   title="KoeCare | 騒音計測アプリ｜Nokorika Studio"
   titleEn="KoeCare | Noise Meter｜Nokorika Studio"
-  description="騒音計測アプリ KoeCare の紹介ページです。現在開発中です。"
-  descriptionEn="KoeCare is a noise meter app by Nokorika Studio, currently in development."
+  description="騒音計測アプリ KoeCare の紹介ページです。2026年10月26日からクローズドテストを開始します。"
+  descriptionEn="KoeCare is a noise meter app by Nokorika Studio. Closed testing starts October 26, 2026."
 >
   <Header slot="header" />
 
@@ -57,11 +57,11 @@ const draftShots = [
       <p class="lead">
         <span class="i18n" data-lang="ja">
           <strong>KoeCare</strong>
-          は、生活のなかの騒音レベルを計測し、把握しやすくするためのスマートフォン向けアプリです。現在、開発を進めています。
+          は、生活のなかの騒音レベルを計測し、把握しやすくするためのスマートフォン向けアプリです。
         </span>
         <span class="i18n" data-lang="en">
           <strong>KoeCare</strong>
-          is a smartphone app for measuring and understanding everyday noise levels. It’s currently in development.
+          is a smartphone app for measuring and understanding everyday noise levels.
         </span>
       </p>
       <div class="hero-cta">
@@ -72,8 +72,27 @@ const draftShots = [
     </div>
   </section>
 
-  <section id="overview">
+  <section id="news">
     <span class="section-number mono">01</span>
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="お知らせ" en="News" /></p>
+      <h2 data-reveal>
+        <Bi ja="クローズドテストを開始します" en="Closed testing is about to begin" />
+      </h2>
+      <article class="news-card" data-reveal>
+        <time class="news-date mono" datetime="2026-10-26">2026.10.26</time>
+        <p class="news-body">
+          <Bi
+            ja="2026年10月26日（月）より、Google Play でのクローズドテストを開始します。テスターの方にはテスト参加のご案内をお送りします。フィードバックをもとに改善を進め、公開に向けて仕上げていきます。"
+            en="Closed testing on Google Play starts Monday, October 26, 2026. Testers will receive an invite to join. We’ll use your feedback to polish the app toward a public release."
+          />
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="overview">
+    <span class="section-number mono">02</span>
     <div class="wrap">
       <p class="eyebrow"><Bi ja="概要" en="Overview" /></p>
       <h2 data-reveal>
@@ -81,15 +100,15 @@ const draftShots = [
       </h2>
       <p class="body-text" data-reveal>
         <Bi
-          ja="周囲の音量を数値で確認できる騒音計測アプリとして開発しています。まずは計測と見やすさに集中し、公開に向けて機能を整えていきます。詳細な機能や公開時期は決まり次第、このページでお知らせします。"
-          en="We’re building a noise meter that shows ambient sound levels as clear numbers. We’re focusing first on measurement and readability, then preparing for release. Features and launch timing will be posted here as they firm up."
+          ja="周囲の音量を数値で確認できる騒音計測アプリとして開発しています。まずは計測と見やすさに集中し、クローズドテストでのフィードバックを反映しながら公開に向けて整えていきます。"
+          en="We’re building a noise meter that shows ambient sound levels as clear numbers. We’re focusing on measurement and readability, and refining toward release with feedback from closed testing."
         />
       </p>
     </div>
   </section>
 
   <section id="drafts">
-    <span class="section-number mono">02</span>
+    <span class="section-number mono">03</span>
     <div class="wrap">
       <p class="eyebrow"><Bi ja="画面草案" en="Draft screens" /></p>
       <h2 data-reveal>
@@ -156,15 +175,36 @@ const draftShots = [
       color: var(--ink-soft);
       max-width: 52ch;
     }
+    #news > .wrap,
     #overview > .wrap,
     #drafts > .wrap {
       position: relative;
       z-index: 1;
     }
+    #news h2,
     #overview h2,
     #drafts h2 {
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
       margin: 10px 0 16px;
+    }
+    .news-card {
+      margin-top: 8px;
+      padding: 22px 24px;
+      max-width: 56ch;
+      background: var(--paper-raised);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+    }
+    .news-date {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .news-body {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.98rem;
     }
     .product-lead {
       margin-bottom: 36px;

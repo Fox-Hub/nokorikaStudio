@@ -28,13 +28,13 @@ export const apps = [
     nameJa: 'KoeCare',
     category: { ja: '騒音計測', en: 'Noise meter' },
     summary: {
-      ja: '身のまわりの音を計測し、わかりやすく把握するための騒音計測アプリ。現在開発中です。',
-      en: 'A noise meter app that helps you measure and understand everyday sound levels. Currently in development.',
+      ja: '身のまわりの音を計測し、わかりやすく把握するための騒音計測アプリ。10月26日からクローズドテストを開始します。',
+      en: 'A noise meter app that helps you measure and understand everyday sound levels. Closed testing starts October 26.',
     },
     status: {
-      stage: 'development',
-      ja: '開発中',
-      en: 'In development',
+      stage: 'pre_release',
+      ja: 'クローズドテスト開始予定（10/26〜）',
+      en: 'Closed testing from Oct 26',
       storeUrl: null,
     },
   },
