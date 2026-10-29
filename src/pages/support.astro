@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import Bi from '../components/Bi.astro';
 import { releaseStatus } from '../data/status.js';
 
+const supportEmail = 'contact@nokorikastudio.com';
+
 const faqs = [
   {
     q: { ja: 'アプリはどこで入手できますか？', en: 'Where can I get the app?' },
@@ -31,9 +33,10 @@ const faqs = [
   {
     q: { ja: '不具合を見つけました。どこに報告すればいいですか？', en: 'I found a bug — where do I report it?' },
     a: {
-      ja: 'アプリのご利用中に動かなくなったり、表示が崩れたりする不具合を発見された場合は、大変お手数ですが、以下のサポート窓口（メールアドレス）までご連絡ください。発生状況（端末の種類・OSバージョン・操作手順）を添えていただけるとスムーズです。',
-      en: "If you encounter any bugs, crashes, or display issues while using the app, we apologize for the inconvenience and kindly ask you to contact our support desk at the following email. It helps if you include details like your device type, OS version, and the steps that led to the issue.",
+      ja: 'アプリのご利用中に動かなくなったり、表示が崩れたりする不具合を発見された場合は、大変お手数ですがサポート窓口までご連絡ください。発生状況（端末の種類・OSバージョン・操作手順）を添えていただけるとスムーズです。',
+      en: 'If you encounter bugs, crashes, or display issues, please contact support. Including your device type, OS version, and the steps that led to the issue helps us respond faster.',
     },
+    mailto: supportEmail,
   },
   {
     q: { ja: '予定データはどこに保存されますか？バックアップはできますか？', en: 'Where is my event data stored? Can I back it up?' },
@@ -45,9 +48,10 @@ const faqs = [
   {
     q: { ja: '要望や機能追加のリクエストは受け付けていますか？', en: 'Can I request a new feature?' },
     a: {
-      ja: 'はい、大歓迎です！「こんな機能が欲しい」「ここをもう少し改善してほしい」といったアイデアがございましたら、上記のサポート窓口メールアドレスまでお気軽にお寄せください。個人開発のフットワークの軽さを活かし、ユーザーの皆様にとって最高のスケジュール帳になるよう、今後のアップデートの参考にさせていただきます。',
-      en: "Yes, we absolutely welcome them! If you have any ideas like 'I wish there was a feature like this' or 'I want this part improved,' please feel free to drop us a line at our support email address above. As an independent developer, we love taking quick action on user feedback to create the best possible digital planner. Your suggestions will be highly valued for future updates!",
+      ja: 'はい、大歓迎です。「こんな機能が欲しい」「ここをもう少し改善してほしい」といったアイデアがあれば、サポート窓口までお気軽にお寄せください。今後のアップデートの参考にさせていただきます。',
+      en: 'Yes — feature ideas are welcome. Send suggestions to our support email and we’ll consider them for future updates.',
     },
+    mailto: supportEmail,
   },
 ];
 ---
@@ -62,13 +66,16 @@ const faqs = [
   <section class="support-intro">
     <div class="wrap intro-grid">
       <div data-reveal>
-        <p class="eyebrow">SUPPORT</p>
+        <p class="eyebrow"><Bi ja="サポート" en="Support" /></p>
         <h1><Bi ja="サポート / FAQ" en="Support / FAQ" /></h1>
         <p class="body-text">
           <Bi
-            ja="アプリのご利用に関するご質問・不具合のご報告は、以下のメールアドレスまでご連絡ください。よくいただくご質問はこのページにまとめています。"
-            en="For questions about using the app or to report a bug, please contact us at the email address below. Common questions are listed on this page."
+            ja="アプリのご利用・不具合・機能要望は、このページのFAQとサポート窓口をご利用ください。取材や事業に関するお問い合わせはお問い合わせページへどうぞ。"
+            en="For app usage, bugs, and feature requests, use this FAQ and the support email below. For press or business inquiries, please use the Contact page."
           />
+        </p>
+        <p class="route-note">
+          <a href="/contact/"><Bi ja="お問い合わせページへ →" en="Go to Contact →" /></a>
         </p>
       </div>
       <div class="card hover-lift" data-reveal>
@@ -107,6 +114,12 @@ const faqs = [
                     </a>
                   </>
                 )}
+                {item.mailto && (
+                  <>
+                    {' '}
+                    <a href={`mailto:${item.mailto}`}>{item.mailto}</a>
+                  </>
+                )}
               </span>
             </p>
           </li>
@@ -134,6 +147,14 @@ const faqs = [
     .body-text {
       color: var(--ink-soft);
       max-width: 46ch;
+    }
+    .route-note {
+      margin-top: 14px;
+      font-size: 0.92rem;
+    }
+    .route-note a {
+      color: var(--ink);
+      text-underline-offset: 3px;
     }
     .card {
       background: var(--paper-raised);

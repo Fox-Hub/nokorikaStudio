@@ -6,7 +6,7 @@ import { releaseStatus as nokorikaStatus } from './status.js';
 export const apps = [
   {
     id: 'nokorika',
-    href: '/apps/nokorika',
+    href: '/apps/nokorika/',
     name: 'Nokorika',
     nameJa: 'ノコリカ',
     category: { ja: 'カレンダー', en: 'Calendar' },
@@ -23,7 +23,7 @@ export const apps = [
   },
   {
     id: 'koecare',
-    href: '/apps/koecare',
+    href: '/apps/koecare/',
     name: 'KoeCare',
     nameJa: 'KoeCare',
     category: { ja: '騒音計測', en: 'Noise meter' },

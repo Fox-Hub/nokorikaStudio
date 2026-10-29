@@ -16,17 +16,29 @@ const days = Array.from({ length: 35 }, (_, i) => {
   return { dayNumber, isVisible };
 });
 
+const now = new Date();
+const calYear = now.getFullYear();
+const calMonth = String(now.getMonth() + 1).padStart(2, '0');
+
 const features = [
   {
     num: '01',
-    title: { ja: '月・週の切り替え表示', en: 'Month / week views' },
+    title: { ja: '営業日をひと目で', en: 'Workdays at a glance' },
     body: {
-      ja: '見たい粒度に合わせて、月表示と週表示をすぐに切り替えられます。',
-      en: 'Switch instantly between month and week views to match how much detail you need.',
+      ja: 'カレンダー上で営業日を確認しながら、予定とタスクをまとめて管理できます。',
+      en: 'Check workdays on the calendar while managing events and tasks in one place.',
     },
   },
   {
     num: '02',
+    title: { ja: '週間バーティカル表示', en: 'Weekly vertical view' },
+    body: {
+      ja: '時間軸の週表示で、一日の予定から一週間の流れまで把握しやすくしています。',
+      en: 'A time-based week view makes it easy to see a day—or the whole week—at once.',
+    },
+  },
+  {
+    num: '03',
     title: { ja: 'シンプルな予定登録', en: 'Quick event entry' },
     body: {
       ja: 'タイトルと日時を入力するだけで、すぐに予定を登録できます。',
@@ -34,19 +46,11 @@ const features = [
     },
   },
   {
-    num: '03',
+    num: '04',
     title: { ja: 'リマインダー通知', en: 'Reminders' },
     body: {
       ja: '予定の前に通知を受け取り、確認漏れを防ぎます。',
       en: 'Get notified before an event so nothing slips through.',
-    },
-  },
-  {
-    num: '04',
-    title: { ja: '軽快な動作', en: 'Fast and light' },
-    body: {
-      ja: '毎日開くものだからこそ、起動と操作の軽さにこだわっています。',
-      en: "Since it's something you open every day, we care a lot about speed.",
     },
   },
 ];
@@ -56,8 +60,8 @@ const screenshots = [
     src: '/images/アプリ紹介1.jpg',
     title: { ja: 'ホーム', en: 'Home' },
     caption: {
-      ja: '残りの営業日数と最終営業日をひと目で確認できます。',
-      en: 'See the number of remaining business days and the last one at a glance.',
+      ja: '営業日と予定をまとめて確認できるホーム画面です。',
+      en: 'Home screen for checking workdays and your schedule together.',
     },
   },
   {
@@ -65,15 +69,15 @@ const screenshots = [
     title: { ja: 'タグ別カウントダウン', en: 'Tag countdown' },
     caption: {
       ja: '「銀行」などタグごとに期限日までの残り日数を表示します。',
-      en: 'Shows days remaining until a deadline, grouped by tag (e.g. “Bank”).',
+      en: 'See days remaining until a deadline, grouped by tag (e.g. “Bank”).',
     },
   },
   {
     src: '/images/アプリ紹介4.jpg',
-    title: { ja: '週表示', en: 'Week view' },
+    title: { ja: '週間バーティカル', en: 'Weekly vertical' },
     caption: {
       ja: '時間軸で予定を確認できる週表示。打ち合わせもひと目で把握。',
-      en: 'A time-based week view — see meetings and tasks at a glance.',
+      en: 'A vertical week timeline — meetings and tasks at a glance.',
     },
   },
   {
@@ -82,30 +86,6 @@ const screenshots = [
     caption: {
       ja: 'テーマカラーやダークモード、データのバックアップまで設定できます。',
       en: 'Customize theme colors, dark mode, and back up your data.',
-    },
-  },
-  {
-    src: '/images/screenshot-home.png',
-    title: { ja: 'アプリスクリーンショット', en: 'Settings' },
-    caption: {
-      ja: 'アプリスクリーンショットです。※開発中の画面になります。実際には異なる可能性があります。',
-      en: 'Screenshot of the app (In development; actual UI may vary.)',
-    },
-  },
-  {
-    src: '/images/screenshot-settings.png',
-    title: { ja: 'アプリスクリーンショット', en: 'Settings' },
-    caption: {
-      ja: 'アプリスクリーンショットです。※開発中の画面になります。実際には異なる可能性があります。',
-      en: 'Screenshot of the app (In development; actual UI may vary.)',
-    },
-  },
-  {
-    src: '/images/screenshot-tag.png',
-    title: { ja: 'アプリスクリーンショット', en: 'Settings' },
-    caption: {
-      ja: 'アプリスクリーンショットです。※開発中の画面になります。実際には異なる可能性があります。',
-      en: 'Screenshot of the app (In development; actual UI may vary.)',
     },
   },
 ];
@@ -193,12 +173,14 @@ const devLog = [
               <Bi ja="Google Play で入手" en="Get it on Google Play" />
             </a>
           )}
-          <span id="days-counter" class="days-counter mono" data-start={releaseStatus.developmentStartDate}></span>
+          <a class="tool-link" href="/tools/business-days/">
+            <Bi ja="営業日を計算する" en="Calculate business days" />
+          </a>
         </div>
       </div>
 
       <div class="hero-calendar hover-lift" data-tilt data-reveal aria-hidden="true">
-        <div class="cal-head mono">2026 / 07</div>
+        <div class="cal-head mono">{calYear} / {calMonth}</div>
         <div class="cal-weekdays">
           {weekdaysJa.map((w, i) => (
             <span>
@@ -280,7 +262,7 @@ const devLog = [
           <figure class="rail-card" data-rail-card>
             <span class="pin" aria-hidden="true"></span>
             <div class="rail-frame" data-tilt>
-              <img src={s.src} alt={s.title.ja} loading="lazy" />
+              <img src={s.src} alt={`${s.title.ja} / ${s.title.en}`} loading="lazy" />
             </div>
             <figcaption class="rail-caption">
               <strong><Bi ja={s.title.ja} en={s.title.en} /></strong>
@@ -291,8 +273,13 @@ const devLog = [
       </div>
 
       <div class="rail-dots">
-        {screenshots.map((_, i) => (
-          <button type="button" data-rail-dot class={i === 0 ? 'is-active' : ''} aria-label={`screenshot ${i + 1}`}></button>
+        {screenshots.map((s, i) => (
+          <button
+            type="button"
+            data-rail-dot
+            class={i === 0 ? 'is-active' : ''}
+            aria-label={`${s.title.ja} / ${s.title.en}`}
+          ></button>
         ))}
       </div>
     </div>
@@ -311,6 +298,9 @@ const devLog = [
           ja="個人開発ならではのスピード感で、機能追加や改善を重ねています。最近のアップデートをいくつかご紹介します。"
           en="As a solo developer, I can move quickly on new features and fixes. Here are a few recent updates."
         />
+      </p>
+      <p class="dev-meta mono" data-reveal>
+        <span id="days-counter" class="days-counter" data-start={releaseStatus.developmentStartDate}></span>
       </p>
 
       <ul class="devlog-list" data-reveal="stagger">
@@ -379,6 +369,27 @@ const devLog = [
     }
     .store-link:hover {
       filter: brightness(1.08);
+    }
+    .tool-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--paper-raised);
+      color: var(--ink);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .tool-link:hover {
+      border-color: var(--ink-soft);
+    }
+    .dev-meta {
+      margin: 0 0 28px;
+      color: var(--ink-soft);
+      font-size: 0.85rem;
     }
     .product-store {
       margin-top: 28px;

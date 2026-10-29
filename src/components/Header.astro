@@ -4,28 +4,59 @@ import ToggleBar from './ToggleBar.astro';
 
 const nav = [
   { href: '/#apps', ja: 'アプリ', en: 'Apps' },
+  { href: '/tools/business-days/', ja: '営業日計算', en: 'Business days' },
   { href: '/#about', ja: '事業概要', en: 'About' },
-  { href: '/contact', ja: 'お問い合わせ', en: 'Contact' },
+  { href: '/support/', ja: 'サポート', en: 'Support' },
+  { href: '/contact/', ja: 'お問い合わせ', en: 'Contact' },
 ];
 ---
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="/">
-      <span class="brand-mark mono">07</span>
+      <img
+        class="brand-mark"
+        src="/images/dev_icon.png"
+        width="36"
+        height="36"
+        alt="Nokorika Studio"
+        decoding="async"
+      />
       <span class="brand-name">
         <span class="brand-org">Nokorika Studio</span>
         <span class="brand-sub eyebrow"><Bi ja="アプリ開発" en="App Studio" /></span>
       </span>
     </a>
     <div class="right">
-      <nav class="nav">
+      <nav class="nav" aria-label="Primary">
         {nav.map((item) => (
           <a href={item.href}><Bi ja={item.ja} en={item.en} /></a>
         ))}
       </nav>
       <ToggleBar />
+      <button
+        type="button"
+        class="menu-toggle"
+        id="nav-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-label-open-ja="メニューを開く"
+        data-label-open-en="Open menu"
+        data-label-close-ja="メニューを閉じる"
+        data-label-close-en="Close menu"
+        aria-label="メニューを開く"
+      >
+        <span class="menu-toggle-bars" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
+
+  <nav class="mobile-nav" id="mobile-nav" hidden>
+    <div class="wrap mobile-nav-inner">
+      {nav.map((item) => (
+        <a class="mobile-nav-link" href={item.href}><Bi ja={item.ja} en={item.en} /></a>
+      ))}
+    </div>
+  </nav>
 </header>
 
 <style>
@@ -50,15 +81,12 @@ const nav = [
     color: var(--ink);
   }
   .brand-mark {
-    display: grid;
-    place-items: center;
+    display: block;
     width: 36px;
     height: 36px;
     border-radius: 8px;
-    background: var(--accent);
-    color: var(--accent-ink);
-    font-size: 0.85rem;
-    font-weight: 600;
+    object-fit: cover;
+    flex-shrink: 0;
   }
   .brand-name {
     display: flex;
@@ -76,11 +104,11 @@ const nav = [
   .right {
     display: flex;
     align-items: center;
-    gap: clamp(16px, 3vw, 32px);
+    gap: clamp(12px, 3vw, 32px);
   }
   .nav {
     display: flex;
-    gap: clamp(16px, 3vw, 32px);
+    gap: clamp(14px, 2.5vw, 28px);
     font-size: 0.92rem;
   }
   .nav a {
@@ -91,8 +119,84 @@ const nav = [
   .nav a:hover {
     color: var(--ink);
   }
+
+  .menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper-raised);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .menu-toggle-bars,
+  .menu-toggle-bars::before,
+  .menu-toggle-bars::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    position: relative;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .menu-toggle-bars::before,
+  .menu-toggle-bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  .menu-toggle-bars::before { top: -6px; }
+  .menu-toggle-bars::after { top: 6px; }
+  .menu-toggle[aria-expanded='true'] .menu-toggle-bars {
+    background: transparent;
+  }
+  .menu-toggle[aria-expanded='true'] .menu-toggle-bars::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+  .menu-toggle[aria-expanded='true'] .menu-toggle-bars::after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
+  .mobile-nav {
+    display: none;
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+    padding: 8px 0 16px;
+  }
+  .mobile-nav[hidden] {
+    display: none !important;
+  }
+  .mobile-nav-inner {
+    display: grid;
+    gap: 4px;
+  }
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 10px 4px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .mobile-nav-link:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 860px) {
+    .nav { display: none; }
+    .menu-toggle { display: inline-flex; }
+    .mobile-nav:not([hidden]) { display: block; }
+  }
   @media (max-width: 640px) {
     .brand-sub { display: none; }
-    .nav { display: none; }
   }
 </style>

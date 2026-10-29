@@ -1,0 +1,21 @@
+{
+  "name": "Nokorika Studio",
+  "short_name": "Nokorika",
+  "description": "Smartphone apps by Nokorika Studio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F6F1",
+  "theme_color": "#FF6B3D",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

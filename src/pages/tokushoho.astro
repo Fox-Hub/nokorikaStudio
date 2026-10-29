@@ -20,8 +20,8 @@ const items = [
   { ja: 'メールアドレス', en: 'Email', ja_v: 'contact@nokorikastudio.com', en_v: 'contact@nokorikastudio.com' },
   {
     ja: '販売価格', en: 'Price',
-    ja_v: '各アプリ内の商品ページに表示する価格（消費税込み）によります。',
-    en_v: 'As shown on the product page within the app (tax included).',
+    ja_v: '現在提供中のスマートフォンアプリ「ノコリカ」は無料です。アプリ内課金はありません。',
+    en_v: 'The smartphone app “Nokorika” currently offered is free. There are no in-app purchases.',
   },
   {
     ja: '商品代金以外の必要料金', en: 'Additional costs',
@@ -30,28 +30,28 @@ const items = [
   },
   {
     ja: 'お支払い方法', en: 'Payment methods',
-    ja_v: '各アプリストア（App Store / Google Play）が提供する決済方法によります。',
-    en_v: 'Payment methods provided by the App Store / Google Play.',
+    ja_v: '現状、有料販売・アプリ内課金はありません。将来有料機能を提供する場合は、Google Play が提供する決済方法によります。',
+    en_v: 'There are currently no paid sales or in-app purchases. If paid features are offered later, payment methods provided by Google Play will apply.',
   },
   {
     ja: 'お支払い時期', en: 'Payment timing',
-    ja_v: 'アプリ内での購入操作完了時に決済されます。',
-    en_v: 'Payment is processed when the in-app purchase is completed.',
+    ja_v: '現状、お支払いが発生する取引はありません。',
+    en_v: 'No payment is required for the current offering.',
   },
   {
     ja: '商品の引渡し時期', en: 'Delivery timing',
-    ja_v: '決済完了後、直ちにアプリ内で利用可能になります。',
-    en_v: 'Available in the app immediately after payment is completed.',
+    ja_v: 'Google Play からインストール完了後、直ちにご利用いただけます。',
+    en_v: 'Available immediately after installation from Google Play.',
   },
   {
     ja: '返品・キャンセルについて', en: 'Returns / cancellations',
-    ja_v: 'デジタルコンテンツの性質上、購入後の返品・返金には対応しておりません。決済に関するお問い合わせは各アプリストアの規定に従います。',
-    en_v: 'Due to the nature of digital content, we do not accept returns or refunds after purchase. Payment inquiries are handled according to the respective app store\u2019s policies.',
+    ja_v: '無料アプリのため返品の対象となる購入はありません。将来有料販売を行う場合の返金は、Google Play の規定に従います。',
+    en_v: 'As a free app, there are no purchases subject to return. If paid offerings are introduced later, refunds will follow Google Play policies.',
   },
   {
     ja: '動作環境', en: 'System requirements',
-    ja_v: 'Android 10.0 以降',
-    en_v: 'Android 10.0 or later',
+    ja_v: 'Android 10.0 以降（Google Play 経由）',
+    en_v: 'Android 10.0 or later (via Google Play)',
   },
 ];
 ---
@@ -65,12 +65,12 @@ const items = [
 
   <section class="legal">
     <div class="wrap">
-      <p class="eyebrow">LEGAL</p>
+      <p class="eyebrow"><Bi ja="特定商取引法" en="Legal" /></p>
       <h1><Bi ja="特定商取引法に基づく表記" en="Legal Notice" /></h1>
       <p class="lead">
         <Bi
-          ja="特定商取引法第11条に基づき、以下のとおり表記します。"
-          en="The following is disclosed in accordance with Article 11 of the Act on Specified Commercial Transactions of Japan."
+          ja="特定商取引法第11条に基づき、以下のとおり表記します。現在の主な提供内容は、Google Play で無料公開しているアプリ「ノコリカ」です。"
+          en="The following is disclosed in accordance with Article 11 of the Act on Specified Commercial Transactions of Japan. Our current primary offering is the free app “Nokorika” on Google Play."
         />
       </p>
 
@@ -98,6 +98,7 @@ const items = [
     .lead {
       color: var(--ink-soft);
       margin-bottom: 36px;
+      max-width: 62ch;
     }
     .legal-table {
       margin: 0;
@@ -116,15 +117,6 @@ const items = [
     }
     .legal-row dd {
       margin: 0;
-      line-height: 1.8;
-    }
-    .caution {
-      margin-top: 28px;
-      padding: 16px 18px;
-      background: var(--status-bg);
-      color: var(--status);
-      border-radius: 10px;
-      font-size: 0.85rem;
       line-height: 1.8;
     }
     @media (max-width: 640px) {

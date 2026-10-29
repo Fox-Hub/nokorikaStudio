@@ -4,6 +4,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Bi from '../components/Bi.astro';
 import { apps } from '../data/apps.js';
+import { socialLinks } from '../data/social.js';
+import { releaseStatus } from '../data/status.js';
 
 const facts = [
   { ja: '事業者名', en: 'Business name', ja_v: 'Nokorika Studio', en_v: 'Nokorika Studio' },
@@ -15,12 +17,52 @@ const facts = [
     en_v: 'Planning and development of smartphone applications',
   },
 ];
+
+const updates = [
+  {
+    date: '2026.10',
+    title: {
+      ja: '営業日計算ツールを公開',
+      en: 'Business day calculator is live',
+    },
+    body: {
+      ja: '土日祝を除いた営業日数や N 営業日後を、ブラウザですぐ計算できます。',
+      en: 'Count business days excluding weekends and holidays — right in your browser.',
+    },
+    href: '/tools/business-days/',
+  },
+  {
+    date: '2026.10',
+    title: {
+      ja: 'KoeCare のクローズドテストを開始',
+      en: 'KoeCare closed testing has started',
+    },
+    body: {
+      ja: '騒音計測アプリ KoeCare のテストを進めています。詳細はアプリページへ。',
+      en: 'Closed testing for our noise meter app is underway. See the app page for details.',
+    },
+    href: '/apps/koecare/',
+  },
+  {
+    date: '2026.09',
+    title: {
+      ja: 'ノコリカを Google Play で公開',
+      en: 'Nokorika is on Google Play',
+    },
+    body: {
+      ja: '営業日カレンダー＆週間バーティカルのノコリカを無料公開しています。',
+      en: 'Nokorika — workday calendar & weekly vertical view — is free on Google Play.',
+    },
+    href: releaseStatus.storeUrl || '/apps/nokorika/',
+    external: Boolean(releaseStatus.storeUrl),
+  },
+];
 ---
 <Layout
   title="Nokorika Studio | スマートフォンアプリ開発"
   titleEn="Nokorika Studio | Smartphone App Development"
-  description="Nokorika Studio はスマートフォン向けアプリの企画・開発を行う事業者です。カレンダーアプリ Nokorika、騒音計測アプリ KoeCare などを手がけています。"
-  descriptionEn="Nokorika Studio plans and develops smartphone apps, including the calendar app Nokorika and the noise meter KoeCare."
+  description="Nokorika Studio はスマートフォン向けアプリの企画・開発を行う事業者です。カレンダーアプリ Nokorika、騒音計測アプリ KoeCare、営業日計算ツールなどを手がけています。"
+  descriptionEn="Nokorika Studio plans and develops smartphone apps, including Nokorika, KoeCare, and a free business day calculator."
 >
   <Header slot="header" />
 
@@ -40,6 +82,9 @@ const facts = [
       <div class="hero-cta">
         <a class="cta-link" href="#apps">
           <Bi ja="アプリを見る" en="See our apps" />
+        </a>
+        <a class="cta-link cta-link-secondary" href="/tools/business-days/">
+          <Bi ja="営業日を計算する" en="Calculate business days" />
         </a>
       </div>
     </div>
@@ -89,9 +134,96 @@ const facts = [
     </div>
   </section>
 
+  <!-- ===================== Tools ===================== -->
+  <section id="tools">
+    <span class="section-number mono">02</span>
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="無料ツール" en="Free tools" /></p>
+      <h2 data-reveal>
+        <Bi ja="ブラウザですぐ使える。" en="Ready in your browser." />
+      </h2>
+      <p class="body-text apps-lead" data-reveal>
+        <Bi
+          ja="アプリを入れなくても試せる小さな道具も公開しています。"
+          en="Small utilities you can try without installing an app."
+        />
+      </p>
+
+      <a class="panel-link" href="/tools/business-days/" data-reveal>
+        <div class="panel-meta">
+          <span class="app-category mono"><Bi ja="営業日" en="Workdays" /></span>
+          <h3><Bi ja="営業日計算ツール" en="Business day calculator" /></h3>
+          <p>
+            <Bi
+              ja="土日祝日を除いた営業日数や、N営業日後の日付を無料で計算できます。"
+              en="Count business days excluding weekends and Japanese holidays, or find a date N business days later."
+            />
+          </p>
+        </div>
+        <span class="app-arrow mono" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== Updates / Social ===================== -->
+  <section id="updates">
+    <span class="section-number mono">03</span>
+    <div class="wrap updates-grid">
+      <div>
+        <p class="eyebrow"><Bi ja="いまの動き" en="Updates" /></p>
+        <h2 data-reveal>
+          <Bi ja="最近のトピック" en="Recent topics" />
+        </h2>
+        <ul class="update-list" data-reveal="stagger">
+          {updates.map((item) => (
+            <li>
+              <a
+                class="update-row"
+                href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noopener noreferrer' : undefined}
+              >
+                <span class="update-date mono">{item.date}</span>
+                <div>
+                  <h3><Bi ja={item.title.ja} en={item.title.en} /></h3>
+                  <p><Bi ja={item.body.ja} en={item.body.en} /></p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="social-block" data-reveal>
+        <p class="eyebrow"><Bi ja="発信" en="Elsewhere" /></p>
+        <h2><Bi ja="Note と X でも。" en="Also on note & X." /></h2>
+        <p class="body-text social-lead">
+          <Bi
+            ja="開発の途中経過や短いお知らせは、こちらでも発信しています。"
+            en="We share progress notes and short updates there as well."
+          />
+        </p>
+        <ul class="social-list">
+          {socialLinks.map((s) => (
+            <li>
+              <a class="social-row" href={s.href} target="_blank" rel="noopener noreferrer">
+                <div>
+                  <span class="social-label mono"><Bi ja={s.label.ja} en={s.label.en} /></span>
+                  <strong><Bi ja={s.handle.ja} en={s.handle.en} /></strong>
+                  <p><Bi ja={s.summary.ja} en={s.summary.en} /></p>
+                </div>
+                <span class="app-arrow mono" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== About ===================== -->
   <section id="about">
-    <span class="section-number mono">02</span>
+    <span class="section-number mono">04</span>
     <div class="wrap about-grid">
       <div data-reveal>
         <p class="eyebrow"><Bi ja="事業概要" en="About Us" /></p>
@@ -116,7 +248,7 @@ const facts = [
         <div class="fact-row">
           <dt class="mono"><Bi ja="連絡先" en="Contact" /></dt>
           <dd>
-            <a href="/contact">
+            <a href="/contact/">
               <Bi ja="お問い合わせページへ" en="Go to contact page" />
             </a>
           </dd>
@@ -144,10 +276,14 @@ const facts = [
     }
     .hero-cta {
       margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
     }
     .cta-link {
       display: inline-flex;
       align-items: center;
+      min-height: 44px;
       padding: 10px 18px;
       border-radius: 999px;
       background: var(--accent);
@@ -160,16 +296,31 @@ const facts = [
     .cta-link:hover {
       filter: brightness(1.08);
     }
+    .cta-link-secondary {
+      background: var(--paper-raised);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .cta-link-secondary:hover {
+      filter: none;
+      border-color: var(--ink-soft);
+    }
 
-    #apps > .wrap {
+    #apps > .wrap,
+    #tools > .wrap,
+    #updates > .wrap {
       position: relative;
       z-index: 1;
     }
-    #apps h2 {
+    #apps h2,
+    #tools h2,
+    #updates h2,
+    .about-grid h2 {
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
       margin: 10px 0 16px;
     }
-    .apps-lead {
+    .apps-lead,
+    .social-lead {
       margin-bottom: 36px;
     }
     .body-text {
@@ -177,27 +328,40 @@ const facts = [
       max-width: 52ch;
     }
 
-    .app-list {
+    .app-list,
+    .update-list,
+    .social-list {
       list-style: none;
       margin: 0;
       padding: 0;
+    }
+    .app-list {
       border-top: 1px solid var(--line);
     }
-    .app-row {
+    .app-row,
+    .panel-link,
+    .update-row,
+    .social-row {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 24px;
-      padding: 28px 0;
-      border-bottom: 1px solid var(--line);
       text-decoration: none;
       color: inherit;
-      transition: background-color 0.15s ease;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
     }
-    .app-row:hover {
+    .app-row {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .app-row:hover,
+    .panel-link:hover,
+    .update-row:hover,
+    .social-row:hover {
       background: color-mix(in srgb, var(--paper-raised) 70%, transparent);
     }
-    .app-category {
+    .app-category,
+    .social-label {
       display: block;
       font-size: 0.72rem;
       color: var(--ink-soft);
@@ -205,16 +369,24 @@ const facts = [
       text-transform: uppercase;
       margin-bottom: 8px;
     }
-    .app-meta h3 {
+    .app-meta h3,
+    .panel-meta h3,
+    .update-row h3,
+    .social-row strong {
       font-size: 1.25rem;
       margin: 0 0 10px;
+      font-family: var(--font-display);
+      font-weight: 600;
     }
     .app-name-ja {
       font-weight: 500;
       font-size: 0.9em;
       color: var(--ink-soft);
     }
-    .app-meta p {
+    .app-meta p,
+    .panel-meta p,
+    .update-row p,
+    .social-row p {
       margin: 0;
       color: var(--ink-soft);
       max-width: 48ch;
@@ -230,6 +402,56 @@ const facts = [
     .app-arrow {
       color: var(--accent);
       font-size: 1.1rem;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+
+    .panel-link {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper-raised);
+    }
+
+    .updates-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap: clamp(32px, 6vw, 64px);
+      align-items: start;
+    }
+    .update-list {
+      border-top: 1px solid var(--line);
+    }
+    .update-row {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .update-date {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+    }
+    .update-row h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .social-block h2 {
+      max-width: 16ch;
+    }
+    .social-list {
+      border-top: 1px solid var(--line);
+    }
+    .social-row {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+    }
+    .social-row strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
     }
 
     .about-grid {
@@ -240,8 +462,6 @@ const facts = [
       z-index: 1;
     }
     .about-grid h2 {
-      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
-      margin: 10px 0 16px;
       max-width: 22ch;
     }
     .signature {
@@ -270,11 +490,17 @@ const facts = [
       text-decoration: underline;
     }
 
+    @media (max-width: 860px) {
+      .updates-grid {
+        grid-template-columns: 1fr;
+      }
+    }
     @media (max-width: 760px) {
       .about-grid {
         grid-template-columns: 1fr;
       }
-      .app-row {
+      .app-row,
+      .panel-link {
         flex-direction: column;
         gap: 16px;
       }

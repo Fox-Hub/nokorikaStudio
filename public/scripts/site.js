@@ -18,6 +18,7 @@
     try { localStorage.setItem('lang', lang); } catch (e) {}
     applyTitleDesc(lang);
     updateDaysCounter(lang);
+    syncToggleLabels(lang);
   }
 
   function setTheme(theme) {
@@ -209,10 +210,55 @@
       : '開発 ' + diffDays + '日目';
   }
 
+  function syncToggleLabels(lang) {
+    ['theme-toggle', 'lang-toggle', 'nav-toggle'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var label = lang === 'en' ? el.dataset.labelEn : el.dataset.labelJa;
+      if (!label && id === 'nav-toggle') {
+        var open = el.getAttribute('aria-expanded') === 'true';
+        label = lang === 'en'
+          ? (open ? el.dataset.labelCloseEn : el.dataset.labelOpenEn)
+          : (open ? el.dataset.labelCloseJa : el.dataset.labelOpenJa);
+      }
+      if (label) el.setAttribute('aria-label', label);
+    });
+  }
+
+  function setupMobileNav() {
+    var toggle = document.getElementById('nav-toggle');
+    var panel = document.getElementById('mobile-nav');
+    if (!toggle || !panel) return;
+
+    function setOpen(open) {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) panel.removeAttribute('hidden');
+      else panel.setAttribute('hidden', '');
+      var lang = document.documentElement.getAttribute('data-lang') || 'ja';
+      var label = lang === 'en'
+        ? (open ? toggle.dataset.labelCloseEn : toggle.dataset.labelOpenEn)
+        : (open ? toggle.dataset.labelCloseJa : toggle.dataset.labelOpenJa);
+      if (label) toggle.setAttribute('aria-label', label);
+    }
+
+    toggle.addEventListener('click', function () {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    panel.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () { setOpen(false); });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var lang = document.documentElement.getAttribute('data-lang') || 'ja';
     applyTitleDesc(lang);
     updateDaysCounter(lang);
+    syncToggleLabels(lang);
 
     var themeBtn = document.getElementById('theme-toggle');
     var langBtn = document.getElementById('lang-toggle');
@@ -231,6 +277,7 @@
       });
     }
 
+    setupMobileNav();
     setupReveal();
     setupScreenshotRail();
     setupScrollProgress();

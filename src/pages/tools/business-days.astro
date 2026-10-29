@@ -1,0 +1,301 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Bi from '../../components/Bi.astro';
+import {
+  JP_HOLIDAYS,
+  JP_HOLIDAY_YEARS,
+  JP_HOLIDAY_YEAR_START,
+  JP_HOLIDAY_YEAR_END,
+} from '../../data/jpHolidays.js';
+import { releaseStatus } from '../../data/status.js';
+---
+<Layout
+  title="営業日計算｜営業日数・N営業日後（土日祝日を除く）｜ノコリカ"
+  titleEn="Business Day Calculator｜Count days / N business days later｜Nokorika"
+  description="営業日計算ツール。土日祝日を除く営業日数やN営業日後の日付を無料で計算。日本の祝日・振替休日に対応。ブラウザだけで完結します。"
+  descriptionEn="Free business day calculator. Count business days excluding weekends and Japanese holidays, or find a date N business days later. Runs entirely in your browser."
+>
+  <Header slot="header" />
+
+  <section class="bd-hero">
+    <div class="wrap" data-reveal>
+      <p class="eyebrow"><Bi ja="無料の営業日計算ツール" en="Free business day tool" /></p>
+      <h1>
+        <Bi
+          ja="営業日計算 — 営業日数とN営業日後"
+          en="Business day calculator — count days & N days later"
+        />
+      </h1>
+      <p class="lead body-text">
+        <Bi
+          ja="土日祝日を除いた営業日数や、「N営業日後」の日付をすぐ計算できます。期間の営業日数を調べたいときにも使えます。計算はすべて端末内で行い、会員登録は不要です。"
+          en="Quickly calculate business days excluding weekends and Japanese holidays, or find a date N business days later. Also useful for counting days in a date range. Runs on your device — no sign-up."
+        />
+      </p>
+      <p class="bd-coverage-badge mono">
+        <Bi
+          ja={`祝日データ対応: ${JP_HOLIDAY_YEARS}`}
+          en={`Holiday coverage: ${JP_HOLIDAY_YEARS}`}
+        />
+      </p>
+    </div>
+  </section>
+
+  <section class="bd-main">
+    <div class="wrap bd-main-grid">
+      <div
+        id="bd-tool"
+        class="bd-tool"
+        data-reveal
+        data-holiday-start={JP_HOLIDAY_YEAR_START}
+        data-holiday-end={JP_HOLIDAY_YEAR_END}
+      >
+        <fieldset class="bd-mode">
+          <legend class="eyebrow" id="bd-mode-legend"><Bi ja="計算モード" en="Mode" /></legend>
+          <div class="bd-mode-tabs" role="radiogroup" aria-labelledby="bd-mode-legend">
+            <label class="bd-mode-tab">
+              <input type="radio" name="bd-mode" value="range" checked aria-describedby="bd-mode-range-desc" />
+              <span class="bd-mode-tab-face">
+                <span class="bd-mode-tab-title">
+                  <Bi ja="期間の営業日数" en="Days in a range" />
+                </span>
+                <span class="bd-mode-tab-desc" id="bd-mode-range-desc">
+                  <Bi ja="この期間に何営業日？" en="How many business days?" />
+                </span>
+              </span>
+            </label>
+            <label class="bd-mode-tab">
+              <input type="radio" name="bd-mode" value="after" aria-describedby="bd-mode-after-desc" />
+              <span class="bd-mode-tab-face">
+                <span class="bd-mode-tab-title">
+                  <Bi ja="N営業日後" en="N days later" />
+                </span>
+                <span class="bd-mode-tab-desc" id="bd-mode-after-desc">
+                  <Bi ja="起算日から何日後？" en="Date after N days" />
+                </span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="bd-presets" data-bd-presets-range>
+          <p class="bd-label" id="bd-presets-range-label">
+            <Bi ja="よく使う期間" en="Quick ranges" />
+          </p>
+          <div class="bd-preset-row" role="group" aria-labelledby="bd-presets-range-label">
+            <button type="button" class="bd-preset" data-preset="range-2w">
+              <Bi ja="今日〜2週間後" en="Today → +2 weeks" />
+            </button>
+            <button type="button" class="bd-preset" data-preset="range-month">
+              <Bi ja="今月末まで" en="Through month end" />
+            </button>
+            <button type="button" class="bd-preset" data-preset="range-quarter">
+              <Bi ja="今四半期末まで" en="Through quarter end" />
+            </button>
+          </div>
+        </div>
+
+        <div class="bd-presets" data-bd-presets-after hidden>
+          <p class="bd-label" id="bd-presets-after-label">
+            <Bi ja="よく使うN" en="Quick N values" />
+          </p>
+          <div class="bd-preset-row" role="group" aria-labelledby="bd-presets-after-label">
+            <button type="button" class="bd-preset" data-preset="after-5">
+              <Bi ja="今日から5営業日後" en="Today + 5 days" />
+            </button>
+            <button type="button" class="bd-preset" data-preset="after-10">
+              <Bi ja="今日から10営業日後" en="Today + 10 days" />
+            </button>
+            <button type="button" class="bd-preset" data-preset="after-20">
+              <Bi ja="今日から20営業日後" en="Today + 20 days" />
+            </button>
+          </div>
+        </div>
+
+        <div class="bd-fields">
+          <label class="bd-field" for="bd-start">
+            <span
+              id="bd-start-label"
+              class="bd-label"
+              data-range-ja="開始日"
+              data-range-en="Start date"
+              data-after-ja="起算日"
+              data-after-en="From date"
+            >
+              <Bi ja="開始日" en="Start date" />
+            </span>
+            <input id="bd-start" class="bd-input mono" type="date" required autocomplete="off" />
+          </label>
+
+          <div data-bd-range>
+            <label class="bd-field" for="bd-end">
+              <span class="bd-label"><Bi ja="終了日" en="End date" /></span>
+              <input id="bd-end" class="bd-input mono" type="date" required autocomplete="off" />
+            </label>
+          </div>
+
+          <div data-bd-n hidden>
+            <label class="bd-field" for="bd-n">
+              <span class="bd-label"><Bi ja="N（営業日数）" en="N (business days)" /></span>
+              <input id="bd-n" class="bd-input mono" type="number" min="0" step="1" inputmode="numeric" value="5" />
+            </label>
+          </div>
+        </div>
+
+        <div class="bd-options">
+          <label class="bd-check">
+            <input id="bd-weekends" type="checkbox" checked />
+            <span><Bi ja="土日を休業日にする（土日祝日を除く計算）" en="Exclude weekends" /></span>
+          </label>
+          <label class="bd-check">
+            <input id="bd-holidays-opt" type="checkbox" checked />
+            <span><Bi ja="日本の祝日を休業日にする" en="Exclude Japanese holidays" /></span>
+          </label>
+        </div>
+
+        <details class="bd-extra" id="bd-extra-details">
+          <summary class="bd-extra-summary">
+            <span class="bd-extra-summary-text">
+              <Bi ja="任意の休業日（詳細）" en="Custom off days (optional)" />
+            </span>
+            <span id="bd-extra-count" class="bd-extra-count mono" hidden></span>
+          </summary>
+          <div class="bd-extra-body">
+            <p class="bd-extra-help">
+              <Bi
+                ja="会社の休業日など、土日祝以外に休みにしたい日を追加できます。"
+                en="Add company closures or other days to treat as non-business."
+              />
+            </p>
+            <div class="bd-extra-add">
+              <input id="bd-extra-date" class="bd-input mono" type="date" />
+              <button id="bd-extra-add" type="button" class="bd-btn bd-btn-secondary">
+                <Bi ja="追加" en="Add" />
+              </button>
+            </div>
+            <ul id="bd-extra-list" class="bd-extra-list"></ul>
+          </div>
+        </details>
+
+        <div
+          class="bd-result-panel"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          aria-relevant="text"
+        >
+          <p class="eyebrow" id="bd-result-heading"><Bi ja="計算結果" en="Result" /></p>
+          <p id="bd-result" class="bd-result-value mono" aria-labelledby="bd-result-heading">—</p>
+          <p id="bd-result-note" class="bd-result-note" hidden></p>
+          <div id="bd-breakdown" class="bd-breakdown" hidden>
+            <p class="bd-breakdown-title eyebrow" id="bd-breakdown-heading">
+              <Bi ja="内訳" en="Breakdown" />
+            </p>
+            <ul id="bd-breakdown-list" class="bd-breakdown-list" aria-labelledby="bd-breakdown-heading"></ul>
+            <p id="bd-breakdown-holidays" class="bd-breakdown-holidays mono" hidden></p>
+          </div>
+          <p id="bd-coverage-warn" class="bd-coverage-warn" role="alert" hidden></p>
+          <button
+            id="bd-copy"
+            type="button"
+            class="bd-btn bd-btn-block"
+            disabled
+            data-label-ja="結果をコピー"
+            data-label-en="Copy result"
+            data-copied-ja="コピーしました"
+            data-copied-en="Copied"
+          >
+            <Bi ja="結果をコピー" en="Copy result" />
+          </button>
+          {releaseStatus.storeUrl && (
+            <p class="bd-next-step">
+              <Bi ja="日々の管理なら " en="For daily use, " />
+              <a href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
+                <Bi ja="ノコリカを Google Play で見る" en="see Nokorika on Google Play" />
+              </a>
+            </p>
+          )}
+        </div>
+      </div>
+
+      <aside class="bd-promo" data-reveal>
+        <p class="eyebrow"><Bi ja="アプリでもっと便利に" en="Do more in the app" /></p>
+        <h2><Bi ja="日々の営業日管理はノコリカで" en="Manage workdays daily with Nokorika" /></h2>
+        <p class="body-text">
+          <Bi
+            ja="この営業日計算ツールは単発の調べもの向けです。カレンダーで営業日を確認したり、週間の予定を時間軸で見たいときはノコリカアプリをご利用ください。"
+            en="This business day calculator is for one-off lookups. For checking workdays on a calendar and reviewing your week on a timeline, try the Nokorika app."
+          />
+        </p>
+        <div class="bd-promo-actions">
+          {releaseStatus.storeUrl && (
+            <a class="bd-btn bd-btn-secondary bd-btn-block" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
+              <Bi ja="Google Play で入手" en="Get it on Google Play" />
+            </a>
+          )}
+          <a class="bd-text-link" href="/apps/nokorika/">
+            <Bi ja="ノコリカについて詳しく →" en="Learn more about Nokorika →" />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="bd-rules">
+    <div class="wrap" data-reveal>
+      <p class="eyebrow"><Bi ja="計算ルールと祝日データ" en="Rules & holiday data" /></p>
+      <h2><Bi ja="数え方と対応期間" en="How counting works" /></h2>
+      <ul class="bd-rule-list body-text">
+        <li>
+          <Bi
+            ja="期間の営業日数は、開始日と終了日の両方を含め、土日祝日を除いて数えます。"
+            en="Range counts include both start and end dates, excluding weekends and holidays."
+          />
+        </li>
+        <li>
+          <Bi
+            ja="「N営業日後」は起算日を含めず、翌営業日から数えます。N=0 のときは起算日そのものを返します。"
+            en="“N business days later” excludes the start date and counts from the next business day. N=0 returns the start date itself."
+          />
+        </li>
+        <li>
+          <Bi
+            ja="既定では土日と日本の国民の祝日（振替休日・国民の休日を含む）を休業日とします。"
+            en="By default, weekends and Japanese national holidays (including substitute and citizens’ holidays) are non-business days."
+          />
+        </li>
+        <li>
+          <Bi
+            ja="開始日が終了日より後の場合は、自動的に入れ替えて計算します。"
+            en="If the start is after the end, the dates are swapped automatically."
+          />
+        </li>
+      </ul>
+
+      <div class="bd-data-card">
+        <h3 class="bd-data-title">
+          <Bi ja="祝日データの対応期間" en="Holiday data coverage" />
+        </h3>
+        <p class="body-text">
+          <Bi
+            ja={`現在、${JP_HOLIDAY_YEARS} 年の国民の祝日・振替休日・国民の休日をサイト内に固定保持しています。内閣府の国民の祝日情報および国立天文台の暦要項（春分・秋分）に準拠しています。`}
+            en={`We currently keep national holidays, substitute holidays, and citizens’ holidays for ${JP_HOLIDAY_YEARS} in this site. Based on Cabinet Office holiday info and NAOJ equinox dates.`}
+          />
+        </p>
+        <p class="body-text">
+          <Bi
+            ja="更新方針: 毎年、内閣府・国立天文台の公表（原則として前年2月の暦要項）に合わせて翌年分を追加します。対応年を超える日付では、土日と任意休業日のみで計算し、画面上でお知らせします。"
+            en="Update policy: each year we add the next year’s holidays after Cabinet Office / NAOJ publication (typically the calendar outline in February). Outside the covered years, we still count weekends and custom off days, and show a notice on screen."
+          />
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<script id="bd-holidays" type="application/json" set:html={JSON.stringify(JP_HOLIDAYS)} />
+<script is:inline src="/scripts/business-days.js" defer></script>
