@@ -11,16 +11,17 @@ const faqs = [
   {
     q: { ja: 'アプリはどこで入手できますか？', en: 'Where can I get the app?' },
     a: {
-      ja: 'Google Play で公開しています。以下のページからインストールできます。',
-      en: 'Nokorika is available on Google Play. You can install it from the page below.',
+      ja: 'Google Play で公開しています。App Store 版は現在審査中で、公開後にこちらからもご案内します。Android 版は以下のページからインストールできます。',
+      en: 'Nokorika is available on Google Play. The App Store version is currently under review; we’ll share the link here once it’s live. You can install the Android version from the page below.',
     },
     href: releaseStatus.storeUrl,
+    appStoreHref: releaseStatus.appStoreUrl,
   },
   {
     q: { ja: '対応しているOS・バージョンを教えてください。', en: 'Which OS versions are supported?' },
     a: {
-      ja: 'Android 10.0 以降のスマートフォンに対応しています。※一部の特殊な画面比率の端末や、非常に古いエントリーモデルの端末ではレイアウトが最適化されない場合があります。最新のエミュレータ（Pixel 7等）にて動作検証を行っております。',
-      en: 'The app supports smartphones running Android 10.0 or later. Please note that layout adjustments may not be fully optimized for certain devices with unique screen aspect ratios or older entry-level models. We continuously test and verify performance using the latest emulators (such as Pixel 7).',
+      ja: 'Android 10.0 以降、および iOS 15 以降のスマートフォンに対応しています。※一部の特殊な画面比率の端末や、非常に古いエントリーモデルの端末ではレイアウトが最適化されない場合があります。最新のエミュレータ（Pixel 7等）にて動作検証を行っております。',
+      en: 'The app supports smartphones running Android 10.0 or later, and iOS 15 or later. Please note that layout adjustments may not be fully optimized for certain devices with unique screen aspect ratios or older entry-level models. We continuously test and verify performance using the latest emulators (such as Pixel 7).',
     },
   },
   {
@@ -111,6 +112,14 @@ const faqs = [
                     {' '}
                     <a href={item.href} target="_blank" rel="noopener noreferrer">
                       <Bi ja="Google Play で見る" en="View on Google Play" />
+                    </a>
+                  </>
+                )}
+                {item.appStoreHref && (
+                  <>
+                    {' '}
+                    <a href={item.appStoreHref} target="_blank" rel="noopener noreferrer">
+                      <Bi ja="App Store で見る" en="View on the App Store" />
                     </a>
                   </>
                 )}
