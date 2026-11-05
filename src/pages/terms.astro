@@ -1,0 +1,297 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Bi from '../components/Bi.astro';
+
+const sections = [
+  {
+    title: { ja: '1. 適用', en: '1. Scope' },
+    body: [
+      {
+        ja: '本規約は、Nokorika Studio（以下「当方」といいます）が提供するアプリケーション、ウェブサイトおよび関連サービス（以下総称して「本サービス」といいます）の利用条件を定めるものです。利用者は、本サービスを利用することにより、本規約に同意したものとみなされます。',
+        en: 'These Terms govern the applications, website, and related services (collectively, the “Service”) provided by Nokorika Studio (“we”). By using the Service, you agree to these Terms.',
+      },
+    ],
+  },
+  {
+    title: { ja: '2. 提供者・サービス内容', en: '2. Provider and Service Description' },
+    body: [
+      {
+        ja: '本サービスの提供者は Nokorika Studio です。本サービスには、次のプロダクトおよび当サイト上の関連コンテンツ・ツールが含まれます。',
+        en: 'The Service is provided by Nokorika Studio. It includes the following products and related content and tools on this website.',
+      },
+    ],
+    list: [
+      {
+        ja: 'ノコリカ：月・週表示で予定を管理するカレンダーアプリ',
+        en: 'Nokorika: a calendar app for managing events in month and week views',
+      },
+      {
+        ja: 'KoeCare：身のまわりの音を計測・把握するための騒音計測アプリ（有料のサブスクリプションを含む場合があります）',
+        en: 'KoeCare: a noise meter app for measuring and understanding everyday sound levels (may include a paid subscription)',
+      },
+      {
+        ja: '当サイト（nokorikastudio.com）および営業日計算などのブラウザ向け無料ツール',
+        en: 'This website (nokorikastudio.com) and browser-based free tools such as the business day calculator',
+      },
+    ],
+  },
+  {
+    title: { ja: '3. 利用条件', en: '3. Conditions of Use' },
+    list: [
+      {
+        ja: '本サービスには無料で提供するものと、有料プラン（サブスクリプション等）を含むものがあります。',
+        en: 'Some parts of the Service are free; others may include paid plans such as subscriptions.',
+      },
+      {
+        ja: '有料機能の価格・支払条件・更新・解約方法は、各アプリストア（Google Play / App Store 等）の表示および各ストアの規約に従います。',
+        en: 'Pricing, payment terms, renewal, and cancellation for paid features follow the applicable app store (e.g. Google Play / App Store) listings and store terms.',
+      },
+      {
+        ja: '利用者は、自己の責任において本サービスを利用するものとします。',
+        en: 'You use the Service at your own responsibility.',
+      },
+      {
+        ja: '本サービスの提供環境（対応OS・端末・ストア配信状況など）は予告なく変更される場合があります。',
+        en: 'The Service environment (supported OS, devices, store availability, etc.) may change without notice.',
+      },
+    ],
+  },
+  {
+    title: { ja: '4. 禁止事項', en: '4. Prohibited Conduct' },
+    body: [
+      {
+        ja: '利用者は、本サービスの利用にあたり、以下の行為をしてはなりません。',
+        en: 'When using the Service, you must not engage in any of the following.',
+      },
+    ],
+    list: [
+      {
+        ja: '法令または公序良俗に違反する行為',
+        en: 'Acts that violate laws or public order and morals',
+      },
+      {
+        ja: '当方または第三者の権利（知的財産権、プライバシー、名誉など）を侵害する行為',
+        en: 'Acts that infringe the rights of us or third parties (including intellectual property, privacy, and reputation)',
+      },
+      {
+        ja: '本サービスの運営を妨害する行為、または過度な負荷をかける行為',
+        en: 'Acts that interfere with operation of the Service or place excessive load on it',
+      },
+      {
+        ja: '不正アクセス、リバースエンジニアリング、改変、再配布その他本サービスの不正な利用',
+        en: 'Unauthorized access, reverse engineering, modification, redistribution, or other unauthorized use of the Service',
+      },
+      {
+        ja: '虚偽の情報を用いた問い合わせ、または迷惑行為となる反復的な連絡',
+        en: 'Inquiries using false information, or repetitive contact that constitutes harassment',
+      },
+      {
+        ja: 'その他、当方が不適切と判断する行為',
+        en: 'Any other conduct we reasonably deem inappropriate',
+      },
+    ],
+  },
+  {
+    title: { ja: '5. 知的財産権', en: '5. Intellectual Property' },
+    body: [
+      {
+        ja: '本サービスに関するプログラム、デザイン、テキスト、ロゴ、商標その他一切のコンテンツに関する知的財産権は、当方または正当な権利者に帰属します。',
+        en: 'All intellectual property rights in the programs, designs, text, logos, trademarks, and other content of the Service belong to us or the rightful owners.',
+      },
+      {
+        ja: '利用者は、当方の事前の書面による許諾なく、これらを複製、転載、改変、公開、販売その他の利用をしてはなりません。',
+        en: 'You may not copy, republish, modify, publish, sell, or otherwise use such materials without our prior written permission.',
+      },
+      {
+        ja: '利用者が本サービス内で作成・入力したデータ（予定など）の権利は、利用者に帰属します。ただし、当方はサービスの提供・改善に必要な範囲で当該データを取り扱うことがあります（詳細はプライバシーポリシーに定めます）。',
+        en: 'Rights in data you create or enter in the Service (such as calendar events) belong to you. We may handle such data as needed to provide and improve the Service (see the Privacy Policy for details).',
+      },
+    ],
+  },
+  {
+    title: { ja: '6. 免責事項', en: '6. Disclaimers' },
+    list: [
+      {
+        ja: '当方は、本サービスの正確性、完全性、有用性、特定目的への適合性、および稼働の継続について、明示・黙示を問わずいかなる保証も行いません。',
+        en: 'We make no warranties, express or implied, regarding the accuracy, completeness, usefulness, fitness for a particular purpose, or uninterrupted availability of the Service.',
+      },
+      {
+        ja: '端末の故障、アプリの削除・更新、OSやストアの仕様変更、通信障害、その他の事由によるデータの消失・破損について、当方は責任を負いません。重要なデータは利用者ご自身でバックアップしてください。',
+        en: 'We are not liable for data loss or corruption caused by device failure, app deletion or updates, OS or store changes, network outages, or other causes. Please back up important data yourself.',
+      },
+      {
+        ja: '本サービスの利用または利用不能により生じた損害（間接損害、逸失利益、データ損失を含みます）について、当方に故意または重過失がある場合を除き、責任を負いません。',
+        en: 'Except in cases of our willful misconduct or gross negligence, we are not liable for any damages arising from use or inability to use the Service (including indirect damages, lost profits, and data loss).',
+      },
+      {
+        ja: '本サービスからリンクする外部サイト・サービスについて、当方はその内容や利用結果について責任を負いません。',
+        en: 'We are not responsible for the content or results of external sites or services linked from the Service.',
+      },
+    ],
+  },
+  {
+    title: { ja: '7. サービスの変更・中断・終了', en: '7. Changes, Suspension, and Termination' },
+    body: [
+      {
+        ja: '当方は、事前の通知なく、本サービスの内容の変更、一時的な中断、または提供の終了を行うことがあります。これにより利用者に生じた損害について、当方は責任を負いません。',
+        en: 'We may change, temporarily suspend, or discontinue the Service without prior notice. We are not liable for any resulting damage to users.',
+      },
+      {
+        ja: '利用者が本規約に違反した場合、当方は当該利用者による本サービスの利用を制限または拒否できるものとします。',
+        en: 'If you violate these Terms, we may restrict or refuse your use of the Service.',
+      },
+    ],
+  },
+  {
+    title: { ja: '8. プライバシー', en: '8. Privacy' },
+    body: [
+      {
+        ja: '本サービスにおける利用者情報の取り扱いについては、別途定めるプライバシーポリシーに従います。',
+        en: 'Handling of user information in the Service is governed by our separate Privacy Policy.',
+      },
+    ],
+    list: [
+      { ja: 'プライバシーポリシー', en: 'Privacy Policy', href: '/privacy/' },
+    ],
+  },
+  {
+    title: { ja: '9. 規約の変更', en: '9. Changes to These Terms' },
+    body: [
+      {
+        ja: '当方は、必要に応じて本規約を変更することがあります。変更後の規約は、本ページに掲載した時点から効力を生じるものとします。変更後に本サービスを利用した場合、変更後の規約に同意したものとみなします。',
+        en: 'We may revise these Terms as needed. Revised Terms take effect when posted on this page. Continued use of the Service after a revision constitutes acceptance of the revised Terms.',
+      },
+    ],
+  },
+  {
+    title: { ja: '10. お問い合わせ', en: '10. Contact' },
+    body: [{ ja: 'Nokorika Studio', en: 'Nokorika Studio' }],
+    list: [
+      {
+        ja: 'メールアドレス: contact@nokorikastudio.com',
+        en: 'Email: contact@nokorikastudio.com',
+        href: 'mailto:contact@nokorikastudio.com',
+      },
+      { ja: 'お問い合わせページ', en: 'Contact page', href: '/contact/' },
+    ],
+  },
+  {
+    title: { ja: '11. 準拠法・管轄', en: '11. Governing Law and Jurisdiction' },
+    body: [
+      {
+        ja: '本規約は日本法に準拠し、日本法に従って解釈されるものとします。本サービスまたは本規約に関して紛争が生じた場合、東京地方裁判所を第一審の専属的合意管轄裁判所とします。',
+        en: 'These Terms are governed by and construed in accordance with the laws of Japan. Any dispute arising out of or relating to the Service or these Terms shall be subject to the exclusive jurisdiction of the Tokyo District Court as the court of first instance.',
+      },
+    ],
+  },
+];
+---
+<Layout
+  title="利用規約｜Nokorika Studio"
+  titleEn="Terms of Service｜Nokorika Studio"
+  description="Nokorika Studioが提供するアプリおよびサイトの利用規約です。"
+  descriptionEn="Terms of Service for apps and the website provided by Nokorika Studio."
+>
+  <Header slot="header" />
+
+  <section class="legal">
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="利用規約" en="Terms" /></p>
+      <h1><Bi ja="利用規約" en="Terms of Service" /></h1>
+      <p class="lead">
+        <Bi
+          ja="Nokorika Studio（以下「当方」といいます）が提供する本サービスをご利用いただくにあたり、以下の利用規約（以下「本規約」といいます）をお読みいただき、同意のうえご利用ください。"
+          en="Please read these Terms of Service (these “Terms”) before using the Service provided by Nokorika Studio (“we”), and use the Service only if you agree."
+        />
+      </p>
+
+      <div class="sections" data-reveal>
+        {sections.map((s) => (
+          <div class="section-block">
+            <h2><Bi ja={s.title.ja} en={s.title.en} /></h2>
+            {s.body?.map((p) => (
+              <p class="body-text"><Bi ja={p.ja} en={p.en} /></p>
+            ))}
+            {s.list && (
+              <ul>
+                {s.list.map((li) => (
+                  <li>
+                    {li.href ? (
+                      <a href={li.href}><Bi ja={li.ja} en={li.en} /></a>
+                    ) : (
+                      <Bi ja={li.ja} en={li.en} />
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <p class="date mono">
+        <Bi ja="制定日: 2026年07月01日" en="Effective date: 2026-07-01" />
+      </p>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+
+  <style>
+    .legal {
+      padding-top: clamp(56px, 9vw, 88px);
+    }
+    h1 {
+      font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+      margin: 10px 0 14px;
+    }
+    .lead {
+      color: var(--ink-soft);
+      max-width: 62ch;
+      margin-bottom: 40px;
+    }
+    .sections {
+      border-top: 1px solid var(--line);
+    }
+    .section-block {
+      padding: 26px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-block h2 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .body-text {
+      color: var(--ink-soft);
+      line-height: 1.9;
+      max-width: 68ch;
+      margin-bottom: 8px;
+    }
+    .section-block ul {
+      margin: 8px 0 0;
+      padding-left: 1.2em;
+      color: var(--ink-soft);
+      line-height: 1.9;
+    }
+    .section-block li {
+      margin-bottom: 4px;
+    }
+    .section-block a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .section-block a:hover {
+      color: var(--accent);
+    }
+    .date {
+      margin-top: 24px;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+    }
+  </style>
+</Layout>
