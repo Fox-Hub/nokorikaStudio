@@ -11,14 +11,15 @@ export const apps = [
     nameJa: 'ノコリカ',
     category: { ja: 'カレンダー', en: 'Calendar' },
     summary: {
-      ja: '月・週表示で予定をシンプルに管理できるカレンダーアプリ。Google Play で公開中。',
-      en: 'A simple calendar app with month and week views. Available on Google Play.',
+      ja: '月・週表示で予定をシンプルに管理できるカレンダーアプリ。Google Play・App Store で公開中。',
+      en: 'A simple calendar app with month and week views. Available on Google Play and the App Store.',
     },
     status: {
       stage: nokorikaStatus.stage,
       ja: nokorikaStatus.ja,
       en: nokorikaStatus.en,
       storeUrl: nokorikaStatus.storeUrl,
+      appStoreUrl: nokorikaStatus.appStoreUrl,
     },
   },
   {

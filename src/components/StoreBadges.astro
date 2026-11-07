@@ -1,0 +1,80 @@
+---
+/**
+ * Google Play / App Store の公式バッジリンク。
+ * URL が null のストアは表示しない。
+ */
+interface Props {
+  storeUrl?: string | null;
+  appStoreUrl?: string | null;
+  class?: string;
+}
+
+const {
+  storeUrl = null,
+  appStoreUrl = null,
+  class: className = '',
+} = Astro.props;
+
+const showGoogle = Boolean(storeUrl);
+const showApple = Boolean(appStoreUrl);
+---
+{(showGoogle || showApple) && (
+  <div class:list={['store-badges', className]}>
+    {showApple && (
+      <a
+        class="store-badge store-badge-apple"
+        href={appStoreUrl!}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="/icons/Download_on_the_App_Store_Badge_JP_RGB_blk_100317.svg"
+          alt="Download on the App Store"
+          width="120"
+          height="40"
+          loading="lazy"
+        />
+      </a>
+    )}
+    {showGoogle && (
+      <a
+        class="store-badge store-badge-google"
+        href={storeUrl!}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="/icons/GetItOnGooglePlay_Badge_Web_color_Japanese.png"
+          alt="GET IT ON Google Play"
+          width="135"
+          height="40"
+          loading="lazy"
+        />
+      </a>
+    )}
+  </div>
+)}
+
+<style>
+  .store-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .store-badge {
+    display: inline-flex;
+    line-height: 0;
+    text-decoration: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .store-badge:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+  .store-badge img {
+    display: block;
+    height: 40px;
+    width: auto;
+  }
+</style>

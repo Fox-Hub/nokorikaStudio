@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Bi from '../../components/Bi.astro';
+import StoreBadges from '../../components/StoreBadges.astro';
 import {
   JP_HOLIDAYS,
   JP_HOLIDAY_YEARS,
@@ -209,12 +210,9 @@ import { releaseStatus } from '../../data/status.js';
           >
             <Bi ja="結果をコピー" en="Copy result" />
           </button>
-          {releaseStatus.storeUrl && (
+          {(releaseStatus.storeUrl || releaseStatus.appStoreUrl) && (
             <p class="bd-next-step">
-              <Bi ja="日々の管理なら " en="For daily use, " />
-              <a href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
-                <Bi ja="ノコリカを Google Play で見る" en="see Nokorika on Google Play" />
-              </a>
+              <Bi ja="日々の管理ならノコリカアプリをどうぞ。" en="For daily use, try the Nokorika app." />
             </p>
           )}
         </div>
@@ -230,11 +228,10 @@ import { releaseStatus } from '../../data/status.js';
           />
         </p>
         <div class="bd-promo-actions">
-          {releaseStatus.storeUrl && (
-            <a class="bd-btn bd-btn-secondary bd-btn-block" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
-              <Bi ja="Google Play で入手" en="Get it on Google Play" />
-            </a>
-          )}
+          <StoreBadges
+            storeUrl={releaseStatus.storeUrl}
+            appStoreUrl={releaseStatus.appStoreUrl}
+          />
           <a class="bd-text-link" href="/apps/nokorika/">
             <Bi ja="ノコリカについて詳しく →" en="Learn more about Nokorika →" />
           </a>

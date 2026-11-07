@@ -11,11 +11,10 @@
 
 export const releaseStatus = {
   stage: 'released',
-  ja: 'Google Play で公開中 ・ App Store 審査中',
-  en: 'Available on Google Play · App Store under review',
+  ja: 'Google Play ・ App Store で公開中',
+  en: 'Available on Google Play & the App Store',
   storeUrl: 'https://play.google.com/store/apps/details?id=com.nokorikastudio.nokorika',
-  // App Store 公開後にURLを入れる（審査中は null のまま）
-  appStoreUrl: null,
+  appStoreUrl: 'https://apple.co/4jYFy2c',
   // 「開発○日目」カウンター表示の起点日（実際の開発開始日に差し替えてください）
   developmentStartDate: '2026-08-15',
 };

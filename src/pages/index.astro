@@ -20,6 +20,19 @@ const facts = [
 
 const updates = [
   {
+    date: '2026.11',
+    title: {
+      ja: 'ノコリカを App Store で公開',
+      en: 'Nokorika is on the App Store',
+    },
+    body: {
+      ja: 'iOS版ノコリカが公開されました。Google Play に加え、App Store からも無料で入手できます。',
+      en: 'Nokorika for iOS is live. It’s free on both the App Store and Google Play.',
+    },
+    href: releaseStatus.appStoreUrl || '/apps/nokorika/',
+    external: Boolean(releaseStatus.appStoreUrl),
+  },
+  {
     date: '2026.10',
     title: {
       ja: '営業日計算ツールを公開',
@@ -230,8 +243,8 @@ const updates = [
         <h2><Bi ja="毎日使うアプリを、一人で作る。" en="Building everyday apps, solo." /></h2>
         <p class="body-text">
           <Bi
-            ja="私たちは、スマートフォン向けアプリケーションの企画・開発を行う事業者です。カレンダーアプリ Nokorika を Google Play で公開し、新たに騒音計測アプリ KoeCare の開発も進めています。"
-            en="We’re a studio that plans and develops smartphone apps. Nokorika, our calendar app, is live on Google Play, and we’re also building KoeCare, a noise meter."
+            ja="私たちは、スマートフォン向けアプリケーションの企画・開発を行う事業者です。カレンダーアプリ Nokorika を Google Play・App Store で公開し、新たに騒音計測アプリ KoeCare の開発も進めています。"
+            en="We’re a studio that plans and develops smartphone apps. Nokorika, our calendar app, is live on Google Play and the App Store, and we’re also building KoeCare, a noise meter."
           />
         </p>
         <p class="signature">

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Bi from '../components/Bi.astro';
+import StoreBadges from '../components/StoreBadges.astro';
 import { releaseStatus } from '../data/status.js';
 
 const supportEmail = 'contact@nokorikastudio.com';
@@ -11,11 +12,10 @@ const faqs = [
   {
     q: { ja: 'アプリはどこで入手できますか？', en: 'Where can I get the app?' },
     a: {
-      ja: 'Google Play で公開しています。App Store 版は現在審査中で、公開後にこちらからもご案内します。Android 版は以下のページからインストールできます。',
-      en: 'Nokorika is available on Google Play. The App Store version is currently under review; we’ll share the link here once it’s live. You can install the Android version from the page below.',
+      ja: 'Google Play と App Store で公開しています。以下のバッジからインストールできます。',
+      en: 'Nokorika is available on Google Play and the App Store. You can install it from the badges below.',
     },
-    href: releaseStatus.storeUrl,
-    appStoreHref: releaseStatus.appStoreUrl,
+    showStoreBadges: true,
   },
   {
     q: { ja: '対応しているOS・バージョンを教えてください。', en: 'Which OS versions are supported?' },
@@ -107,22 +107,6 @@ const faqs = [
               <span class="mono mark">A</span>
               <span>
                 <Bi ja={item.a.ja} en={item.a.en} />
-                {item.href && (
-                  <>
-                    {' '}
-                    <a href={item.href} target="_blank" rel="noopener noreferrer">
-                      <Bi ja="Google Play で見る" en="View on Google Play" />
-                    </a>
-                  </>
-                )}
-                {item.appStoreHref && (
-                  <>
-                    {' '}
-                    <a href={item.appStoreHref} target="_blank" rel="noopener noreferrer">
-                      <Bi ja="App Store で見る" en="View on the App Store" />
-                    </a>
-                  </>
-                )}
                 {item.mailto && (
                   <>
                     {' '}
@@ -131,6 +115,14 @@ const faqs = [
                 )}
               </span>
             </p>
+            {item.showStoreBadges && (
+              <div class="faq-store-badges">
+                <StoreBadges
+                  storeUrl={releaseStatus.storeUrl}
+                  appStoreUrl={releaseStatus.appStoreUrl}
+                />
+              </div>
+            )}
           </li>
         ))}
       </ul>
@@ -228,6 +220,9 @@ const faqs = [
     }
     .a a {
       color: var(--accent);
+    }
+    .faq-store-badges {
+      margin: 12px 0 0 34px;
     }
     .mark {
       flex: 0 0 auto;

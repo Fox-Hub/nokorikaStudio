@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Bi from '../../components/Bi.astro';
+import StoreBadges from '../../components/StoreBadges.astro';
 import { releaseStatus } from '../../data/status.js';
 
 // ヒーローのカレンダーグリッド用データ（曜日と日付のダミー配列）
@@ -93,6 +94,15 @@ const screenshots = [
 // 開発ログ（実際の更新内容に合わせて追記・編集してください）
 const devLog = [
   {
+    date: '2026.11.07',
+    title: { ja: 'App Storeで公開を開始', en: 'Now available on the App Store' },
+    body: {
+      ja: 'iOS版ノコリカをApp Storeで公開しました。Google Playに加え、iPhoneでも営業日カレンダーと週間バーティカル表示をご利用いただけます。',
+      en: 'Nokorika is now on the App Store. Alongside Google Play, iPhone users can enjoy the workday calendar and weekly vertical view.',
+    },
+    appStoreLink: true,
+  },
+  {
     date: '2026.09.27',
     title: { ja: 'Google Playで初回リリースを公開', en: 'First release is live on Google Play' },
     body: {
@@ -138,8 +148,8 @@ const devLog = [
 <Layout
   title="Nokorika | カレンダーアプリ｜Nokorika Studio"
   titleEn="Nokorika | Calendar App｜Nokorika Studio"
-  description="スマートフォン向けカレンダーアプリ Nokorika（ノコリカ）の紹介ページです。Google Play で公開中。"
-  descriptionEn="Nokorika is a smartphone calendar app by Nokorika Studio, available on Google Play."
+  description="スマートフォン向けカレンダーアプリ Nokorika（ノコリカ）の紹介ページです。Google Play・App Store で公開中。"
+  descriptionEn="Nokorika is a smartphone calendar app by Nokorika Studio, available on Google Play and the App Store."
 >
   <Header slot="header" />
 
@@ -168,11 +178,10 @@ const devLog = [
           <span class="tag">
             <Bi ja={releaseStatus.ja} en={releaseStatus.en} />
           </span>
-          {releaseStatus.storeUrl && (
-            <a class="store-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
-              <Bi ja="Google Play で入手" en="Get it on Google Play" />
-            </a>
-          )}
+          <StoreBadges
+            storeUrl={releaseStatus.storeUrl}
+            appStoreUrl={releaseStatus.appStoreUrl}
+          />
           <a class="tool-link" href="/tools/business-days/">
             <Bi ja="営業日を計算する" en="Calculate business days" />
           </a>
@@ -210,8 +219,8 @@ const devLog = [
       </h2>
       <p class="body-text product-lead" data-reveal>
         <Bi
-          ja="月表示・週表示を切り替えながら予定を確認できる、スマートフォン向けのカレンダーアプリです。Google Play で無料公開しています。"
-          en="A smartphone calendar app that lets you check your schedule in month or week view. It's free on Google Play."
+          ja="月表示・週表示を切り替えながら予定を確認できる、スマートフォン向けのカレンダーアプリです。Google Play・App Store で無料公開しています。"
+          en="A smartphone calendar app that lets you check your schedule in month or week view. It's free on Google Play and the App Store."
         />
       </p>
 
@@ -225,13 +234,12 @@ const devLog = [
         ))}
       </ul>
 
-      {releaseStatus.storeUrl && (
-        <p class="product-store" data-reveal>
-          <a class="store-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
-            <Bi ja="Google Play で入手" en="Get it on Google Play" />
-          </a>
-        </p>
-      )}
+      <div class="product-store" data-reveal>
+        <StoreBadges
+          storeUrl={releaseStatus.storeUrl}
+          appStoreUrl={releaseStatus.appStoreUrl}
+        />
+      </div>
 
       <p class="product-note">
         <Bi
@@ -252,8 +260,8 @@ const devLog = [
       </h2>
       <p class="body-text product-lead" data-reveal>
         <Bi
-          ja="アプリの実機スクリーンショットです。横にスクロールしてご覧いただけます。"
-          en="Screenshots from the app. Swipe or scroll sideways to browse."
+          ja="アプリの実機スクリーンショットです。左右の矢印や横スクロールでご覧いただけます。"
+          en="Screenshots from the app. Use the arrows or scroll sideways to browse."
         />
       </p>
 
@@ -272,15 +280,37 @@ const devLog = [
         ))}
       </div>
 
-      <div class="rail-dots">
-        {screenshots.map((s, i) => (
-          <button
-            type="button"
-            data-rail-dot
-            class={i === 0 ? 'is-active' : ''}
-            aria-label={`${s.title.ja} / ${s.title.en}`}
-          ></button>
-        ))}
+      <div class="rail-controls">
+        <button
+          type="button"
+          class="rail-arrow"
+          data-rail-prev
+          aria-label="Previous screenshot / 前の画面"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <div class="rail-dots">
+          {screenshots.map((s, i) => (
+            <button
+              type="button"
+              data-rail-dot
+              class={i === 0 ? 'is-active' : ''}
+              aria-label={`${s.title.ja} / ${s.title.en}`}
+            ></button>
+          ))}
+        </div>
+        <button
+          type="button"
+          class="rail-arrow"
+          data-rail-next
+          aria-label="Next screenshot / 次の画面"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
       </div>
     </div>
   </section>
@@ -309,6 +339,11 @@ const devLog = [
             <span class="devlog-date mono">{entry.date}</span>
             <p class="devlog-title"><Bi ja={entry.title.ja} en={entry.title.en} /></p>
             <p class="devlog-body"><Bi ja={entry.body.ja} en={entry.body.en} /></p>
+            {entry.appStoreLink && releaseStatus.appStoreUrl && (
+              <a class="devlog-link" href={releaseStatus.appStoreUrl} target="_blank" rel="noopener noreferrer">
+                <Bi ja="App Store のアプリページを見る" en="Open the App Store listing" />
+              </a>
+            )}
             {entry.storeLink && releaseStatus.storeUrl && (
               <a class="devlog-link" href={releaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
                 <Bi ja="Google Play のアプリページを見る" en="Open the Google Play listing" />
@@ -354,21 +389,6 @@ const devLog = [
       align-items: center;
       gap: 14px;
       flex-wrap: wrap;
-    }
-    .store-link {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: var(--accent);
-      color: var(--accent-ink);
-      text-decoration: none;
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 0.88rem;
-    }
-    .store-link:hover {
-      filter: brightness(1.08);
     }
     .tool-link {
       display: inline-flex;
@@ -500,8 +520,14 @@ const devLog = [
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
       margin: 10px 0 16px;
     }
+    #screenshots .rail-controls {
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
     #screenshots .rail-dots {
       justify-content: center;
+      flex: 1;
     }
 
     /* ---------- Dev Log ---------- */
