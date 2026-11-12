@@ -57,6 +57,10 @@ const sections = [
         ja: '現時点では、アクセス解析ツール等の外部サービスは利用していません。今後導入する場合は、本項目にサービス名と収集する情報の範囲を追記します。',
         en: 'We do not currently use external services such as analytics tools. If we introduce any in the future, we will update this section with the service name and the scope of data collected.',
       },
+      {
+        ja: 'KoeCare の有料機能（サブスクリプション等）の課金は Google Play 経由で行われ、購入処理は Google が行います。当方がクレジットカード番号等の決済情報を取得・保存することはありません。',
+        en: 'Paid features in KoeCare (such as subscriptions) are billed via Google Play, and Google processes the purchase. We do not collect or store payment details such as credit card numbers.',
+      },
     ],
   },
   {
@@ -66,14 +70,45 @@ const sections = [
         ja: 'リマインダー機能のご利用にあたり、端末の通知許可をリクエストする場合があります。許可の可否は端末の設定からいつでも変更いただけます。',
         en: 'We may request notification permission on your device for the reminder feature. You can change this permission anytime in your device settings.',
       },
+      {
+        ja: 'KoeCare では、周囲の音量（dB）を計測するためマイク権限をリクエストする場合があります。マイクは音量の計測のみに使用し、音声の録音・保存・送信は行いません。許可の可否は端末の設定からいつでも変更いただけます。',
+        en: 'KoeCare may request microphone permission to measure ambient volume (dB). The microphone is used only for volume measurement; we do not record, store, or transmit audio. You can change this permission anytime in your device settings.',
+      },
     ],
   },
   {
-    title: { ja: '6. データの保管・削除', en: '6. Data Storage and Deletion' },
+    title: { ja: '6. KoeCareについて', en: '6. About KoeCare' },
     body: [
       {
-        ja: '端末内に保存された予定データは、アプリをアンインストールすることで削除されます。クラウド上にデータを保存する機能を提供する場合は、保管期間および削除方法について別途この項目に追記します。',
-        en: 'Event data stored on your device is deleted when the app is uninstalled. If a cloud storage feature is offered, retention periods and deletion methods will be added here.',
+        ja: '騒音計測アプリ「KoeCare」における利用者情報および端末機能の取り扱いは、次のとおりです。',
+        en: 'For the noise meter app “KoeCare,” we handle user information and device features as follows.',
+      },
+    ],
+    list: [
+      {
+        ja: 'マイクで音量（dB）だけを使用します（周囲の音の大きさを数値として計測するため）',
+        en: 'The microphone is used only for volume (dB)—to measure ambient loudness as a numeric level',
+      },
+      {
+        ja: '音声の録音・保存・送信はしません',
+        en: 'We do not record, store, or transmit audio',
+      },
+      {
+        ja: '計測履歴およびアプリ設定は端末内のみに保存されます（当方のサーバーへ送信・同期しません）',
+        en: 'Measurement history and app settings are stored only on your device (not sent to or synced with our servers)',
+      },
+      {
+        ja: '有料のサブスクリプション等の課金は Google Play 経由で行われ、購入処理は Google が行います',
+        en: 'Paid subscriptions and other purchases are processed via Google Play; Google handles the purchase',
+      },
+    ],
+  },
+  {
+    title: { ja: '7. データの保管・削除', en: '7. Data Storage and Deletion' },
+    body: [
+      {
+        ja: '端末内に保存された予定データ（ノコリカ）、ならびに計測履歴・設定（KoeCare）は、アプリをアンインストールすることで削除されます。クラウド上にデータを保存する機能を提供する場合は、保管期間および削除方法について別途この項目に追記します。',
+        en: 'Event data stored on your device (Nokorika), as well as measurement history and settings (KoeCare), are deleted when the app is uninstalled. If a cloud storage feature is offered, retention periods and deletion methods will be added here.',
       },
       {
         ja: '取得した情報の開示・訂正・削除等をご希望の場合は、下記のお問い合わせ窓口までご連絡ください。',
@@ -82,7 +117,7 @@ const sections = [
     ],
   },
   {
-    title: { ja: '7. お問い合わせ窓口', en: '7. Contact' },
+    title: { ja: '8. お問い合わせ窓口', en: '8. Contact' },
     body: [{ ja: 'Nokorika Studio', en: 'Nokorika Studio' }],
     list: [
       { ja: 'メールアドレス: contact@nokorikastudio.com', en: 'Email: contact@nokorikastudio.com' },
@@ -90,7 +125,7 @@ const sections = [
     ],
   },
   {
-    title: { ja: '8. プライバシーポリシーの変更について', en: '8. Changes to This Policy' },
+    title: { ja: '9. プライバシーポリシーの変更について', en: '9. Changes to This Policy' },
     body: [
       {
         ja: '本ポリシーの内容は、法令の変更やサービス内容の変更に伴い、予告なく改定することがあります。改定後の内容は、本ページに掲載した時点から効力を生じるものとします。',
@@ -103,8 +138,8 @@ const sections = [
 <Layout
   title="プライバシーポリシー｜Nokorika Studio"
   titleEn="Privacy Policy｜Nokorika Studio"
-  description="Nokorika Studioが提供するアプリのプライバシーポリシーです。"
-  descriptionEn="Privacy policy for the app developed by Nokorika Studio."
+  description="Nokorika Studioが提供するアプリ（ノコリカ・KoeCare等）のプライバシーポリシーです。"
+  descriptionEn="Privacy policy for apps by Nokorika Studio, including Nokorika and KoeCare."
 >
   <Header slot="header" />
 
@@ -138,7 +173,7 @@ const sections = [
       </div>
 
       <p class="date mono">
-        <Bi ja="制定日: 2026年07月01日" en="Effective date: 2026-07-01" />
+        <Bi ja="制定日: 2026年07月01日 / 改定日: 2026年11月12日" en="Effective: 2026-07-01 / Updated: 2026-11-12" />
       </p>
     </div>
   </section>
