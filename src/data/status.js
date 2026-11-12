@@ -18,3 +18,11 @@ export const releaseStatus = {
   // 「開発○日目」カウンター表示の起点日（実際の開発開始日に差し替えてください）
   developmentStartDate: '2026-08-15',
 };
+
+export const koecareReleaseStatus = {
+  stage: 'released',
+  ja: 'Google Play で公開中',
+  en: 'Available on Google Play',
+  storeUrl: 'https://play.google.com/store/apps/details?id=com.nokorikastudio.koecare',
+  appStoreUrl: null,
+};

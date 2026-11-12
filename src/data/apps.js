@@ -1,4 +1,4 @@
-import { releaseStatus as nokorikaStatus } from './status.js';
+import { releaseStatus as nokorikaStatus, koecareReleaseStatus } from './status.js';
 
 // ホームのアプリ一覧などで使うカタログ。
 // 個別ページの詳細コピーは各 apps/*.astro 側に置く。
@@ -29,14 +29,15 @@ export const apps = [
     nameJa: 'KoeCare',
     category: { ja: '騒音計測', en: 'Noise meter' },
     summary: {
-      ja: '身のまわりの音を計測し、わかりやすく把握するための騒音計測アプリ。10月26日からクローズドテストを開始します。',
-      en: 'A noise meter app that helps you measure and understand everyday sound levels. Closed testing starts October 26.',
+      ja: '身のまわりの音を計測し、わかりやすく把握するための騒音計測アプリ。Google Play で公開中。',
+      en: 'A noise meter app that helps you measure and understand everyday sound levels. Available on Google Play.',
     },
     status: {
-      stage: 'pre_release',
-      ja: 'クローズドテスト開始予定（10/26〜）',
-      en: 'Closed testing from Oct 26',
-      storeUrl: null,
+      stage: koecareReleaseStatus.stage,
+      ja: koecareReleaseStatus.ja,
+      en: koecareReleaseStatus.en,
+      storeUrl: koecareReleaseStatus.storeUrl,
+      appStoreUrl: koecareReleaseStatus.appStoreUrl,
     },
   },
 ];

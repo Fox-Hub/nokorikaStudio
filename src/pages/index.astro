@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import Bi from '../components/Bi.astro';
 import { apps } from '../data/apps.js';
 import { socialLinks } from '../data/social.js';
-import { releaseStatus } from '../data/status.js';
+import { releaseStatus, koecareReleaseStatus } from '../data/status.js';
 
 const facts = [
   { ja: '事業者名', en: 'Business name', ja_v: 'Nokorika Studio', en_v: 'Nokorika Studio' },
@@ -19,6 +19,19 @@ const facts = [
 ];
 
 const updates = [
+  {
+    date: '2026.11',
+    title: {
+      ja: 'KoeCare を Google Play で公開',
+      en: 'KoeCare is on Google Play',
+    },
+    body: {
+      ja: '騒音計測アプリ KoeCare を Google Play で公開しました。身のまわりの音をわかりやすく計測できます。',
+      en: 'KoeCare, our noise meter app, is now live on Google Play — measure everyday sound more clearly.',
+    },
+    href: koecareReleaseStatus.storeUrl || '/apps/koecare/',
+    external: Boolean(koecareReleaseStatus.storeUrl),
+  },
   {
     date: '2026.11',
     title: {
@@ -44,32 +57,10 @@ const updates = [
     },
     href: '/tools/business-days/',
   },
-  {
-    date: '2026.10',
-    title: {
-      ja: 'KoeCare のクローズドテストを開始',
-      en: 'KoeCare closed testing has started',
-    },
-    body: {
-      ja: '騒音計測アプリ KoeCare のテストを進めています。詳細はアプリページへ。',
-      en: 'Closed testing for our noise meter app is underway. See the app page for details.',
-    },
-    href: '/apps/koecare/',
-  },
-  {
-    date: '2026.09',
-    title: {
-      ja: 'ノコリカを Google Play で公開',
-      en: 'Nokorika is on Google Play',
-    },
-    body: {
-      ja: '営業日カレンダー＆週間バーティカルのノコリカを無料公開しています。',
-      en: 'Nokorika — workday calendar & weekly vertical view — is free on Google Play.',
-    },
-    href: releaseStatus.storeUrl || '/apps/nokorika/',
-    external: Boolean(releaseStatus.storeUrl),
-  },
 ];
+
+// ホームは最新3件のみ。アプリ固有の履歴は各 apps/*/開発ログへ。
+const recentUpdates = updates.slice(0, 3);
 ---
 <Layout
   title="Nokorika Studio | スマートフォンアプリ開発"
@@ -113,8 +104,8 @@ const updates = [
       </h2>
       <p class="body-text apps-lead" data-reveal>
         <Bi
-          ja="公開中のプロダクトと、いま開発中のものを紹介します。"
-          en="Our live products and the ones still in development."
+          ja="公開中のプロダクトを紹介します。"
+          en="Our products currently available."
         />
       </p>
 
@@ -188,7 +179,7 @@ const updates = [
           <Bi ja="最近のトピック" en="Recent topics" />
         </h2>
         <ul class="update-list" data-reveal="stagger">
-          {updates.map((item) => (
+          {recentUpdates.map((item) => (
             <li>
               <a
                 class="update-row"
@@ -243,8 +234,8 @@ const updates = [
         <h2><Bi ja="毎日使うアプリを、一人で作る。" en="Building everyday apps, solo." /></h2>
         <p class="body-text">
           <Bi
-            ja="私たちは、スマートフォン向けアプリケーションの企画・開発を行う事業者です。カレンダーアプリ Nokorika を Google Play・App Store で公開し、新たに騒音計測アプリ KoeCare の開発も進めています。"
-            en="We’re a studio that plans and develops smartphone apps. Nokorika, our calendar app, is live on Google Play and the App Store, and we’re also building KoeCare, a noise meter."
+            ja="私たちは、スマートフォン向けアプリケーションの企画・開発を行う事業者です。カレンダーアプリ Nokorika を Google Play・App Store で、騒音計測アプリ KoeCare を Google Play で公開しています。"
+            en="We’re a studio that plans and develops smartphone apps. Nokorika is live on Google Play and the App Store, and KoeCare, our noise meter, is available on Google Play."
           />
         </p>
         <p class="signature">

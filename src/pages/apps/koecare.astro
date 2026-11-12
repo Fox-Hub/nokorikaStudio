@@ -3,25 +3,26 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Bi from '../../components/Bi.astro';
+import StoreBadges from '../../components/StoreBadges.astro';
 import { apps } from '../../data/apps.js';
+import { koecareReleaseStatus } from '../../data/status.js';
 
 const app = apps.find((a) => a.id === 'koecare') ?? {
-  status: { ja: '開発中', en: 'In development' },
+  status: { ja: 'Google Play で公開中', en: 'Available on Google Play' },
 };
 
-// 草案スクショ（public/images/koecare*.png）
-const draftShots = [
+const screenshots = [
   {
     src: '/images/koecare2.png',
-    title: { ja: '測定中（草案）', en: 'Measuring (draft)' },
+    title: { ja: '測定中', en: 'Measuring' },
     caption: {
-      ja: 'リアルタイムのdB表示としきい値アラート。開発中の画面です。',
-      en: 'Live dB readout and threshold alerts. UI may change.',
+      ja: 'リアルタイムの dB 表示としきい値アラートで、周囲の音量を把握できます。',
+      en: 'Live dB readout and threshold alerts help you grasp ambient volume.',
     },
   },
   {
     src: '/images/koecare3.png',
-    title: { ja: '履歴（草案）', en: 'History (draft)' },
+    title: { ja: '履歴', en: 'History' },
     caption: {
       ja: '日・週・月で音量の推移とアラートを確認できます。',
       en: 'Review volume trends and alerts by day, week, or month.',
@@ -29,10 +30,30 @@ const draftShots = [
   },
   {
     src: '/images/koecare1.png',
-    title: { ja: '設定（草案）', en: 'Settings (draft)' },
+    title: { ja: '設定', en: 'Settings' },
     caption: {
-      ja: 'しきい値や測定間隔などを調整する画面です。',
+      ja: 'しきい値や測定間隔などを調整できます。',
       en: 'Adjust alert thresholds, measurement interval, and more.',
+    },
+  },
+];
+
+const devLog = [
+  {
+    date: '2026.11.12',
+    title: { ja: 'Google Play で公開を開始', en: 'Now available on Google Play' },
+    body: {
+      ja: '騒音計測アプリ KoeCare を Google Play で公開しました。周囲の音量を数値で確認しながら、しきい値アラートや履歴で日常の騒音を把握できます。',
+      en: 'KoeCare is now live on Google Play. Check ambient volume as clear numbers, with threshold alerts and history to understand everyday noise.',
+    },
+    storeLink: true,
+  },
+  {
+    date: '2026.10.26',
+    title: { ja: 'クローズドテストを開始', en: 'Closed testing started' },
+    body: {
+      ja: 'Google Play でのクローズドテストを開始しました。フィードバックをもとに改善を進め、公開に向けて仕上げていきました。',
+      en: 'Closed testing on Google Play started. We used tester feedback to polish the app toward public release.',
     },
   },
 ];
@@ -40,8 +61,8 @@ const draftShots = [
 <Layout
   title="KoeCare | 騒音計測アプリ｜Nokorika Studio"
   titleEn="KoeCare | Noise Meter｜Nokorika Studio"
-  description="騒音計測アプリ KoeCare の紹介ページです。2026年10月26日からクローズドテストを開始します。"
-  descriptionEn="KoeCare is a noise meter app by Nokorika Studio. Closed testing starts October 26, 2026."
+  description="騒音計測アプリ KoeCare の紹介ページです。Google Play で公開中。"
+  descriptionEn="KoeCare is a noise meter app by Nokorika Studio, available on Google Play."
 >
   <Header slot="header" />
 
@@ -68,31 +89,13 @@ const draftShots = [
         <span class="tag">
           <Bi ja={app.status.ja} en={app.status.en} />
         </span>
+        <StoreBadges storeUrl={koecareReleaseStatus.storeUrl} />
       </div>
     </div>
   </section>
 
-  <section id="news">
-    <span class="section-number mono">01</span>
-    <div class="wrap">
-      <p class="eyebrow"><Bi ja="お知らせ" en="News" /></p>
-      <h2 data-reveal>
-        <Bi ja="クローズドテストを開始します" en="Closed testing is about to begin" />
-      </h2>
-      <article class="news-card" data-reveal>
-        <time class="news-date mono" datetime="2026-10-26">2026.10.26</time>
-        <p class="news-body">
-          <Bi
-            ja="2026年10月26日（月）より、Google Play でのクローズドテストを開始します。テスターの方にはテスト参加のご案内をお送りします。フィードバックをもとに改善を進め、公開に向けて仕上げていきます。"
-            en="Closed testing on Google Play starts Monday, October 26, 2026. Testers will receive an invite to join. We’ll use your feedback to polish the app toward a public release."
-          />
-        </p>
-      </article>
-    </div>
-  </section>
-
   <section id="overview">
-    <span class="section-number mono">02</span>
+    <span class="section-number mono">01</span>
     <div class="wrap">
       <p class="eyebrow"><Bi ja="概要" en="Overview" /></p>
       <h2 data-reveal>
@@ -100,34 +103,37 @@ const draftShots = [
       </h2>
       <p class="body-text" data-reveal>
         <Bi
-          ja="周囲の音量を数値で確認できる騒音計測アプリとして開発しています。まずは計測と見やすさに集中し、クローズドテストでのフィードバックを反映しながら公開に向けて整えていきます。"
-          en="We’re building a noise meter that shows ambient sound levels as clear numbers. We’re focusing on measurement and readability, and refining toward release with feedback from closed testing."
+          ja="周囲の音量を数値で確認できる騒音計測アプリです。計測のわかりやすさと見やすさに集中し、しきい値アラートや履歴で日常の騒音を把握しやすくしています。"
+          en="A noise meter that shows ambient sound levels as clear numbers. It focuses on readable measurement, with threshold alerts and history to help you grasp everyday noise."
         />
       </p>
+      <div class="overview-store" data-reveal>
+        <StoreBadges storeUrl={koecareReleaseStatus.storeUrl} />
+      </div>
     </div>
   </section>
 
-  <section id="drafts">
-    <span class="section-number mono">03</span>
+  <section id="screens">
+    <span class="section-number mono">02</span>
     <div class="wrap">
-      <p class="eyebrow"><Bi ja="画面草案" en="Draft screens" /></p>
+      <p class="eyebrow"><Bi ja="画面" en="Screens" /></p>
       <h2 data-reveal>
-        <Bi ja="いま検討している画面イメージ" en="Early screen ideas" />
+        <Bi ja="主な画面" en="Key screens" />
       </h2>
       <p class="body-text product-lead" data-reveal>
         <Bi
-          ja="開発中の画面案です。実際のUIとは異なる可能性があります。"
-          en="Draft screens from development — the final UI may differ."
+          ja="測定・履歴・設定の画面イメージです。"
+          en="Screens for measuring, history, and settings."
         />
       </p>
 
       <div class="draft-grid" data-reveal="stagger">
-        {draftShots.map((s) => (
+        {screenshots.map((s) => (
           <figure class="draft-card">
             <div class="draft-frame">
-              <img src={s.src} alt={s.title.ja} loading="lazy" data-draft-img />
-              <div class="draft-placeholder" data-draft-placeholder hidden>
-                <span class="mono">DRAFT</span>
+              <img src={s.src} alt={s.title.ja} loading="lazy" data-shot-img />
+              <div class="draft-placeholder" data-shot-placeholder hidden>
+                <span class="mono">SCREEN</span>
                 <Bi ja="画像準備中" en="Image coming soon" />
               </div>
             </div>
@@ -138,6 +144,37 @@ const draftShots = [
           </figure>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section id="devlog">
+    <span class="section-number mono">03</span>
+    <div class="wrap">
+      <p class="eyebrow"><Bi ja="開発ログ" en="Dev Log" /></p>
+      <h2 data-reveal>
+        <Bi ja="KoeCare の開発状況" en="KoeCare development status" />
+      </h2>
+      <p class="body-text product-lead" data-reveal>
+        <Bi
+          ja="クローズドテストから Google Play 公開までの履歴です。KoeCare のこれまでの歩みをまとめています。"
+          en="A timeline from closed testing to the Google Play release — KoeCare’s progress so far."
+        />
+      </p>
+
+      <ul class="devlog-list" data-reveal="stagger">
+        {devLog.map((entry) => (
+          <li class="devlog-item">
+            <span class="devlog-date mono">{entry.date}</span>
+            <p class="devlog-title"><Bi ja={entry.title.ja} en={entry.title.en} /></p>
+            <p class="devlog-body"><Bi ja={entry.body.ja} en={entry.body.en} /></p>
+            {entry.storeLink && koecareReleaseStatus.storeUrl && (
+              <a class="devlog-link" href={koecareReleaseStatus.storeUrl} target="_blank" rel="noopener noreferrer">
+                <Bi ja="Google Play のアプリページを見る" en="Open the Google Play listing" />
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -175,39 +212,29 @@ const draftShots = [
       color: var(--ink-soft);
       max-width: 52ch;
     }
-    #news > .wrap,
     #overview > .wrap,
-    #drafts > .wrap {
+    #screens > .wrap,
+    #devlog > .wrap {
       position: relative;
       z-index: 1;
     }
-    #news h2,
     #overview h2,
-    #drafts h2 {
+    #screens h2,
+    #devlog h2 {
       font-size: clamp(1.4rem, 2.6vw, 1.9rem);
       margin: 10px 0 16px;
     }
-    .news-card {
-      margin-top: 8px;
-      padding: 22px 24px;
-      max-width: 56ch;
-      background: var(--paper-raised);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-    }
-    .news-date {
-      display: block;
-      font-size: 0.75rem;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-    .news-body {
-      margin: 0;
-      color: var(--ink-soft);
-      font-size: 0.98rem;
+    .overview-store {
+      margin-top: 24px;
     }
     .product-lead {
       margin-bottom: 36px;
+    }
+    .devlog-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--accent);
+      font-size: 0.88rem;
     }
 
     .draft-grid {
@@ -275,15 +302,15 @@ const draftShots = [
   </style>
 
   <script>
-    function showDraftPlaceholder(img) {
+    function showShotPlaceholder(img) {
       img.style.display = 'none';
-      const ph = img.parentElement?.querySelector('[data-draft-placeholder]');
+      const ph = img.parentElement?.querySelector('[data-shot-placeholder]');
       if (ph) ph.hidden = false;
     }
 
-    document.querySelectorAll('[data-draft-img]').forEach((img) => {
-      img.addEventListener('error', () => showDraftPlaceholder(img));
-      if (img.complete && img.naturalWidth === 0) showDraftPlaceholder(img);
+    document.querySelectorAll('[data-shot-img]').forEach((img) => {
+      img.addEventListener('error', () => showShotPlaceholder(img));
+      if (img.complete && img.naturalWidth === 0) showShotPlaceholder(img);
     });
   </script>
 </Layout>
