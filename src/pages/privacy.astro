@@ -58,8 +58,8 @@ const sections = [
         en: 'We do not currently use external services such as analytics tools. If we introduce any in the future, we will update this section with the service name and the scope of data collected.',
       },
       {
-        ja: 'KoeCare の有料機能（サブスクリプション等）の課金は Google Play 経由で行われ、購入処理は Google が行います。当方がクレジットカード番号等の決済情報を取得・保存することはありません。',
-        en: 'Paid features in KoeCare (such as subscriptions) are billed via Google Play, and Google processes the purchase. We do not collect or store payment details such as credit card numbers.',
+        ja: 'KoeCare の有料機能（サブスクリプション等）の課金は、各ストア経由で行われます。\n- Android: Google Play\n- iOS: App Store\n購入処理は Google または Apple が行い、当方がクレジットカード番号等の決済情報を取得・保存することはありません。',
+        en: 'Paid features in KoeCare (such as subscriptions) are billed via the respective store:\n- Android: Google Play\n- iOS: App Store\nGoogle or Apple processes the purchase. We do not collect or store payment details such as credit card numbers.',
       },
     ],
   },
@@ -98,8 +98,12 @@ const sections = [
         en: 'Measurement history and app settings are stored only on your device (not sent to or synced with our servers)',
       },
       {
-        ja: '有料のサブスクリプション等の課金は Google Play 経由で行われ、購入処理は Google が行います',
-        en: 'Paid subscriptions and other purchases are processed via Google Play; Google handles the purchase',
+        ja: '有料のサブスクリプション等の課金は Google Play（Android）または App Store（iOS）経由で行われ、購入処理は各ストア事業者が行います',
+        en: 'Paid subscriptions and other purchases are processed via Google Play (Android) or the App Store (iOS); the respective store processes the purchase',
+      },
+      {
+        ja: 'App Store / Google Play の購読状態の確認のため、端末上でストアの購入情報を参照する場合があります（決済情報そのものは取得しません）',
+        en: 'We may query the store’s purchase/entitlement status on device to unlock paid features; we do not receive raw payment credentials',
       },
     ],
   },
@@ -173,7 +177,7 @@ const sections = [
       </div>
 
       <p class="date mono">
-        <Bi ja="制定日: 2026年07月01日 / 改定日: 2026年11月12日" en="Effective: 2026-07-01 / Updated: 2026-11-12" />
+        <Bi ja="制定日: 2026年07月01日 / 改定日: 2026年11月14日" en="Effective: 2026-07-01 / Updated: 2026-11-14" />
       </p>
     </div>
   </section>
@@ -211,6 +215,7 @@ const sections = [
       line-height: 1.9;
       max-width: 68ch;
       margin-bottom: 8px;
+      white-space: pre-line;
     }
     .section-block ul {
       margin: 8px 0 0;
